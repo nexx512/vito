@@ -8,6 +8,8 @@ app.locals.basedir = path.join(__dirname, 'views');
 
 app.use(express.static('assets'))
 
+require('./middleware/locale')(app)
+
 require('./controller/home')(app)
 require('./controller/heating')(app)
 require('./controller/warmwater')(app)

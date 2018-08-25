@@ -2,17 +2,32 @@
   "name": "vito",
   "version": "1.0.0",
   "description": "Vito heating systems control interface",
-  "main": "index.js",
+  "main": "app.js",
   "dependencies": {
     "express": "^4.16.3",
-    "mongodb": "^3.1.3",
-    "mysql": "^2.16.0",
     "pug": "^2.0.3"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "should": "^13.2.3"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha --recursive test"
   },
   "author": "Jürgen Diez",
-  "license": "ISC"
+  "license": "GPL-3.0",
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nexx512/vito.git"
+  },
+  "keywords": [
+    "viessmann",
+    "heating control"
+  ],
+  "bugs": {
+    "url": "https://github.com/nexx512/vito/issues"
+  },
+  "homepage": "https://github.com/nexx512/vito#readme"
 }

@@ -1,12 +1,14 @@
 nav.navigation
   ul
     li
-      a(href="/" title="Übersicht") Übersicht      
-    li Warmwasser
+      a(href="/" title="Übersicht")= t("overview")      
+    li= t("warmwater")
       ul
         li      
-          a(href="/warmwater/circulation" title="Warmwasser Zirkulation") Zirkulation
-    li Heizung
+          a(href="/warmwater/times" title=t("warmwater.times"))= t("warmwater.times")
+        li      
+          a(href="/warmwater/circulation" title=t("warmwater.circulation"))= t("warmwater.circulation")
+    li= t("heating")
       ul
         li
-          a(href="/heating/times" title="Heizzeiten") Heizzeiten
+          a(href="/heating/times" title=t("heating.times"))= t("heating.times")

@@ -1,10 +1,10 @@
 extend /layout/index.pug
 
 block main
-  h1= t("warmwater.circulation")
+  h1= t("warmwater.times")
   each times, day in model.times
-    .warmwatercirculation__day= t(day)
+    .warmwatertimes__day= t(day)
     each time, index in times
-      .warmwatercirculation__time
+      .warmwatertimes__time
         input(type=text name=(day + '[' + index + '].on' id=(day + 'On')) value=time.on)
         input(type=text name=(day + '[' + index + '].off' id=(day + 'Off')) value=time.off)
