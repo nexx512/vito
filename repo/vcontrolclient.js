@@ -15,7 +15,7 @@ module.exports = class VControl {
   async connect() {
     return new Promise((resolve, reject) => {
       this.errorHandler = reject
-      this.dataHandler = function(data) {
+      this.dataHandler = (data) => {
         if (data === "vctrld>") {
           console.log('Connection to vControl established')
           resolve()
@@ -26,8 +26,8 @@ module.exports = class VControl {
       console.log('Connecting to vControl...')
       this.client.connect(VCONTROL_PORT, VCONTROL_HOST)
     }).then(() => {
-      this.errorHandler = function() {}
-      this.dataHandler = function() {}
+      this.errorHandler = () => {}
+      this.dataHandler = () => {}
     })
   }
 
@@ -40,8 +40,8 @@ module.exports = class VControl {
       })
       this.client.write("quit\n")
     }).then(() => {
-      this.errorHandler = function() {}
-      this.dataHandler = function() {}
+      this.errorHandler = () => {}
+      this.dataHandler = () => {}
     })
   }
 
@@ -49,25 +49,25 @@ module.exports = class VControl {
     return new Promise((resolve, reject) => {
       let response
       this.errorHandler = reject
-      this.dataHandler = function(data) {
+      this.dataHandler = (data) => {
         if (data === "vctrld>") {
           console.log("Command finished.")
           return resolve(response)
         }
         if (data.startsWith("ERR:")) return reject(new Error(data))
         console.log("Received response: " + data)
-        response = data
-        const dataLines = data.split("\n")
-        if (dataLines[dataLines.length - 1] === "vtrld>") {
+        if (data.substring(data.length - 7) === "vctrld>") {
           console.log("Command finished.")
-          return resolve(response)
+          return resolve(data.substring(0, data.length - 7))
+        } else {
+          response = data
         }
       }
       console.log("Sending command: '" + command + "'...")
       this.client.write(command + "\n")
     }).then((data) => {
-      this.errorHandler = function() {}
-      this.dataHandler = function() {}
+      this.errorHandler = () => {}
+      this.dataHandler = () => {}
       return data
     })
   }
