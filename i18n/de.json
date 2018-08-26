@@ -1,8 +1,10 @@
 {
   "overview": "Übersicht",
   "warmwater": "Warmwasser",
-  "warmwater.times": "Warmwasser Heizzeiten",
+  "warmwater.heating": "Warmwasser Aufbereitung",
+  "warmwater.heating.times": "Heizzeiten",
   "warmwater.circulation": "Warmwasser Zirkulation",
+  "warmwater.circulation.times": "Zirkulationszeiten",
   "heating": "Heizung",
   "heating.times": "Heizzeiten",
   "monday": "Montag",
@@ -11,5 +13,6 @@
   "thursday": "Donnerstag",
   "friday": "Freitag",
   "saturday": "Samstag",
-  "sunday": "Sonntag"
+  "sunday": "Sonntag",
+  "save": "Speichern"
 }

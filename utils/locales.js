@@ -4,6 +4,10 @@ const locales = {
 
 module.exports = class Translations {
   translate(locale, key) {
-    return locales[locale][key]
+    if (locales[locale][key]) {
+      return locales[locale][key]
+    } else {
+      return "[" + key + "]"
+    }
   }
 }

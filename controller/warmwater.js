@@ -1,18 +1,26 @@
 const VControlClient = require('../repo/vcontrolclient')
 const VControlRepo = require('../repo/vcontrolrepo')
-const WarmWaterTimes = require('../domain/warmwatertimes')
+const TimerTimes = require('../domain/timertimes')
 
 module.exports = function(app) {
 
-  app.get('/warmwater/times', async (req, res) => {
-    const vcontrolRepo = new VControlRepo(new VControlClient())
-    let warmWaterTimes = new WarmWaterTimes()
-    warmWaterTimes.setTimes(await vcontrolRepo.getWarmWaterTimes())
-    res.render('warmwater/times', {model: warmWaterTimes})
+  app.get('/warmwater/heating', async (req, res) => {
+    const vControlRepo = new VControlRepo(new VControlClient())
+    let heatingTimes = new TimerTimes()
+    warmWaterTimes.setTimes(await vControlRepo.getWarmWaterHeatingTimes())
+    res.render('warmwater/heating', {model: heatingTimes})
   })
 
-  app.get('/warmwater/circulation', (req, res) => {
-    res.render('warmwater/circulation', {model: null})
+  app.get('/warmwater/circulation', async (req, res) => {
+    const vControlRepo = new VControlRepo(new VControlClient())
+    let circulationTimes = new TimerTimes()
+    circulationTimes.setTimes(await vControlRepo.getWarmWaterCirculationTimes())
+    res.render('warmwater/circulation', {model: circulationTimes})
+  })
+
+  app.put('/warmwater/circulation', async (req, res) => {
+    console.log(req.body)
+    res.redirect('/warmwater/circulation')
   })
 
 }

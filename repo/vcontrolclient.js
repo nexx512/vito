@@ -17,13 +17,13 @@ module.exports = class VControl {
       this.errorHandler = reject
       this.dataHandler = function(data) {
         if (data === "vctrld>") {
-          console.log('Connection to vcontrol established')
+          console.log('Connection to vControl established')
           resolve()
         } else {
           reject(new Error(data))
         }
       }
-      console.log('Connecting to vcontrol...')
+      console.log('Connecting to vControl...')
       this.client.connect(VCONTROL_PORT, VCONTROL_HOST)
     }).then(() => {
       this.errorHandler = function() {}
@@ -35,7 +35,7 @@ module.exports = class VControl {
     return new Promise((resolve, reject) => {
       this.errorHandler = reject
       this.client.on('close', () => {
-        console.log('Connection to vcontrol closed')
+        console.log('Connection to vControl closed')
         resolve();
       })
       this.client.write("quit\n")
@@ -57,6 +57,11 @@ module.exports = class VControl {
         if (data.startsWith("ERR:")) return reject(new Error(data))
         console.log("Received response: " + data)
         response = data
+        const dataLines = data.split("\n")
+        if (dataLines[dataLines.length - 1] === "vtrld>") {
+          console.log("Command finished.")
+          return resolve(response)
+        }
       }
       console.log("Sending command: '" + command + "'...")
       this.client.write(command + "\n")

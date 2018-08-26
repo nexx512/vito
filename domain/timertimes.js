@@ -1,4 +1,4 @@
-module.exports = class WarmWaterTimes {
+module.exports = class TimerTimes {
   constructor() {
     this.times = {}
   }

@@ -2,9 +2,12 @@ extend /layout/index.pug
 
 block main
   h1= t("warmwater.circulation")
-  each times, day in model.times
-    .warmwatercirculation__day= t(day)
-    each time, index in times
-      .warmwatercirculation__time
-        input(type=text name=(day + '[' + index + '].on' id=(day + 'On')) value=time.on)
-        input(type=text name=(day + '[' + index + '].off' id=(day + 'Off')) value=time.off)
+  h1= t("warmwater.circulation.times")
+  form.warmwatercirculation__times(method="PUT" action="/warmwater/circulation")
+    each times, day in model.times
+      .warmwatercirculation__day= t(day)
+      each time, index in times
+        .warmwatercirculation__time
+          input(type=text name=(day + '[' + index + '].on') id=(day + 'On') value=time.on)
+          input(type=text name=(day + '[' + index + '].off') id=(day + 'Off') value=time.off)
+    button(type="submit")= t("save")
