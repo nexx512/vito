@@ -7,5 +7,5 @@ block main
     .warmwaterheating__day= t(day)
     each time, index in times
       .warmwaterheating__time
-        input(type=text name=(day + '[' + index + '].on') id=(day + 'On') value=time.on)
-        input(type=text name=(day + '[' + index + '].off') id=(day + 'Off') value=time.off)
+        input(type=text name=(day + '[' + index + '][on]') id=(day + 'On') value=time.on)
+        input(type=text name=(day + '[' + index + '][off]') id=(day + 'Off') value=time.off)

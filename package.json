@@ -4,11 +4,14 @@
   "description": "Vito heating systems control interface",
   "main": "app.js",
   "dependencies": {
+    "body-parser": "^1.18.3",
     "express": "^4.16.3",
+    "method-override": "^3.0.0",
     "pug": "^2.0.3"
   },
   "devDependencies": {
-    "should": "^13.2.3"
+    "should": "^13.2.3",
+    "sinon": "^6.1.5"
   },
   "scripts": {
     "test": "mocha --recursive test"

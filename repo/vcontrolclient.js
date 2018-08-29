@@ -50,21 +50,55 @@ module.exports = class VControl {
       let response
       this.errorHandler = reject
       this.dataHandler = (data) => {
-        if (data === "vctrld>") {
-          console.log("Command finished.")
-          return resolve(response)
+        dataMatches = data.match(/([\s\S]*?)(vctrld>)?$/)
+        if (dataMatches[1]) {
+          response = dataMatches[1]
         }
-        if (data.startsWith("ERR:")) return reject(new Error(data))
-        console.log("Received response: " + data)
-        if (data.substring(data.length - 7) === "vctrld>") {
+        if (dataMatches[2]) {
           console.log("Command finished.")
-          return resolve(data.substring(0, data.length - 7))
-        } else {
-          response = data
-        }
+          if (response.startsWith("ERR:")) {
+            return reject(new Error(response))
+          } else {
+            console.log("Received response: " + response)
+            return resolve(response)
+          }
       }
       console.log("Sending command: '" + command + "'...")
       this.client.write(command + "\n")
+    }).then((data) => {
+      this.errorHandler = () => {}
+      this.dataHandler = () => {}
+      return data
+    })
+  }
+
+  async setData(command, data) {
+    return new Promise((resolve, reject) => {
+      let response
+      this.errorHandler = reject
+      this.dataHandler = (data) => {
+        dataMatches = data.match(/([\s\S]*?)(vctrld>)?$/)
+        if (dataMatches[1]) {
+          response = dataMatches[1]
+        }
+        if (dataMatches[2]) {
+          console.log("Command finished.")
+          if (response !=== "OK") {
+            return reject(new Error(response))
+          } else {
+            return resolve(response)
+          }
+        }
+      }
+      console.log("Sending command: '" + command + "'...")
+
+      let dataString = ""
+      if (data instanceof Array) {
+        dataString = data.filter((d) => d).join(" ")
+      } else if (data) {
+        dataString = data
+      }
+      this.client.write(command + " " + dataString + "\n")
     }).then((data) => {
       this.errorHandler = () => {}
       this.dataHandler = () => {}
