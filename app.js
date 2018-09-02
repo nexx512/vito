@@ -12,7 +12,7 @@ app.locals.basedir = path.join(__dirname, 'views');
 
 app.use(express.static('assets'))
 
-app.use(bodyParser.urlencoded())
+app.use(bodyParser.urlencoded({extended: true}))
 app.use(methodOverride((req, res) => {
   if (req.body && typeof req.body === 'object' && '_method' in req.body) {
     var method = req.body._method

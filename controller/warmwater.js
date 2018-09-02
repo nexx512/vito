@@ -8,13 +8,13 @@ module.exports = function(app) {
   app.get('/warmwater/heating', async (req, res) => {
     const warmWaterService = new WarmWaterService(new VControlRepo(new VControlClient()))
     let heatingTimes = await warmWaterService.getHeatingTimes()
-    res.render('warmwater/heating', {model: heatingTimes})
+    res.render('warmwater/heating', {model: {times: heatingTimes}})
   })
 
   app.get('/warmwater/circulation', async (req, res) => {
     const warmWaterService = new WarmWaterService(new VControlRepo(new VControlClient()))
     let circulationTimes = await warmWaterService.getCirculationTimes()
-    res.render('warmwater/circulation', {model: circulationTimes})
+    res.render('warmwater/circulation', {model: {times: circulationTimes}})
   })
 
   app.put('/warmwater/circulation', async (req, res) => {

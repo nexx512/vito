@@ -5,9 +5,9 @@ block main
   h1= t("warmwater.circulation.times")
   form.warmwatercirculation__times(method="POST" action="/warmwater/circulation")
     input(type="hidden" name="_method" value="PUT")
-    each times, day in model.times
+    each timerTimes, day in model.times
       .warmwatercirculation__day= t(day)
-      each time, index in times
+      each time, index in timerTimes.times
         .warmwatercirculation__time
           input(type=text name=(day + '[' + index + '][on]') id=(day + 'On') value=time.on)
           input(type=text name=(day + '[' + index + '][off]') id=(day + 'Off') value=time.off)

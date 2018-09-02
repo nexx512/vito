@@ -50,7 +50,7 @@ module.exports = class VControl {
       let response
       this.errorHandler = reject
       this.dataHandler = (data) => {
-        dataMatches = data.match(/([\s\S]*?)(vctrld>)?$/)
+        let dataMatches = data.match(/([\s\S]*?)(vctrld>)?$/)
         if (dataMatches[1]) {
           response = dataMatches[1]
         }
@@ -62,6 +62,7 @@ module.exports = class VControl {
             console.log("Received response: " + response)
             return resolve(response)
           }
+        }
       }
       console.log("Sending command: '" + command + "'...")
       this.client.write(command + "\n")
@@ -77,13 +78,13 @@ module.exports = class VControl {
       let response
       this.errorHandler = reject
       this.dataHandler = (data) => {
-        dataMatches = data.match(/([\s\S]*?)(vctrld>)?$/)
+        let dataMatches = data.match(/([\s\S]*?)(vctrld>)?$/)
         if (dataMatches[1]) {
           response = dataMatches[1]
         }
         if (dataMatches[2]) {
           console.log("Command finished.")
-          if (response !=== "OK") {
+          if (response !== "OK") {
             return reject(new Error(response))
           } else {
             return resolve(response)
