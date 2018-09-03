@@ -39,33 +39,33 @@ module.exports = class VControlRepo {
 
   async setWarmWaterCirculationTimes(circulationTimes) {
     await this.vControlClient.connect()
-    if (circulationTimes.monday) {
+    if (circulationTimes.days.monday) {
       await this.vControlClient.setData('setTimerZirkuMo',
-        VControlTimesConverter.fromTimerTimesToVControlSetCommandTimes(circulationTimes.monday))
+        VControlTimesConverter.fromTimerTimesToVControlSetCommandTimes(circulationTimes.days.monday))
     }
-    if (circulationTimes.tuesday) {
+    if (circulationTimes.days.tuesday) {
       await this.vControlClient.setData('setTimerZirkuDi',
-        VControlTimesConverter.fromTimerTimesToVControlSetCommandTimes(circulationTimes.tuesday))
+        VControlTimesConverter.fromTimerTimesToVControlSetCommandTimes(circulationTimes.days.tuesday))
     }
-    if (circulationTimes.wednesday) {
+    if (circulationTimes.days.wednesday) {
       await this.vControlClient.setData('setTimerZirkuMi',
-        VControlTimesConverter.fromTimerTimesToVControlSetCommandTimes(circulationTimes.wednesday))
+        VControlTimesConverter.fromTimerTimesToVControlSetCommandTimes(circulationTimes.days.wednesday))
     }
-    if (circulationTimes.thursday) {
+    if (circulationTimes.days.thursday) {
       await this.vControlClient.setData('setTimerZirkuDo',
-        VControlTimesConverter.fromTimerTimesToVControlSetCommandTimes(circulationTimes.thursday))
+        VControlTimesConverter.fromTimerTimesToVControlSetCommandTimes(circulationTimes.days.thursday))
     }
-    if (circulationTimes.friday) {
+    if (circulationTimes.days.friday) {
       await this.vControlClient.setData('setTimerZirkuFr',
-        VControlTimesConverter.fromTimerTimesToVControlSetCommandTimes(circulationTimes.friday))
+        VControlTimesConverter.fromTimerTimesToVControlSetCommandTimes(circulationTimes.days.friday))
     }
-    if (circulationTimes.saturday) {
+    if (circulationTimes.days.saturday) {
       await this.vControlClient.setData('setTimerZirkuSa',
-        VControlTimesConverter.fromTimerTimesToVControlSetCommandTimes(circulationTimes.saturday))
+        VControlTimesConverter.fromTimerTimesToVControlSetCommandTimes(circulationTimes.days.saturday))
     }
-    if (circulationTimes.sunday) {
+    if (circulationTimes.days.sunday) {
       await this.vControlClient.setData('setTimerZirkuSo',
-        VControlTimesConverter.fromTimerTimesToVControlSetCommandTimes(circulationTimes.sunday))
+        VControlTimesConverter.fromTimerTimesToVControlSetCommandTimes(circulationTimes.days.sunday))
     }
     await this.vControlClient.close()
     return circulationTimes

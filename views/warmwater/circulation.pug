@@ -2,13 +2,23 @@ extend /layout/index.pug
 
 block main
   h1= t("warmwater.circulation")
-  h1= t("warmwater.circulation.times")
+  h2= t("warmwater.circulation.times")
   form.warmwatercirculation__times(method="POST" action="/warmwater/circulation")
     input(type="hidden" name="_method" value="PUT")
-    each timerTimes, day in model.times
+    each timerTimes, day in model.times.days
       .warmwatercirculation__day= t(day)
-      each time, index in timerTimes.times
+      +errorText(timerTimes.errors)
+      each timerTime, index in timerTimes.times
         .warmwatercirculation__time
-          input(type=text name=(day + '[' + index + '][on]') id=(day + 'On') value=time.on)
-          input(type=text name=(day + '[' + index + '][off]') id=(day + 'Off') value=time.off)
-    button(type="submit")= t("save")
+          input(type=text name=("times[" + day + '][' + index + '][on]') id=(day + 'On') value=timerTime.on.time)
+          +errorText(timerTime.on.errors)
+          input(type=text name=("times[" + day + '][' + index + '][off]') id=(day + 'Off') value=timerTime.off.time)
+          +errorText(timerTime.off.errors)
+          +errorText(timerTime.errors)
+          
+    button(type="submit")= t("savechanges")
+
+mixin errorText(errors)
+  if errors.hasErrors()
+    each error in errors.items
+      p= error.message

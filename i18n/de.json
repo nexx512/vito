@@ -14,5 +14,24 @@
   "friday": "Freitag",
   "saturday": "Samstag",
   "sunday": "Sonntag",
-  "save": "Speichern"
+  "savechanges": "Änderungen übernehmen",
+
+
+  "circulationTimerError: Start time missing": "Startzeitpunkt fehlt",
+  "circulationTimerError: End time missing": "Endzeitpunkt fehlt",
+  "circulationTimerError: Start time wrong format": "Startzeitpunkt hat ein ungültiges Format",
+  "circulationTimerError: End time wrong format": "Endzeitpunkt hat ein ungültiges Format",
+  "circulationTimerError: Start time out of range": "Startzeitpunkt liegt außerhalb des gültigen Bereiches",
+  "circulationTimerError: End time out of range": "Endzeitpunkt liegt außerhalb des gültigen Bereiches",
+  "circulationTimerError: Time 1": " in Zeile 1: ",
+  "circulationTimerError: Time 2": " in Zeile 2: ",
+  "circulationTimerError: Time 3": " in Zeile 3: ",
+  "circulationTimerError: Time 4": " in Zeile 4: ",
+  "circulationTimerError: Timer Monday": "Fehler in den Zirkulationszeiten für Montag",
+  "circulationTimerError: Timer Tuesday": "Fehler in den Zirkulationszeiten für Dienstag",
+  "circulationTimerError: Timer Wednesday": "Fehler in den Zirkulationszeiten für Mittwoch",
+  "circulationTimerError: Timer Thursday": "Fehler in den Zirkulationszeiten für Donnerstag",
+  "circulationTimerError: Timer Friday": "Fehler in den Zirkulationszeiten für Freitag",
+  "circulationTimerError: Timer Saturday": "Fehler in den Zirkulationszeiten für Samstag",
+  "circulationTimerError: Timer Sunday": "Fehler in den Zirkulationszeiten für Sonntag"
 }

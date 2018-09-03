@@ -1,30 +1,43 @@
-const VControlClient = require('../repo/vcontrolclient')
-const VControlRepo = require('../repo/vcontrolrepo')
-const WarmWaterService = require('../services/warmwaterservice')
-const WeekTimerTimes = require('../models/weektimertimes')
+const WarmWaterService = require("../services/warmwaterservice")
+const VControlRepo = require("../repo/vcontrolrepo")
+const VControlClient = require("../repo/vcontrolclient")
+const WeekTimerTimes = require("../models/weektimertimes")
+const TimerTimes = require("../models/timertimes")
+const TimerTime = require("../models/timertime")
+const Time = require("../models/time")
 
 module.exports = function(app) {
 
-  app.get('/warmwater/heating', async (req, res) => {
+  app.get("/warmwater/heating", async (req, res) => {
     const warmWaterService = new WarmWaterService(new VControlRepo(new VControlClient()))
     let heatingTimes = await warmWaterService.getHeatingTimes()
-    res.render('warmwater/heating', {model: {times: heatingTimes}})
+    res.render("warmwater/heating", {model: {times: heatingTimes}})
   })
 
-  app.get('/warmwater/circulation', async (req, res) => {
+  app.get("/warmwater/circulation", async (req, res) => {
     const warmWaterService = new WarmWaterService(new VControlRepo(new VControlClient()))
     let circulationTimes = await warmWaterService.getCirculationTimes()
-    res.render('warmwater/circulation', {model: {times: circulationTimes}})
+    res.render("warmwater/circulation", {model: {times: circulationTimes}})
   })
 
-  app.put('/warmwater/circulation', async (req, res) => {
-    let circulationTimes = new WeekTimerTimes(
-      new TimerTimes(req.body.friday),
-      new TimerTimes()
-    )
+  app.put("/warmwater/circulation", async (req, res) => {
+    let times = req.body.times
+    let circulationTimes = new WeekTimerTimes()
+    for (var day in times) {
+      let dayTimes = new TimerTimes()
+      times[day].forEach((time) => {
+        dayTimes.add(new TimerTime(new Time(time.on), new Time(time.off)))
+      })
+      circulationTimes.set(day, dayTimes)
+    }
+
     const warmWaterService = new WarmWaterService(new VControlRepo(new VControlClient()))
-    await warmWaterService.setCirculationTimes(circulationTimes)
-    res.redirect('/warmwater/circulation')
+    try {
+      await warmWaterService.setCirculationTimes(circulationTimes)
+    } catch (e) {
+      return res.render("warmwater/circulation", {model: {times: circulationTimes}})
+    }
+    res.redirect("/warmwater/circulation")
   })
 
 }

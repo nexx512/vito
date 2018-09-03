@@ -1,30 +1,21 @@
-const Errors = require("./errors")
+const ValidationErrors = require("./validationerrors")
 
 module.exports = class TimerTime {
   constructor(timeOn, timeOff) {
     this.on = timeOn,
     this.off = timeOff
+    this.errors = new ValidationErrors()
   }
 
   validate() {
-    let errors = new Errors()
-    validateTime(errors, "Start", this.on)
-    validateTime(errors, "End", this.off)
-    return errors
+    let isValid = true
+    isValid = this.on.validate() && isValid
+    isValid = this.off.validate() && isValid
+    return isValid
   }
+
 }
 
 function validateTime(errors, name, time) {
-  if (!time) {
-    errors.add(new Error(name + " time missing"))
-  } else {
-    let timeMatches = time.match(/^(\d\d):(\d\d)$/)
-    if (!timeMatches) {
-      errors.add(new Error(name + " time invalid"))
-    } else {
-        if ((parseInt(timeMatches[2]) >= 60) || (parseInt(timeMatches[1]) * 60 + parseInt(timeMatches[2]) > 1440)) {
-          errors.add(new Error(name + " time out of range"))
-        }
-    }
-  }
+  let innerErrors = time.validate()
 }

@@ -1,5 +1,6 @@
-const TimerTime = require('../models/timertime')
-const TimerTimes = require('../models/timertimes')
+const TimerTimes = require("../models/timertimes")
+const TimerTime = require("../models/timertime")
+const Time = require("../models/time")
 
 module.exports.fromVControlGetCommandTimesToTimerTimes = (timeBlock) => {
   let timerTimes = new TimerTimes()
@@ -9,16 +10,16 @@ module.exports.fromVControlGetCommandTimesToTimerTimes = (timeBlock) => {
     .forEach((line) => {
       let times = line.match(/An:(\d+:\d+|--)\s*Aus:(\d+:\d+|--)/)
         .map((time) => time === '--' ? null : time)
-      timerTimes.add(new TimerTime(times[1], times[2]))
+      timerTimes.add(new TimerTime(new Time(times[1]), new Time(times[2])))
     })
   return timerTimes
 }
 
 module.exports.fromTimerTimesToVControlSetCommandTimes = (timerTimes) => {
   let times = []
-  timerTimes.times.forEach((time) => {
-    times.push(time.on)
-    times.push(time.off)
+  timerTimes.times.forEach((timerTime) => {
+    times.push(timerTime.on.time)
+    times.push(timerTime.off.time)
   })
   return times
 }

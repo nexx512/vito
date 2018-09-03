@@ -1,8 +1,9 @@
-const Errors = require('./errors')
+const ValidationErrors = require("./validationerrors")
 
 module.exports = class TimerTimes {
   constructor() {
     this.times = []
+    this.errors = new ValidationErrors()
   }
 
   add(time) {
@@ -10,10 +11,6 @@ module.exports = class TimerTimes {
   }
 
   validate() {
-    let errors = new Errors()
-    this.times.forEach((time, index) => {
-      errors.wrap("Time " + (index + 1), time.validate())
-    })
-    return errors
+    return this.times.reduce((isValid, time) => time.validate() && isValid, true)
   }
 }
