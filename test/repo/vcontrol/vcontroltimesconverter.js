@@ -1,8 +1,8 @@
 should = require('should')
-const VControlTimesConverter = require('../../repo/vcontroltimesconverter')
-const TimerTimes = require('../../models/timertimes')
-const TimerTime = require('../../models/timertime')
-const Time = require('../../models/time')
+const VControlTimesConverter = require('../../../repo/vcontrol/vcontroltimesconverter')
+const TimerTimes = require('../../../models/timertimes')
+const TimerTime = require('../../../models/timertime')
+const Time = require('../../../models/time')
 
 describe('Convert VControl get command times to TimerTimes', () => {
   describe('with times at the boundaries', () => {

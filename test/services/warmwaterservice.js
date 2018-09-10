@@ -1,10 +1,11 @@
 should = require("should")
 sinon = require("sinon")
-const VControlRepo = require("../../repo/vcontrolrepo")
+const VControlRepo = require("../../repo/vcontrol/vcontrolrepo")
 const WarmWaterService = require("../../services/warmwaterservice")
 const WeekTimerTimes = require('../../models/weektimertimes')
 const TimerTimes = require('../../models/timertimes')
 const TimerTime = require('../../models/timertime')
+const Time = require('../../models/time')
 
 describe("The WarmWaterService", () => {
 
@@ -43,7 +44,7 @@ describe("The WarmWaterService", () => {
     describe("with invalid times", () => {
       it("should return errors", async () => {
         let times = new TimerTimes()
-        times.add(new TimerTime("00:a0", "01:00"))
+        times.add(new TimerTime(new Time("00:a0"), new Time("01:00")))
         let weekTimes = new WeekTimerTimes(times)
         vControlRepoMock.expects("setWarmWaterCirculationTimes").never()
 
@@ -51,17 +52,18 @@ describe("The WarmWaterService", () => {
         try {
           await warmWaterService.setCirculationTimes(weekTimes)
         } catch (e) {
-          errors = e
+          error = e
         }
-        errors.hasErrors().should.true
+
+        error.should.eql(new Error("circulation times invalid"))
         vControlRepoMock.verify()
       })
     })
-    
+
     describe("with valid times", () => {
       it("should return no errors", async () => {
         let times = new TimerTimes()
-        times.add(new TimerTime("00:00", "01:00"))
+        times.add(new TimerTime(new Time("00:00"), new Time("01:00")))
         let weekTimes = new WeekTimerTimes(times)
         vControlRepoMock.expects("setWarmWaterCirculationTimes").once()//.withArgs(weekTimes)
 

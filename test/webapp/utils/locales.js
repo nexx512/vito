@@ -1,5 +1,5 @@
 should = require('should')
-Locales = require('../../utils/locales')
+Locales = require('../../../webapp/utils/locales')
 
 describe('A Locales object', () => {
 

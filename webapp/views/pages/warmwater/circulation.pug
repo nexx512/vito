@@ -1,4 +1,6 @@
-extend /layout/index.pug
+extend ../layout/index.pug
+
+include /errortext/errortext
 
 block main
   h1= t("warmwater.circulation")
@@ -17,8 +19,3 @@ block main
           +errorText(timerTime.errors)
           
     button(type="submit")= t("savechanges")
-
-mixin errorText(errors)
-  if errors.hasErrors()
-    each error in errors.items
-      p= error.message

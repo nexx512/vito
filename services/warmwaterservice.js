@@ -15,8 +15,9 @@ module.exports = class WarmWaterService {
   }
 
   async setCirculationTimes(circulationTimes) {
-    let errors = circulationTimes.validate()
-    if (errors.hasErrors()) throw errors
+    if (!circulationTimes.validate()) {
+      throw new Error("circulation times invalid")
+    }
     await this.repo.setWarmWaterCirculationTimes(circulationTimes)
   }
 

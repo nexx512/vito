@@ -1,9 +1,9 @@
 should = require('should')
-VControlRepo = require('../../repo/vcontrolrepo')
-WeekTimerTimes = require("../../models/weektimertimes")
-TimerTimes = require("../../models/timertimes")
-TimerTime = require("../../models/timertime")
-Time = require("../../models/time")
+VControlRepo = require('../../../repo/vcontrol/vcontrolrepo')
+WeekTimerTimes = require("../../../models/weektimertimes")
+TimerTimes = require("../../../models/timertimes")
+TimerTime = require("../../../models/timertime")
+Time = require("../../../models/time")
 
 describe('A VControlRepo object', () => {
 

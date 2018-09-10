@@ -1,5 +1,5 @@
 const VControlTimesConverter = require('./vcontroltimesconverter')
-const WeekTimerTimes = require('../models/weektimertimes')
+const WeekTimerTimes = require('../../models/weektimertimes')
 
 module.exports = class VControlRepo {
 

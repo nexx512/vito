@@ -1,10 +1,10 @@
-const WarmWaterService = require("../services/warmwaterservice")
-const VControlRepo = require("../repo/vcontrolrepo")
-const VControlClient = require("../repo/vcontrolclient")
-const WeekTimerTimes = require("../models/weektimertimes")
-const TimerTimes = require("../models/timertimes")
-const TimerTime = require("../models/timertime")
-const Time = require("../models/time")
+const WarmWaterService = require("../../services/warmwaterservice")
+const VControlRepo = require("../../repo/vcontrol/vcontrolrepo")
+const VControlClient = require("../../repo/vcontrol/vcontrolclient")
+const WeekTimerTimes = require("../../models/weektimertimes")
+const TimerTimes = require("../../models/timertimes")
+const TimerTime = require("../../models/timertime")
+const Time = require("../../models/time")
 
 module.exports = function(app) {
 

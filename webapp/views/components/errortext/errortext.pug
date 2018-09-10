@@ -1,0 +1,4 @@
+mixin errorText(errors)
+  if errors.hasErrors()
+    each error in errors.items
+      p= error.message

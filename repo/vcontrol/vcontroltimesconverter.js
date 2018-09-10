@@ -1,6 +1,6 @@
-const TimerTimes = require("../models/timertimes")
-const TimerTime = require("../models/timertime")
-const Time = require("../models/time")
+const TimerTimes = require("../../models/timertimes")
+const TimerTime = require("../../models/timertime")
+const Time = require("../../models/time")
 
 module.exports.fromVControlGetCommandTimesToTimerTimes = (timeBlock) => {
   let timerTimes = new TimerTimes()
