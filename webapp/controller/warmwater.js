@@ -8,16 +8,24 @@ const Time = require("../../models/time")
 
 module.exports = function(app) {
 
-  app.get("/warmwater/heating", async (req, res) => {
+  app.get("/warmwater/heating", async (req, res, next) => {
     const warmWaterService = new WarmWaterService(new VControlRepo(new VControlClient()))
-    let heatingTimes = await warmWaterService.getHeatingTimes()
-    res.render("warmwater/heating", {model: {times: heatingTimes}})
+    try {
+      let heatingTimes = await warmWaterService.getHeatingTimes()
+      res.render("warmwater/heating", {model: {times: heatingTimes}})
+    } catch (e) {
+      next(e)
+    }
   })
 
-  app.get("/warmwater/circulation", async (req, res) => {
+  app.get("/warmwater/circulation", async (req, res, next) => {
     const warmWaterService = new WarmWaterService(new VControlRepo(new VControlClient()))
-    let circulationTimes = await warmWaterService.getCirculationTimes()
-    res.render("warmwater/circulation", {model: {times: circulationTimes}})
+    try {
+      let circulationTimes = await warmWaterService.getCirculationTimes()
+      res.render("warmwater/circulation", {model: {times: circulationTimes}})
+    } catch (e) {
+      next(e)
+    }
   })
 
   app.put("/warmwater/circulation", async (req, res) => {

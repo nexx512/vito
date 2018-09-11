@@ -1,6 +1,7 @@
 const net = require('net')
 
-const VCONTROL_HOST = '192.168.10.201'
+//const VCONTROL_HOST = '192.168.10.201'
+const VCONTROL_HOST = 'localhost'
 const VCONTROL_PORT = 3002
 
 module.exports = class VControl {
