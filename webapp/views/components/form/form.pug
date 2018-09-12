@@ -1,0 +1,6 @@
+mixin form(action, method)
+  - const formMethod = (method === "GET") ? "GET" : "POST" 
+  form(action=action method=formMethod)&attributes(attributes)
+    if (method !== formMethod)
+      input(type="hidden" name="_method" value=method)
+    block

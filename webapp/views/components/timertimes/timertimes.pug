@@ -1,0 +1,10 @@
+include /errortext/errortext
+include /timertime/timertime
+
+mixin timerTimes(id, timerTimes)
+  .timerTimes&attributes(attributes)
+    +errorText(timerTimes.errors)
+    each timerTime, index in timerTimes.times
+      .timerTimes__times
+        .timerTimer__timesLabel= t("timertimes.time." + index)
+        +timerTime(id, "times[" + id + "][" + index + "]", timerTime)

@@ -16,6 +16,10 @@
   "sunday": "Sonntag",
   "savechanges": "Änderungen übernehmen",
 
+  "timertimes.time.0": "1. Zeitslot",
+  "timertimes.time.1": "2. Zeitslot",
+  "timertimes.time.2": "3. Zeitslot",
+  "timertimes.time.3": "4. Zeitslot",
 
   "error:Time missing": "Zeitangabe fehlt",
   "error:Time format invalid": "Zeitangabe hat ein ungültiges Format",

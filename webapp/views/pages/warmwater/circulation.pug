@@ -1,19 +1,12 @@
 extend ../layout/index.pug
 
-include /errortext/errortext
-include /timertime/timertime
+include /form/form
+include /weektimertimes/weektimertimes
 
 block main
   h1= t("warmwater.circulation")
   h2= t("warmwater.circulation.times")
-  form.warmwatercirculation__times(method="POST" action="/warmwater/circulation")
-    input(type="hidden" name="_method" value="PUT")
-    each timerTimes, day in model.times.days
-      .warmwatercirculation__day= t(day)
-      +errorText(timerTimes.errors)
-      each timerTime, index in timerTimes.times
-        +timerTime(day, "times[" + day + "][" + index + "]", timerTime).warmwatercirculation__time
-        //- +textField(null, (day + 'On'), ("times[" + day + '][' + index + '][on]'), timerTime.on.time, timerTime.on.errors.messages())
-        //- +textField(null, (day + 'Off'), ("times[" + day + '][' + index + '][off]'), timerTime.on.time, timerTime.off.errors.messages())
+  +form("/warmwater/circulation", "PUT")
+    +weekTimerTimes(model.times)
           
     button(type="submit")= t("savechanges")

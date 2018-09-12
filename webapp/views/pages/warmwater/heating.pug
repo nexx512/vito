@@ -1,11 +1,12 @@
 extend /layout/index.pug
 
+include /form/form
+include /weektimertimes/weektimertimes
+
 block main
   h1= t("warmwater.heating")
   h2= t("warmwater.heating.times")
-  each times, day in model.times
-    .warmwaterheating__day= t(day)
-    each time, index in times
-      .warmwaterheating__time
-        input(type=text name=(day + '[' + index + '][on]') id=(day + 'On') value=time.on)
-        input(type=text name=(day + '[' + index + '][off]') id=(day + 'Off') value=time.off)
+  +form("/warmwater/heating", "PUT")
+    +weekTimerTimes(model.times)
+          
+    button(type="submit")= t("savechanges")
