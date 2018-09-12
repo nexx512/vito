@@ -1,5 +1,5 @@
 mixin errorText(errors)
-  .errorText
-    if errors.hasErrors()
+  if errors.hasErrors()
+    .errorText
       each error in errors.items
-        p= error.message
+        p= t("error:" + error.message)
