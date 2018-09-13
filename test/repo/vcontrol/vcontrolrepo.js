@@ -1,48 +1,55 @@
 should = require('should')
-VControlRepo = require('../../../repo/vcontrol/vcontrolrepo')
-WeekTimerTimes = require("../../../models/weektimertimes")
-TimerTimes = require("../../../models/timertimes")
-TimerTime = require("../../../models/timertime")
-Time = require("../../../models/time")
+sinon = require("sinon")
+const VControlClient = require('../../../repo/vcontrol/vcontrolclient')
+const VControlRepo = require('../../../repo/vcontrol/vcontrolrepo')
+const WeekTimerTimes = require("../../../models/weektimertimes")
+const TimerTimes = require("../../../models/timertimes")
+const TimerTime = require("../../../models/timertime")
+const Time = require("../../../models/time")
 
 describe('A VControlRepo object', () => {
 
-  class VControlClientMock {
-    constructor() {
-      this.data = ""
-    }
-
-    connect() {}
-    close() {}
-
-    getData(command) {
-      return "An:00:00  Aus:24:00\n"
-    }
-
-    setData(command, values) {
-      this.data += command + " " + values.join(" ") + "\n"
-    }
-  }
-
+  let vControlClient
   let vControlRepo
   let vControlClientMock
 
-  before(() => {
-    vControlClientMock = new VControlClientMock()
-    vControlRepo = new VControlRepo(vControlClientMock)
+  beforeEach(() => {
+    vControlClient = new VControlClient()
+    vControlClientMock = sinon.mock(vControlClient)
+    vControlClientMock.expects("connect").once()
+    vControlClientMock.expects("close").once()
+    vControlRepo = new VControlRepo(vControlClient)
   })
 
   describe('requesting warmwater heating times', () => {
     it('should return times for all weekdays', async () => {
+      sinon.stub(vControlClient, "getData").returns("An:00:00  Aus:24:00\n")
+
       let times = await vControlRepo.getWarmWaterHeatingTimes()
+
       Object.keys(times.days).should.eql(['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'])
+      vControlClientMock.verify()
+    })
+  })
+
+  describe('requesting warmwater heating times with getData error', () => {
+    it('should open and close the connection properly and throw an error', async () => {
+      sinon.stub(vControlClient, "getData").throws()
+
+      await vControlRepo.getWarmWaterHeatingTimes().should.rejected()
+
+      vControlClientMock.verify()
     })
   })
 
   describe('requesting warmwater circulation times', () => {
     it('should return times for all weekdays', async () => {
+      sinon.stub(vControlClient, "getData").returns("An:00:00  Aus:24:00\n")
+
       let times = await vControlRepo.getWarmWaterCirculationTimes()
+
       Object.keys(times.days).should.eql(['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'])
+      vControlClientMock.verify()
     })
   })
 
@@ -55,10 +62,22 @@ describe('A VControlRepo object', () => {
       timerTimesWednesday.add(new TimerTime(new Time("02:23"), new Time("03:24")))
       timerTimesWednesday.add(new TimerTime(new Time("03:12"), new Time("04:00")))
       let weekTimerTimes = new WeekTimerTimes(timerTimesMonday, null, timerTimesWednesday)
+      vControlClientMock.expects("setData").once().withArgs("setTimerZirkuMo", ["12:23", "13:24", "23:12", "24:00"])
+      vControlClientMock.expects("setData").once().withArgs("setTimerZirkuMi", ["02:23", "03:24", "03:12", "04:00"])
 
       let times = await vControlRepo.setWarmWaterCirculationTimes(weekTimerTimes)
 
-      vControlClientMock.data.should.equal("setTimerZirkuMo 12:23 13:24 23:12 24:00\nsetTimerZirkuMi 02:23 03:24 03:12 04:00\n")
+      vControlClientMock.verify()
+    })
+  })
+
+  describe('setting warmwater circulation times with errors', () => {
+    it('should open and close the connection properly and throw an error', async () => {
+      sinon.stub(vControlClient, "setData").throws()
+
+      await vControlRepo.setWarmWaterCirculationTimes(new WeekTimerTimes(new TimerTimes())).should.rejected()
+
+      vControlClientMock.verify()
     })
   })
 })
