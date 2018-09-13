@@ -20,7 +20,11 @@ const distAssets = dist + "/assets"
 gulp.task("styles", cb =>
   gulp.src(src.styles)
     .pipe(p.plumber())
-    .pipe(p.stylus())
+    .pipe(p.stylus({
+      paths: ["webapp/views/styles"],
+      import: ["defaults"],
+      url: { name: "embedurl" }
+    }))
     .pipe(p.concat("styles.css"))
     .pipe(p.postcss([autoprefixer({ browsers: ["last 2 versions", "ie >= 10"] })]))
     .pipe(gulp.dest(assets + "/styles"))
@@ -46,7 +50,7 @@ gulp.task("optimize", ["styles:optimize"])
 //////////
 
 gulp.task("watch", cb => {
-  gulp.watch(src.styles, ["styles"])
+  gulp.watch(src.styles.concat("webapp/views/styles/*.styl"), ["styles"])
 })
 
 
