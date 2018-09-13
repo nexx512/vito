@@ -12,7 +12,7 @@ describe("The WarmWaterService", () => {
   let vControlRepo
   let warmWaterService
 
-  before(() => {
+  beforeEach(() => {
     vControlRepo = new VControlRepo()
     warmWaterService = new WarmWaterService(vControlRepo)
   })
@@ -21,7 +21,9 @@ describe("The WarmWaterService", () => {
     it("should deliver hearing times for all days", async () => {
       times = new WeekTimerTimes()
       sinon.stub(vControlRepo, "getWarmWaterHeatingTimes").returns(times)
+
       let heatingTimes = await warmWaterService.getHeatingTimes()
+
       heatingTimes.should.equal(times)
     })
   })
@@ -30,7 +32,9 @@ describe("The WarmWaterService", () => {
     it("should deliver hearing times for all days", async () => {
       times = new WeekTimerTimes()
       sinon.stub(vControlRepo, "getWarmWaterCirculationTimes").returns(times)
+
       let heatingTimes = await warmWaterService.getCirculationTimes()
+
       heatingTimes.should.equal(times)
     })
   })
@@ -48,14 +52,8 @@ describe("The WarmWaterService", () => {
         let weekTimes = new WeekTimerTimes(times)
         vControlRepoMock.expects("setWarmWaterCirculationTimes").never()
 
-        let errors
-        try {
-          await warmWaterService.setCirculationTimes(weekTimes)
-        } catch (e) {
-          error = e
-        }
+        await warmWaterService.setCirculationTimes(weekTimes).should.rejectedWith(new Error("circulation times invalid"))
 
-        error.should.eql(new Error("circulation times invalid"))
         vControlRepoMock.verify()
       })
     })
@@ -65,9 +63,10 @@ describe("The WarmWaterService", () => {
         let times = new TimerTimes()
         times.add(new TimerTime(new Time("00:00"), new Time("01:00")))
         let weekTimes = new WeekTimerTimes(times)
-        vControlRepoMock.expects("setWarmWaterCirculationTimes").once()//.withArgs(weekTimes)
+        vControlRepoMock.expects("setWarmWaterCirculationTimes").once().withArgs(weekTimes)
 
         await warmWaterService.setCirculationTimes(weekTimes)
+
         vControlRepoMock.verify()
       })
     })
