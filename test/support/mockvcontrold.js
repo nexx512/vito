@@ -45,13 +45,24 @@ function connectionHandler(c) {
       c.end()
     } else {
       console.log("Command:", command)
-      let response = mockVControldData[command]
-      if (response) {
-        console.log("Response:", response)
-        c.write(response + "\n")
+      if (args.length == 0) {
+        let response = mockVControldData[command]
+        if (response) {
+          console.log("Response:", response)
+          c.write(response + "\n")
+        } else {
+          console.log("Unknown command.")
+          c.write("ERR: unknown command\n")
+        }
       } else {
-        console.log("Unknown command.")
-        c.write("ERR: unknown command\n")
+        commandArgsRegexp = new RegExp(mockVControldData[command])
+        console.log("Arguments:", args)
+        if (args.every((a) => {console.log(a); commandArgsRegexp.exec(a)})) {
+          c.write("OK\n")
+        } else {
+          console.log("Arguments don't match " + commandArgsRegexp.toString())
+          c.write("ERR: invalid arguments\n")
+        }
       }
       c.write("vctrld>")
     }
