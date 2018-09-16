@@ -3,11 +3,15 @@ const locales = {
 }
 
 module.exports = class Translations {
-  translate(locale, key) {
+  translate(locale, key, fallback) {
     if (locales[locale][key]) {
       return locales[locale][key]
     } else {
-      return "[" + key + "]"
+      if ((fallback !== null) && (fallback !== undefined)) {
+        return fallback
+      } else {
+        return "[" + key + "]"
+      }
     }
   }
 }

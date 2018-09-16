@@ -3,8 +3,8 @@ const locales = new Locales()
 
 module.exports = () => {
   return (req, res, next) => {
-    res.locals.t = (key) => {
-      return locales.translate('de', key)
+    res.locals.t = (key, fallback) => {
+      return locales.translate('de', key, fallback)
     }
     next()
   }
