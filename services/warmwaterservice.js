@@ -1,5 +1,5 @@
 const TimerTimes = require("../models/timertimes")
-
+const ValidationError = require("../models/validationerror")
 
 module.exports = class WarmWaterService {
   constructor(repo) {
@@ -16,7 +16,7 @@ module.exports = class WarmWaterService {
 
   async setCirculationTimes(circulationTimes) {
     if (!circulationTimes.validate()) {
-      throw new Error("circulation times invalid")
+      throw new ValidationError("Circulation times invalid")
     }
     await this.repo.setWarmWaterCirculationTimes(circulationTimes)
   }

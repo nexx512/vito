@@ -2,6 +2,8 @@ include /formfields/formfields
   
 mixin timerTime(id, name, timerTime)
   .timerTime&attributes(attributes)
-    +textField(null, id + "On", name + "[on]", timerTime.on.time, timerTime.on.errors)
-    +textField(null, id + "Off", name + "[off]", timerTime.on.time, timerTime.off.errors)
-    +errorText(timerTime.errors)
+    +__timerTimeInputField(id + "On", name + "[on]", timerTime ? timerTime.on : null)
+    +__timerTimeInputField(id + "Off", name + "[off]", timerTime ? timerTime.off : null)
+
+mixin __timerTimeInputField(id, name, time)
+  +textField(null, id, name, time ? time.time : null, time ? time.errors : null)

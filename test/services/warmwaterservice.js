@@ -6,6 +6,7 @@ const WeekTimerTimes = require('../../models/weektimertimes')
 const TimerTimes = require('../../models/timertimes')
 const TimerTime = require('../../models/timertime')
 const Time = require('../../models/time')
+const ValidationError = require('../../models/validationerror')
 
 describe("The WarmWaterService", () => {
 
@@ -52,7 +53,7 @@ describe("The WarmWaterService", () => {
         let weekTimes = new WeekTimerTimes(times)
         vControlRepoMock.expects("setWarmWaterCirculationTimes").never()
 
-        await warmWaterService.setCirculationTimes(weekTimes).should.rejectedWith(new Error("circulation times invalid"))
+        await warmWaterService.setCirculationTimes(weekTimes).should.rejectedWith(new ValidationError("Circulation times invalid"))
 
         vControlRepoMock.verify()
       })

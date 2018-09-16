@@ -1,5 +1,5 @@
 mixin textField(label, id, name, value, errors)
   .formField.formField__textField&attributes(attributes)
     label(for=id)= label
-    input(type="text" id=id name=name value=value class=errors.hasErrors() ? "formField--error" : false)
+    input(type="text" id=id name=name value=value class=(errors && errors.length > 0) ? "formField--error" : false)
     +errorText(errors)

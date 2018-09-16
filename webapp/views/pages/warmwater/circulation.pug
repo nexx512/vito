@@ -1,12 +1,15 @@
 extend ../layout/index.pug
 
+include /errortext/errortext
 include /form/form
 include /weektimertimes/weektimertimes
 
 block main
   h1= t("warmwater.circulation")
   h2= t("warmwater.circulation.times")
+  if errors
+    +errorText(errors)
   +form("/warmwater/circulation", "PUT")
-    +weekTimerTimes(model.times)
+    +weekTimerTimes(model)
           
     button(type="submit")= t("savechanges")

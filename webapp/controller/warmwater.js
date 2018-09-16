@@ -5,6 +5,7 @@ const WeekTimerTimes = require("../../models/weektimertimes")
 const TimerTimes = require("../../models/timertimes")
 const TimerTime = require("../../models/timertime")
 const Time = require("../../models/time")
+const ViewModel = require("../models/viewmodel.js")
 
 module.exports = function(app) {
 
@@ -12,7 +13,7 @@ module.exports = function(app) {
     const warmWaterService = new WarmWaterService(new VControlRepo(new VControlClient()))
     try {
       let heatingTimes = await warmWaterService.getHeatingTimes()
-      res.render("warmwater/heating", {model: {times: heatingTimes}})
+      res.render("warmwater/heating", new ViewModel(heatingTimes))
     } catch (e) {
       next(e)
     }
@@ -22,30 +23,60 @@ module.exports = function(app) {
     const warmWaterService = new WarmWaterService(new VControlRepo(new VControlClient()))
     try {
       let circulationTimes = await warmWaterService.getCirculationTimes()
-      res.render("warmwater/circulation", {model: {times: circulationTimes}})
+      let times = weekTimerTimesToWeekTimerTimesDto(circulationTimes)
+      res.render("warmwater/circulation", new ViewModel(times))
     } catch (e) {
       next(e)
     }
   })
 
   app.put("/warmwater/circulation", async (req, res) => {
-    let times = req.body.times
-    let circulationTimes = new WeekTimerTimes()
-    for (var day in times) {
-      let dayTimes = new TimerTimes()
-      times[day].forEach((time) => {
-        dayTimes.add(new TimerTime(new Time(time.on), new Time(time.off)))
-      })
-      circulationTimes.set(day, dayTimes)
-    }
-
     const warmWaterService = new WarmWaterService(new VControlRepo(new VControlClient()))
+
+    let circulationTimes = weekTimerTimesDtoToWeekTimerTimes(req.body.times)
     try {
       await warmWaterService.setCirculationTimes(circulationTimes)
+      res.redirect("/warmwater/circulation")
     } catch (e) {
-      return res.render("warmwater/circulation", {model: {times: circulationTimes}})
+      res.render("warmwater/circulation", new ViewModel(weekTimerTimesToWeekTimerTimesDto(circulationTimes), e))
     }
-    res.redirect("/warmwater/circulation")
+
   })
 
+}
+
+function weekTimerTimesDtoToWeekTimerTimes(weekTimerTimesDto) {
+  let weekTimerTimes = new WeekTimerTimes()
+  for (let day in weekTimerTimesDto) {
+    let dayTimes = new TimerTimes()
+    weekTimerTimesDto[day]
+      .filter((time) => {
+        return time.on && time.off
+      })
+      .forEach((time) => {
+        dayTimes.add(new TimerTime(new Time(time.on), new Time(time.off)))
+      })
+    weekTimerTimes.set(day, dayTimes)
+  }
+  return weekTimerTimes
+}
+
+function weekTimerTimesToWeekTimerTimesDto(weekTimerTimes) {
+  let weekTimerTimesDto = {}
+  for (let day in weekTimerTimes.days) {
+    weekTimerTimesDto[day] = new Array(4)
+    weekTimerTimes.days[day].times.forEach((time, index) => {
+      weekTimerTimesDto[day][index] = {
+        on: {
+          time: time.on.time,
+          errors: time.on.errors.items.map((e) => e.message)
+        },
+        off: {
+          time: time.off.time,
+          errors: time.off.errors.items.map((e) => e.message)
+        }
+      }
+    })
+  }
+  return weekTimerTimesDto
 }
