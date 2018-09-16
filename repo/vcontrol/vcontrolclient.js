@@ -1,16 +1,18 @@
-const net = require('net')
+const net = require("net")
 
-//const VCONTROL_HOST = '192.168.10.201'
-const VCONTROL_HOST = 'localhost'
+const VCONTROL_HOST = "localhost"
 const VCONTROL_PORT = 3002
 
-module.exports = class VControl {
+module.exports = class VControlClient {
 
   constructor() {
     this.client = new net.Socket()
 
-    this.client.on('data', (data) => this.dataHandler(data.toString()))
-    this.client.on('error', (error) => this.errorHandler(error))
+    this.closeHandler = () => {}
+
+    this.client.on("data", (data) => this.dataHandler(data.toString()))
+    this.client.on("error", (error) => this.errorHandler(error))
+    this.client.on("close", () => this.closeHandler())
   }
 
   async connect() {
@@ -18,31 +20,33 @@ module.exports = class VControl {
       this.errorHandler = reject
       this.dataHandler = (data) => {
         if (data === "vctrld>") {
-          console.log('Connection to vControl established')
+          console.log("Connection to vControl established")
           resolve()
         } else {
           reject(new Error(data))
         }
       }
-      console.log('Connecting to vControl...')
+      console.log("Connecting to vControl...")
       this.client.connect(VCONTROL_PORT, VCONTROL_HOST)
     }).then(() => {
       this.errorHandler = () => {}
       this.dataHandler = () => {}
+      this.closeHandler = () => {}
     })
   }
 
   async close() {
     return new Promise((resolve, reject) => {
       this.errorHandler = reject
-      this.client.on('close', () => {
-        console.log('Connection to vControl closed')
+      this.closeHandler = () => {
+        console.log("Connection to vControl closed")
         resolve();
-      })
+      }
       this.client.write("quit\n")
     }).then(() => {
       this.errorHandler = () => {}
       this.dataHandler = () => {}
+      this.closeHandler = () => {}
     })
   }
 
@@ -58,7 +62,7 @@ module.exports = class VControl {
         if (dataMatches[2]) {
           console.log("Command finished.")
           if (response.startsWith("ERR:")) {
-            return reject(new Error("Unable to perform command '" + command + "': " + response.subString(4)))
+            return reject(new Error("Unable to perform command '" + command + "': " + response))
           } else {
             console.log("Received response: " + response)
             return resolve(response)
