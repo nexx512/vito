@@ -58,7 +58,7 @@ module.exports = class VControl {
         if (dataMatches[2]) {
           console.log("Command finished.")
           if (response.startsWith("ERR:")) {
-            return reject(new Error(response))
+            return reject(new Error("Unable to perform command '" + command + "': " + response.subString(4)))
           } else {
             console.log("Received response: " + response)
             return resolve(response)
@@ -74,9 +74,10 @@ module.exports = class VControl {
     })
   }
 
-  async setData(command, data) {
+  async setData(command, args) {
     return new Promise((resolve, reject) => {
       let response
+      let commandString
       this.errorHandler = reject
       this.dataHandler = (data) => {
         let dataMatches = data.match(/([\s\S]*?)(vctrld>)?$/)
@@ -85,22 +86,23 @@ module.exports = class VControl {
         }
         if (dataMatches[2]) {
           console.log("Command finished.")
-          if (response !== "OK") {
-            return reject(new Error(response))
-          } else {
+          if (response.startsWith("OK")) {
             return resolve(response)
+          } else {
+            return reject(new Error("Command for vcontrold failed: " + commandString + " (" + response + ")"))
           }
         }
       }
       console.log("Sending command: '" + command + "'...")
 
-      let dataString = ""
-      if (data instanceof Array) {
-        dataString = data.filter((d) => d).join(" ")
-      } else if (data) {
-        dataString = data
+      let argsString = ""
+      if (args instanceof Array) {
+        argsString = args.filter((d) => d).join(" ")
+      } else if (args) {
+        argsString = args
       }
-      this.client.write(command + " " + dataString + "\n")
+      commandString = command + " " + argsString
+      this.client.write(commandString + "\n")
     }).then((data) => {
       this.errorHandler = () => {}
       this.dataHandler = () => {}

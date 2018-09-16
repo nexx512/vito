@@ -57,11 +57,11 @@ function connectionHandler(c) {
       } else {
         commandArgsRegexp = new RegExp(mockVControldData[command])
         console.log("Arguments:", args)
-        if (args.every((a) => {console.log(a); commandArgsRegexp.exec(a)})) {
+        if (args.every((a) => commandArgsRegexp.test(a))) {
           c.write("OK\n")
         } else {
           console.log("Arguments don't match " + commandArgsRegexp.toString())
-          c.write("ERR: invalid arguments\n")
+          c.write("ERR: invalid arguments. Arguments don't match " + commandArgsRegexp.toString() + "\n")
         }
       }
       c.write("vctrld>")
