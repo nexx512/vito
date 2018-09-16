@@ -1,0 +1,3 @@
+mixin link(url, text, title)
+  - const titleText = title !== undefined ? title : text
+  a(href=url title=titleText)= text

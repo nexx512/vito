@@ -1,14 +1,16 @@
+include /link/link
+
 nav.navigation
   ul
     li
-      a(href="/" title="Übersicht")= t("overview")      
+      +link("/", t("overview"))      
     li= t("warmwater")
       ul
         li      
-          a(href="/warmwater/heating" title=t("warmwater.heating.times"))= t("warmwater.heating.times")
+          +link("/warmwater/heating", t("warmwater.heating.times"))
         li      
-          a(href="/warmwater/circulation" title=t("warmwater.circulation.times"))= t("warmwater.circulation.times")
+          +link("/warmwater/circulation", t("warmwater.circulation.times"))
     li= t("heating")
       ul
         li
-          a(href="/heating/times" title=t("heating.times"))= t("heating.times")
+          +link("/heating/times", t("heating.times"))
