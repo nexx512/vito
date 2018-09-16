@@ -1,12 +1,12 @@
-should = require('should')
-const VControlTimesConverter = require('../../../repo/vcontrol/vcontroltimesconverter')
-const TimerTimes = require('../../../models/timertimes')
-const TimerTime = require('../../../models/timertime')
-const Time = require('../../../models/time')
+should = require("should")
+const VControlTimesConverter = require("../../../../repo/vcontrol/vcontroltimesconverter")
+const TimerTimes = require("../../../../models/timertimes")
+const TimerTime = require("../../../../models/timertime")
+const Time = require("../../../../models/time")
 
-describe('Convert VControl get command times to TimerTimes', () => {
-  describe('with times at the boundaries', () => {
-    it('should return valid times', () => {
+describe("Convert VControl get command times to TimerTimes", () => {
+  describe("with times at the boundaries", () => {
+    it("should return valid times", () => {
       let timerTimes = VControlTimesConverter.fromVControlGetCommandTimesToTimerTimes("1:An:00:00  Aus:24:00\n")
 
       let expectedTimerTimes = new TimerTimes()
@@ -15,8 +15,8 @@ describe('Convert VControl get command times to TimerTimes', () => {
     })
   })
 
-  describe('without times', () => {
-    it('should return null values', () => {
+  describe("without times", () => {
+    it("should return null values", () => {
       let timerTimes = VControlTimesConverter.fromVControlGetCommandTimesToTimerTimes("3:An:--     Aus:--\n")
 
       let expectedTimerTimes = new TimerTimes()
@@ -25,8 +25,8 @@ describe('Convert VControl get command times to TimerTimes', () => {
     })
   })
 
-  describe('with a time block string', () => {
-    it('should return valid times', () => {
+  describe("with a time block string", () => {
+    it("should return valid times", () => {
       let timerTimes = VControlTimesConverter.fromVControlGetCommandTimesToTimerTimes("1:An:00:00  Aus:24:00\n2:An:01:02  Aus:14:15\n3:An:--     Aus:--\n\n")
 
       let expectedTimerTimes = new TimerTimes()
@@ -38,8 +38,8 @@ describe('Convert VControl get command times to TimerTimes', () => {
   })
 })
 
-describe('Convert TimerTimes to VControl set command times', () => {
-  it('should return a string with times', () => {
+describe("Convert TimerTimes to VControl set command times", () => {
+  it("should return a string with times", () => {
     let timerTimes = new TimerTimes()
     timerTimes.add(new TimerTime(new Time("00:00"), new Time("12:23")))
     timerTimes.add(new TimerTime(new Time("23:12"), new Time("23:45")))

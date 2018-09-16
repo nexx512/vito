@@ -1,13 +1,13 @@
-should = require('should')
-const TimerTimes = require('../../models/timertimes')
-const TimerTime = require('../../models/timertime')
-const Time = require('../../models/time')
-const ValidationError = require('../../models/validationerror')
+should = require("should")
+const TimerTimes = require("../../../models/timertimes")
+const TimerTime = require("../../../models/timertime")
+const Time = require("../../../models/time")
+const ValidationError = require("../../../models/validationerror")
 
-describe('A TimerTimes model', () => {
+describe("A TimerTimes model", () => {
 
-  describe('with invalid times', () => {
-    it('should return error messages', () => {
+  describe("with invalid times", () => {
+    it("should return error messages", () => {
       let timerTimes = new TimerTimes()
       timerTimes.add(new TimerTime(new Time("00:00"), new Time("01:0a")))
       timerTimes.add(new TimerTime(new Time("00:0a"), new Time("01:00")))

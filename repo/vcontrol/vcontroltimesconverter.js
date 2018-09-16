@@ -9,8 +9,8 @@ module.exports.fromVControlGetCommandTimesToTimerTimes = (timeBlock) => {
     .filter((line) => line)
     .forEach((line) => {
       let times = line.match(/An:(\d+:\d+|--)\s*Aus:(\d+:\d+|--)/)
-        .map((time) => time === '--' ? null : time)
-      timerTimes.add(new TimerTime(new Time(times[1]), new Time(times[2])))
+        .map((time) => time === '--' ? new Time(null) : new Time(time))
+      timerTimes.add(new TimerTime(times[1], times[2]))
     })
   return timerTimes
 }

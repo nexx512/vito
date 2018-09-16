@@ -1,11 +1,11 @@
-should = require('should')
-const Time = require('../../models/time')
-const ValidationError = require('../../models/validationerror')
+should = require("should")
+const Time = require("../../../models/time")
+const ValidationError = require("../../../models/validationerror")
 
-describe('A Time model', () => {
+describe("A Time model", () => {
 
-  describe('without times', () => {
-    it('should return validation errors', () => {
+  describe("without times", () => {
+    it("should return validation errors", () => {
       let time = new Time()
 
       time.validate().should.false()
@@ -16,8 +16,8 @@ describe('A Time model', () => {
     })
   })
 
-  describe('with valid time', () => {
-    it('should not return validation errors', () => {
+  describe("with valid time", () => {
+    it("should not return validation errors", () => {
       let time = new Time("00:00")
 
       time.validate().should.true()
@@ -27,8 +27,8 @@ describe('A Time model', () => {
     })
   })
 
-  describe('with invalid time format', () => {
-    it('should return validation errors', () => {
+  describe("with invalid time format", () => {
+    it("should return validation errors", () => {
       let time = new Time("abc")
 
       time.validate().should.false()
@@ -39,8 +39,8 @@ describe('A Time model', () => {
     })
   })
 
-  describe('with out of range times', () => {
-    it('should return validation errors', () => {
+  describe("with out of range times", () => {
+    it("should return validation errors", () => {
       let time = new Time("01:60")
 
       time.validate().should.false()
@@ -50,7 +50,7 @@ describe('A Time model', () => {
       errors[0].should.eql(new ValidationError("Time out of range"))
     })
 
-    it('should return validation errors', () => {
+    it("should return validation errors", () => {
       let time = new Time("24:01")
 
       time.validate().should.false()
