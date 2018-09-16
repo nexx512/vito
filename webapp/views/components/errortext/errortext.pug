@@ -1,5 +1,6 @@
-mixin errorText(errors)
-  if errors && errors.length > 0
+mixin errorText(err)
+  - const errors = err instanceof Array ? err : [err]
+  if err && errors.length > 0
     .errorText&attributes(attributes)
       each error in errors
         p= t("error:" + error, error)
