@@ -21,7 +21,8 @@
   "timertimes.time.2": "3. Zeitslot",
   "timertimes.time.3": "4. Zeitslot",
 
+  "error:Circulation times invalid": "Die angegebenen Zirkulationszeiten konnten nicht verarbeitet werden. Bitte prüfe die Eingaben.",
   "error:Time missing": "Zeitangabe fehlt",
   "error:Time format invalid": "Zeitangabe hat ein ungültiges Format",
-  "error:Time out of range": "Zeitangabe liegt außerhalb des gültigen Bereiches"
+  "error:Time out of range": "Zeitangabe liegt außerhalb des gültigen Bereichs"
 }
