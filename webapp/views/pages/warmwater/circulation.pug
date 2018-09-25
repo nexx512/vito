@@ -7,9 +7,8 @@ include /weektimertimes/weektimertimes
 block main
   h1= t("warmwater.circulation")
   h2= t("warmwater.circulation.times")
-  if errors
-    +errorText(errors)
-  +form("/warmwater/circulation", "PUT")
+  +errorText(errors).warmwaterCirculation__timesError
+  +form("/warmwater/circulation", "PUT").warmwaterCirculation__timesForm
     +weekTimerTimes(model)
           
     button(type="submit")= t("savechanges")
