@@ -6,7 +6,7 @@ const mqpacker = require("css-mqpacker")
 const csswring = require("csswring")
 
 const src = {
-  styles: ["webapp/views/components/*/*.styl"]
+  styles: ["webapp/views/styles/*.styl", "webapp/views/components/*/*.styl"]
 }
 
 const assets = "webapp/assets"
@@ -21,7 +21,7 @@ gulp.task("styles", cb =>
   gulp.src(src.styles)
     .pipe(p.plumber())
     .pipe(p.stylus({
-      paths: ["webapp/views/styles"],
+      paths: ["webapp/views/styles/lib"],
       import: ["defaults"],
       url: { name: "embedurl" }
     }))
