@@ -22,7 +22,6 @@
     "gulp-rev-all": "^1.0.0",
     "gulp-rev-delete-original": "^0.2.3",
     "gulp-stylus": "^2.7.0",
-    "puppeteer": "^1.8.0",
     "run-sequence": "^2.2.1",
     "should": "^13.2.3",
     "sinon": "^6.1.5",
