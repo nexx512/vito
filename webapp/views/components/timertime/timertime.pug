@@ -6,4 +6,4 @@ mixin timerTime(id, name, timerTime)
     +__timerTimeInputField(id + "Off", name + "[off]", timerTime ? timerTime.off : null)
 
 mixin __timerTimeInputField(id, name, time)
-  +textField(null, id, name, time ? time.time : null, time ? time.errors : null)
+  +textField(null, id, name, time ? time.time : null, time ? time.errors : null).timerTime__inputField

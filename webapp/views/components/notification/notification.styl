@@ -1,0 +1,23 @@
+@keyframes notificationFade
+  100%
+    max-height 0
+    opacity 0
+    visibility:hidden
+
+.notification
+  overflow hidden
+  max-height 100px
+
+  &:empty
+    display none
+
+  &.notification--autohide
+    animation notificationFade 1s 5s 1 forwards
+
+.notificationError
+  border 1px solid $color-error
+  background-color alpha($color-error, 0.15)
+  margin 4px 0 4px 0
+
+  &__text
+    margin 8px

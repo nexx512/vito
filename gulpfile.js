@@ -50,7 +50,7 @@ gulp.task("optimize", ["styles:optimize"])
 //////////
 
 gulp.task("watch", cb => {
-  gulp.watch(src.styles.concat("webapp/views/styles/*.styl"), ["styles"])
+  gulp.watch(src.styles, ["styles"])
 })
 
 

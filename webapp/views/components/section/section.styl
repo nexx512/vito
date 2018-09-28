@@ -1,0 +1,60 @@
+.sections
+  position relative
+  
+.sectionLabels
+  display flex
+
+.sectionLabel
+  &__selector
+    display none
+
+    &:checked + .sectionLabel__label
+      border-bottom 2px solid $color-primary
+
+.sectionContents
+  display flex
+  position relative
+
+.sectionContent
+  flex 0 0 100%
+  opacity 0
+  visibility hidden
+  position absolute
+  transition 0s visibility 0.5s, 0.5s opacity
+
+  &:target
+    opacity 1
+    visibility visible
+    transition-delay 0s
+    position relative
+
+/*.sections
+  display flex
+  position relative
+
+  .section__content
+    position absolute
+    left 0
+    height calc(100vh - 120px)
+    overflow-y auto
+    width 100%
+
+.section
+  &__selector
+    display none
+
+    &:checked
+      & + * + .section__content
+        opacity 1
+        visibility visible
+      & + .section__label
+        border-bottom 2px solid $color-primary
+
+  &__label
+    margin 4px 8px 4px 8px
+
+  &__content
+    transition visibility 0.2s, opacity 0.2s
+    opacity 0
+    visibility hidden
+*/

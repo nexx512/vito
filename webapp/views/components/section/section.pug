@@ -1,0 +1,21 @@
+mixin sections()
+  .sections
+    block
+
+mixin sectionLabels()
+  .sectionLabels
+    block
+
+mixin sectionLabel(id, title, selected)
+  .sectionLabel
+    - const selectorId = id + "Selector"
+    input(type="radio" name="name" id=selectorId onchange="window.location.href='#" + id + "';" checked=selected).sectionLabel__selector
+    label(for=selectorId).sectionLabel__label= title
+
+mixin sectionContents(id)
+  .sectionContents
+    block
+      
+mixin sectionContent(id)
+  section.sectionContent(id=id)
+    block

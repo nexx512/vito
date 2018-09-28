@@ -4,5 +4,5 @@ mixin timerTimes(id, timerTimes)
   .timerTimes&attributes(attributes)
     each timerTime, index in timerTimes
       .timerTimes__times
-        .timerTimer__timesLabel= t("timertimes.time." + index)
-        +timerTime(id, "times[" + id + "][" + index + "]", timerTime)
+        .timerTimes__timesLabel= t("timertimes.time." + index)
+        +timerTime(id, "times[" + id + "][" + index + "]", timerTime).timerTimes__timeFields

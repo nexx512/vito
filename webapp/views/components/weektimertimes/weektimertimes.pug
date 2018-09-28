@@ -5,4 +5,4 @@ mixin weekTimerTimes(weekTimerTimes)
     each timerTimes, day in weekTimerTimes
       .weekTimerTimes__dayTimes
         .weekTimerTimes__day= t(day)
-        +timerTimes(day, timerTimes)
+        +timerTimes(day, timerTimes).weekTimerTimes__times
