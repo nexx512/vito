@@ -9,17 +9,11 @@ block breadcrumb
   h2= t("warmwater.circulation")  
 
 block main
-  +sections()
-    +sectionLabels()
-      +sectionLabel("circulationTimes", t("warmwater.circulation.times"), true)
-      +sectionLabel("tab2", "Tab 2")
-    +sectionContents()  
-      +sectionContent("circulationTimes")
-        //s- const errors = err instanceof Array ? err : [err]
-        //if err && errors.length > 0
-        +notificationError(errors, true).warmwaterCirculation__timesError
-        +form("/warmwater/circulation", "PUT").warmwaterCirculation__timesForm
-          +weekTimerTimes(model)
-          button(type="submit")= t("savechanges")
-      +sectionContent("tab2")
-        | blablabla
+  +sections().warmwaterCirculation__sections
+    +section("circulationTimes", t("warmwater.circulation.times"), true)
+      +notificationError(errors, true).warmwaterCirculation__timesError
+      +form("/warmwater/circulation", "PUT").warmwaterCirculation__timesForm
+        +weekTimerTimes(model)
+        button(type="submit")= t("savechanges")
+    +section("tab2", "Tab 2")
+      | blablabla
