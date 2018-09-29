@@ -1,8 +1,8 @@
 module.exports = () => {
   let rev = {}
-  try {
+  if (process.env.NODE_ENV == "production") {
     rev = require("../dist/rev-manifest.json")
-  } catch (e) {}
+  }
 
   function resolveRevision(path) {
     if (rev[path]) {
