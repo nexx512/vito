@@ -1,16 +1,12 @@
-include /link/link
+include /navigation/navigation
 
-nav.navigation
-  ul
-    li
-      +link("/", t("overview"))      
-    li= t("warmwater")
-      ul
-        li      
-          +link("/warmwater/heating", t("warmwater.heating.times"))
-        li      
-          +link("/warmwater/circulation", t("warmwater.circulation.times"))
-    li= t("heating")
-      ul
-        li
-          +link("/heating/times", t("heating.times"))
++navigation([
+  {url: "/", label: t("overview")},
+  {label: t("warmwater"), items: [
+    {url: "/warmwater/heating", label: t("warmwater.heating.times")},
+    {url: "/warmwater/circulation", label: t("warmwater.circulation.times")}
+  ]},
+  {label: t("heating"), items: [
+    {url: "/heating/times", label: t("heating.times")},
+  ]}
+]).sidebarNavigation

@@ -1,0 +1,19 @@
+include /link/link
+
+mixin navigation(tree)
+  nav.navigation&attributes(attributes)
+    +__navigationItems(tree, 1, "nav")
+
+mixin __navigationItems(items, level, prefix)
+  ul(class="navigation__level" + level)
+    each item, index in items
+      - const id = prefix + index
+      if item.items
+        input(type="radio" id=id name="nav")
+      li
+        if item.url
+          +link(item.url, item.label).navigation__label
+        else
+          label(for=id).navigation__label= item.label
+        if item.items
+          +__navigationItems(item.items, level + 1, id)
