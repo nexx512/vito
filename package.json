@@ -5,12 +5,12 @@
   "main": "app.js",
   "dependencies": {
     "body-parser": "^1.18.3",
-    "coffeescript": "^2.3.2",
     "express": "^4.16.3",
     "method-override": "^3.0.0",
     "pug": "^2.0.3"
   },
   "devDependencies": {
+    "coffeescript": "^2.3.2",
     "autoprefixer": "^9.1.5",
     "css-mqpacker": "^7.0.0",
     "csswring": "^7.0.0",
