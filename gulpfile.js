@@ -4,6 +4,7 @@ const p = require("gulp-load-plugins")()
 const autoprefixer = require("autoprefixer")
 const mqpacker = require("css-mqpacker")
 const csswring = require("csswring")
+const del = require('del');
 
 const src = {
   styles: ["webapp/views/styles/*.styl", "webapp/views/components/*/*.styl"]
@@ -12,6 +13,15 @@ const src = {
 const assets = "webapp/assets"
 const dist = "webapp/dist"
 const distAssets = dist + "/assets"
+
+//////////
+// Clean dist folders
+//////////
+
+gulp.task('clean', cb => {
+  return del([dist]);
+});
+
 
 //////////
 // Building assets from sources
@@ -75,4 +85,4 @@ gulp.task("rev", ["optimize"], cb => {
 
 gulp.task("build", ["styles"])
 gulp.task("develop", cb => runSequence(["build"], ["watch"], cb))
-gulp.task("production", ["rev"]);
+gulp.task("production", cb => runSequence(["clean"], ["rev"], cb))

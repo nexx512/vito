@@ -1,10 +1,9 @@
 const express = require("express")
 const path = require("path")
-const fs = require("fs")
 
 module.exports = () => {
   let distAssetPath = path.join(__dirname, "dist/assets")
-  if (fs.existsSync(distAssetPath)) {
+  if (process.env.NODE_ENV == "production") {
     return express.static(distAssetPath, {
       fallthrough: false,
       index: false,

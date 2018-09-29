@@ -30,4 +30,6 @@ require("./controller/home")(app)
 require("./controller/heating")(app)
 require("./controller/warmwater")(app)
 
-app.listen(3001)
+const server = app.listen(process.env.NODE_ENV == "production" ? 80 : 3001, () => {
+  console.log("Server started on port " + server.address().port)
+})
