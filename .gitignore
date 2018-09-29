@@ -1,3 +1,4 @@
 webapp/assets/styles
 webapp/dist
 node_modules/.bin
+log
