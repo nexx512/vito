@@ -19,7 +19,7 @@ echo "OK"
 
 echo -n "Stopping service on target... "
 echo "##### Stopping service on target... " >> $LOG
-#ssh $USER@$TARGET "/srv/vito/scripts/local/stop.sh" >> $LOG
+ssh $USER@$TARGET "sudo /srv/vito/scripts/local/stop.sh" >> $LOG
 echo "OK"
 
 echo -n "Copy files to target... "
