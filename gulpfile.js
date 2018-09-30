@@ -4,7 +4,9 @@ const p = require("gulp-load-plugins")()
 const autoprefixer = require("autoprefixer")
 const mqpacker = require("css-mqpacker")
 const csswring = require("csswring")
-const del = require('del');
+const del = require("del");
+const replace = require("gulp-replace")
+const pug = require("gulp-pug")
 
 const src = {
   styles: ["webapp/views/styles/*.styl", "webapp/views/components/*/*.styl"]
@@ -17,17 +19,30 @@ const distAssets = dist + "/assets"
 //////////
 // Clean dist folders
 //////////
+gulp.task('clean', () => del([dist]));
 
-gulp.task('clean', cb => {
-  return del([dist]);
-});
+
+//////////
+// Precompiling views
+//////////
+gulp.task("views", () =>
+  // get all the pug files and compile them for client
+  gulp.src([
+      "webapp/views/pages/**/*.pug"
+  ]).pipe(pug({
+      client: true,
+      basedir: "webapp/views/components"
+  }))
+  // replace the function definition
+  .pipe(replace("function template(locals)", "module.exports = function(locals, pug)"))
+  .pipe(gulp.dest(dist + "/views") )
+);
 
 
 //////////
 // Building assets from sources
 //////////
-
-gulp.task("styles", cb =>
+gulp.task("styles", () =>
   gulp.src(src.styles)
     .pipe(p.plumber())
     .pipe(p.stylus({
@@ -40,7 +55,7 @@ gulp.task("styles", cb =>
     .pipe(gulp.dest(assets + "/styles"))
 )
 
-gulp.task("styles:optimize", ["styles"], cb =>
+gulp.task("styles:optimize", ["styles"], () =>
   gulp.src(assets + "/styles/*.css")
     .pipe(p.plumber())
     .pipe(p.postcss([mqpacker, csswring]))
@@ -51,14 +66,12 @@ gulp.task("styles:optimize", ["styles"], cb =>
 //////////
 // Optimizing previously build assets
 //////////
-
 gulp.task("optimize", ["styles:optimize"])
 
 
 //////////
 // Watching source changes
 //////////
-
 gulp.task("watch", cb => {
   gulp.watch(src.styles, ["styles"])
 })
@@ -67,22 +80,19 @@ gulp.task("watch", cb => {
 //////////
 // Revisioning previously built and optimized assets
 //////////
-
-gulp.task("rev", ["optimize"], cb => {
-  return gulp.src([dist + "/**/*"])
+gulp.task("rev", ["optimize"], () => {
+  return gulp.src([distAssets + "/**/*"])
     .pipe(p.revAll.revision())
     .pipe(p.revDeleteOriginal())
-    .pipe(gulp.dest(dist))
+    .pipe(gulp.dest(distAssets))
     .pipe(p.revAll.manifestFile())
-    .pipe(gulp.dest(dist))
+    .pipe(gulp.dest(distAssets))
 })
-
 
 
 //////////
 // Main tasks used to create a full set of assets
 //////////
-
 gulp.task("build", ["styles"])
-gulp.task("develop", cb => runSequence(["build"], ["watch"], cb))
-gulp.task("production", cb => runSequence(["clean"], ["rev"], cb))
+gulp.task("develop", () => runSequence(["build"], ["watch"]))
+gulp.task("production", () => runSequence(["clean"], ["rev", "views"]))

@@ -1,19 +1,19 @@
 module.exports = () => {
   let rev = {}
   if (process.env.NODE_ENV == "production") {
-    rev = require("../dist/rev-manifest.json")
+    rev = require("../dist/assets/rev-manifest.json")
   }
 
   function resolveRevision(path) {
     if (rev[path]) {
-      return "/" + rev[path]
+      return "/assets/" + rev[path]
     } else {
-      return "/" + path
+      return "/assets/" + path
     }
   }
 
   return (req, res, next) => {
-    res.locals.revision = resolveRevision
+    res.locals.assets = resolveRevision
     next()
   }
 }

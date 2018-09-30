@@ -8,9 +8,20 @@ const staticAssets = require("./staticassets")
 
 const app = express()
 
-app.set("views", path.join(__dirname, "views/pages"))
-app.set("view engine", "pug")
-app.locals.basedir = path.join(__dirname, "views/components")
+if (process.env.NODE_ENV == "production") {
+  let pug = require("pug-runtime")
+  app.engine("js", (filePath, options, callback) => {
+    let template = require(filePath)
+    let html = template(options, pug)
+    callback(null, html)
+  })
+  app.set("view engine", "js");
+  app.set("views", path.join(__dirname, "dist/views"));
+} else {
+  app.set("view engine", "pug")
+  app.set("views", path.join(__dirname, "views/pages"))
+  app.locals.basedir = path.join(__dirname, "views/components")
+}
 
 app.use("/assets", staticAssets())
 
@@ -30,6 +41,6 @@ require("./controller/home")(app)
 require("./controller/heating")(app)
 require("./controller/warmwater")(app)
 
-const server = app.listen(process.env.NODE_ENV == "production" ? 80 : 3001, () => {
-  console.log("Server started on port " + server.address().port)
+const server = app.listen(process.env.NODE_ENV == "production" ? 3001 : 3001, () => {
+  console.log("Server started on port " + server.address().port + " in " + (process.env.NODE_ENV == "production" ? "production" : "development") + " mode")
 })
