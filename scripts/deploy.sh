@@ -12,19 +12,19 @@ set -e
 mkdir -p log
 echo > $LOG
 
-echo -n "Building production assets... "
-echo "##### Building production assets... " >> $LOG
-./node_modules/.bin/gulp production >> $LOG
-echo "OK"
-
 echo -n "Stopping service on target... "
 echo "##### Stopping service on target... " >> $LOG
 ssh $USER@$TARGET "sudo /srv/vito/scripts/local/stop.sh" >> $LOG
 echo "OK"
 
-echo -n "Copy files to target... "
+echo -n "Fetching files on target... "
 echo "##### Copy files to target... " >> $LOG
-scp -r -p models repo scripts services webapp node_modules package.json app.js $USER@$TARGET:/srv/vito >> $LOG
+ssh $USER@$TARGET "cd /srv/vito; git fetch origin; git reset --hard origin/master; git clean -df" >> $LOG
+echo "OK"
+
+echo -n "Building production assets... "
+echo "##### Building production assets... " >> $LOG
+ssh $USER@$TARGET "cd /srv/vito; ./node_modules/.bin/gulp production" >> $LOG
 echo "OK"
 
 echo -n "Installing native modules... "
