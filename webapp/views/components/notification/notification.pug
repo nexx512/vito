@@ -1,14 +1,14 @@
 include /errortext/errortext
 
 mixin notification(text)
-  .notification
+  .notification&attributes(attributes)
     p.notification__text= text
     
 mixin notificationSuccess(text, autohide)
-  .notification.notificationSuccess(class = autohide ? "notification--autohide" : null)
+  .notification.notificationSuccess(class = autohide ? "notification--autohide" : null)&attributes(attributes)
     p.notificationSuccess__text= text
     
 mixin notificationError(text, autohide)
-  .notification.notificationError(class = autohide ? "notification--autohide" : null)
+  .notification.notificationError(class = autohide ? "notification--autohide" : null)&attributes(attributes)
     +errorText(text).notificationError__text
     
