@@ -1,1 +1,3 @@
-require("./webapp/webapp.js") 
+global.Config = require("./config/config.json")
+
+require("./webapp/webapp.js")
