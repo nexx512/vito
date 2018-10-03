@@ -18,8 +18,9 @@ ssh $USER@$TARGET "sudo /srv/vito/scripts/local/stop.sh" >> $LOG
 echo "OK"
 
 echo -n "Fetching files on target... "
-echo "##### Copy files to target... " >> $LOG
-ssh $USER@$TARGET "cd /srv/vito; git fetch origin; git reset --hard origin/master; git clean -df" >> $LOG
+echo "##### Fetching files on target... " >> $LOG
+ssh $USER@$TARGET "cd /srv/vito; git fetch origin; git reset --hard origin/master" >> $LOG
+ssh $USER@$TARGET "cd /srv/vito; git clean -df; npm rebuild;" >> $LOG
 echo "OK"
 
 echo -n "Building production assets... "
