@@ -19,7 +19,7 @@ const distAssets = dist + "/assets"
 //////////
 // Clean dist folders
 //////////
-gulp.task('clean', () => del([dist]));
+gulp.task('clean', () => del([dist, assets]));
 
 
 //////////

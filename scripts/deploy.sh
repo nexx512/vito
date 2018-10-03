@@ -12,29 +12,27 @@ set -e
 mkdir -p log
 echo > $LOG
 
-echo -n "Stopping service on target... "
-echo "##### Stopping service on target... " >> $LOG
-ssh $USER@$TARGET "sudo /srv/vito/scripts/local/stop.sh" >> $LOG
-echo "OK"
-
-echo -n "Fetching files on target... "
-echo "##### Fetching files on target... " >> $LOG
-ssh $USER@$TARGET "cd /srv/vito; git fetch origin; git reset --hard origin/master" >> $LOG
-ssh $USER@$TARGET "cd /srv/vito; git clean -df; npm rebuild;" >> $LOG
-echo "OK"
-
 echo -n "Building production assets... "
 echo "##### Building production assets... " >> $LOG
-ssh $USER@$TARGET "cd /srv/vito; ./node_modules/.bin/gulp production" >> $LOG
+./node_modules/.bin/gulp production >> $LOG 2>&1
 echo "OK"
 
-echo -n "Installing native modules... "
-echo "##### Installing native modules... " >> $LOG
-#ssh $USER@$TARGET "cd /srv/vito; NODE_ENV=production npm install" >> $LOG
-ssh $USER@$TARGET "cd /srv/vito; npm rebuild" >> $LOG
+echo -n "Stopping service on target... "
+echo "##### Stopping service on target... " >> $LOG
+ssh $USER@$TARGET "sudo /srv/vito/scripts/local/stop.sh" >> $LOG 2>&1
+echo "OK"
+
+echo -n "Copying files to target... "
+echo "##### Copying files to target... " >> $LOG
+rsync -av --del models node_modules repo scripts services webapp app.js $USER@$TARGET:/srv/vito >> $LOG 2>&1
+echo "OK"
+
+echo -n "Rebuilding native modules... "
+echo "##### Rebuilding native modules... " >> $LOG
+ssh $USER@$TARGET "cd /srv/vito; npm rebuild" >> $LOG 2>&1
 echo "OK"
 
 echo -n "Starting service on target... "
 echo "##### Starting service on target... " >> $LOG
-ssh $USER@$TARGET "sudo /srv/vito/scripts/local/start.sh app.js" >> $LOG
+ssh $USER@$TARGET "sudo /srv/vito/scripts/local/start.sh app.js" >> $LOG 2>&1
 echo "OK"
