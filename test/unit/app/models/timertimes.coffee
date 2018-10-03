@@ -1,8 +1,8 @@
 should = require("should")
-TimerTimes = require("../../../models/timertimes")
-TimerTime = require("../../../models/timertime")
-Time = require("../../../models/time")
-ValidationError = require("../../../models/validationerror")
+TimerTimes = require("../../../../app/models/timertimes")
+TimerTime = require("../../../../app/models/timertime")
+Time = require("../../../../app/models/time")
+ValidationError = require("../../../../app/models/validationerror")
 
 describe "A TimerTimes model", =>
 

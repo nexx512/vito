@@ -2,14 +2,15 @@ should = require("should")
 global.Config = require("../../../config/config.json")
 
 MockVControlD = require("../../support/mockvcontrold")
-VControlRepo = require("../../../repo/vcontrol/vcontrolrepo")
-VControlClient = require("../../../repo/vcontrol/vcontrolclient")
-WarmWaterService = require("../../../services/warmwaterservice")
-WeekTimerTimes = require("../../../models/weektimertimes")
-TimerTimes = require("../../../models/timertimes")
-TimerTime = require("../../../models/timertime")
-Time = require("../../../models/time")
-ValidationError = require("../../../models/validationerror")
+
+VControlRepo = require("../../../app/repo/vcontrol/vcontrolrepo")
+VControlClient = require("../../../app/repo/vcontrol/vcontrolclient")
+WarmWaterService = require("../../../app/services/warmwaterservice")
+WeekTimerTimes = require("../../../app/models/weektimertimes")
+TimerTimes = require("../../../app/models/timertimes")
+TimerTime = require("../../../app/models/timertime")
+Time = require("../../../app/models/time")
+ValidationError = require("../../../app/models/validationerror")
 
 describe "The WarmWaterService", =>
 

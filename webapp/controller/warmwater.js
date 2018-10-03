@@ -1,6 +1,6 @@
-const WarmWaterService = require("../../services/warmwaterservice")
-const VControlRepo = require("../../repo/vcontrol/vcontrolrepo")
-const VControlClient = require("../../repo/vcontrol/vcontrolclient")
+const WarmWaterService = require("../../app/services/warmwaterservice")
+const VControlRepo = require("../../app/repo/vcontrol/vcontrolrepo")
+const VControlClient = require("../../app/repo/vcontrol/vcontrolclient")
 const WeekTimerTimesConverter = require("../converter/weektimertimesconverter")
 
 module.exports = function(app) {

@@ -1,8 +1,8 @@
 should = require("should")
-VControlTimesConverter = require("../../../../repo/vcontrol/vcontroltimesconverter")
-TimerTimes = require("../../../../models/timertimes")
-TimerTime = require("../../../../models/timertime")
-Time = require("../../../../models/time")
+VControlTimesConverter = require("../../../../../app/repo/vcontrol/vcontroltimesconverter")
+TimerTimes = require("../../../../../app/models/timertimes")
+TimerTime = require("../../../../../app/models/timertime")
+Time = require("../../../../../app/models/time")
 
 describe "Convert VControl get command times to TimerTimes", =>
   describe "with times at the boundaries", =>
@@ -40,4 +40,3 @@ describe "Convert TimerTimes to VControl set command times", =>
     vControlTimes = VControlTimesConverter.fromTimerTimesToVControlSetCommandTimes(timerTimes)
 
     vControlTimes.should.eql(["00:00", "12:23", "23:12", "23:45"])
-  

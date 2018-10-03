@@ -1,7 +1,7 @@
-const WeekTimerTimes = require("../../models/weektimertimes")
-const TimerTimes = require("../../models/timertimes")
-const TimerTime = require("../../models/timertime")
-const Time = require("../../models/time")
+const WeekTimerTimes = require("../../app/models/weektimertimes")
+const TimerTimes = require("../../app/models/timertimes")
+const TimerTime = require("../../app/models/timertime")
+const Time = require("../../app/models/time")
 
 module.exports.toWeekTimerTimesModel = (weekTimerTimesRequestDto) => {
   let weekTimerTimes = new WeekTimerTimes()

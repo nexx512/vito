@@ -1,11 +1,11 @@
 should = require("should")
 sinon = require("sinon")
-VControlClient = require("../../../../repo/vcontrol/vcontrolclient")
-VControlRepo = require("../../../../repo/vcontrol/vcontrolrepo")
-WeekTimerTimes = require("../../../../models/weektimertimes")
-TimerTimes = require("../../../../models/timertimes")
-TimerTime = require("../../../../models/timertime")
-Time = require("../../../../models/time")
+VControlClient = require("../../../../../app/repo/vcontrol/vcontrolclient")
+VControlRepo = require("../../../../../app/repo/vcontrol/vcontrolrepo")
+WeekTimerTimes = require("../../../../../app/models/weektimertimes")
+TimerTimes = require("../../../../../app/models/timertimes")
+TimerTime = require("../../../../../app/models/timertime")
+Time = require("../../../../../app/models/time")
 
 describe "A VControlRepo object", =>
 

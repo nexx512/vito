@@ -1,7 +1,7 @@
 should = require("should")
-TimerTime = require("../../../models/timertime")
-Time = require("../../../models/time")
-ValidationError = require("../../../models/validationerror")
+TimerTime = require("../../../../app/models/timertime")
+Time = require("../../../../app/models/time")
+ValidationError = require("../../../../app/models/validationerror")
 
 describe "A TimerTime model", =>
 
