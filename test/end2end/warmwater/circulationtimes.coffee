@@ -1,4 +1,6 @@
 should = require("should")
+global.Config = require("../../../config/config.json")
+
 Zombie = require("zombie")
 MockVControlD = require("../../support/mockvcontrold")
 
@@ -12,7 +14,7 @@ after =>
 
 describe "when loading the warmwater circulation configuration", =>
   before =>
-    await @browser.visit("http://localhost:3001/warmwater/circulation")
+    await @browser.visit("http://localhost:" + Config.port + "/warmwater/circulation")
 
   it "should have 7 days with 4 timers each", =>
     @browser.assert.elements(".timerTimes .timerTime", 28)

@@ -1,4 +1,6 @@
 should = require("should")
+global.Config = require("../../../../config/config.json")
+
 MockVControlD = require("../../../support/mockvcontrold")
 VControlClient = require("../../../../repo/vcontrol/vcontrolclient")
 
