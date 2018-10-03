@@ -4,17 +4,15 @@ global.Config = require("../../../config/config.json")
 Zombie = require("zombie")
 MockVControlD = require("../../support/mockvcontrold")
 
-before =>
-  @browser = new Zombie()
-  @mockVControlD = new MockVControlD()
-  await @mockVControlD.start()
-
-after =>
-  await @mockVControlD.stop()
-
 describe "when loading the warmwater circulation configuration", =>
   before =>
+    @browser = new Zombie()
+    @mockVControlD = new MockVControlD()
+    await @mockVControlD.start()
     await @browser.visit("http://localhost:" + Config.port + "/warmwater/circulation")
+
+  after =>
+    await @mockVControlD.stop()
 
   it "should have 7 days with 4 timers each", =>
     @browser.assert.elements(".timerTimes .timerTime", 28)
