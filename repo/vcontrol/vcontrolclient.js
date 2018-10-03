@@ -1,8 +1,5 @@
 const net = require("net")
 
-const VCONTROL_HOST = "localhost"
-const VCONTROL_PORT = 3002
-
 module.exports = class VControlClient {
 
   constructor() {
@@ -27,7 +24,7 @@ module.exports = class VControlClient {
         }
       }
       console.log("Connecting to vControl...")
-      this.client.connect(VCONTROL_PORT, VCONTROL_HOST)
+      this.client.connect(Config.vcontrold.port, Config.vcontrold.host)
     }).then(() => {
       this.errorHandler = () => {}
       this.dataHandler = () => {}
