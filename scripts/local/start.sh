@@ -3,10 +3,13 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 cd $DIR/../..
 
+LOG=/tmp/vito.log
+
 set -e
 
 echo -n "Starting node..."
 
-NODE_ENV=production node app.js > /tmp/vito.log &
+echo "$(DATE): Starting node..." >> $LOG
+NODE_ENV=production node app.js >> $LOG &
 
 echo "OK"
