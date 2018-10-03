@@ -41,6 +41,6 @@ require("./controller/home")(app)
 require("./controller/heating")(app)
 require("./controller/warmwater")(app)
 
-const server = app.listen(process.env.NODE_ENV == "production" ? 3001 : 3001, () => {
+const server = app.listen(process.env.NODE_ENV == "production" ? 80 : 3001, () => {
   console.log("Server started on port " + server.address().port + " in " + (process.env.NODE_ENV == "production" ? "production" : "development") + " mode")
 })
