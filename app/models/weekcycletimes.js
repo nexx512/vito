@@ -1,6 +1,6 @@
 const ValidationErrors = require("./validationerrors")
 
-module.exports = class WeekTimerTimes {
+module.exports = class WeekCycleTimes {
   constructor(monday, tuesday, wednesday, thursday, friday, saturday, sunday) {
     this.days = {
       monday: monday,

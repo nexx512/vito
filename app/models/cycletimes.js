@@ -1,6 +1,6 @@
 const ValidationErrors = require("./validationerrors")
 
-module.exports = class TimerTimes {
+module.exports = class CycleTimes {
   constructor() {
     this.times = []
     this.errors = new ValidationErrors()

@@ -1,0 +1,9 @@
+include /formfields/formfields
+  
+mixin cycleTime(id, name, cycleTime)
+  .cycleTime&attributes(attributes)
+    +__cycleTimeInputField(id + "On", name + "[on]", cycleTime ? cycleTime.on : null)
+    +__cycleTimeInputField(id + "Off", name + "[off]", cycleTime ? cycleTime.off : null)
+
+mixin __cycleTimeInputField(id, name, time)
+  +textField(null, id, name, time ? time.time : null, time ? time.errors : null).cycleTime__inputField

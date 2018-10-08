@@ -2,7 +2,7 @@ extend ../layout/index.pug
 
 include /notification/notification
 include /form/form
-include /weektimertimes/weektimertimes
+include /weekcycletimes/weekcycletimes
 include /section/section
 
 block breadcrumb
@@ -13,7 +13,7 @@ block main
     +section("circulationTimes", t("warmwater.circulation.times"), true)
       +notificationError(errors, true).warmwaterCirculation__timesError
       +form("/warmwater/circulation", "PUT").warmwaterCirculation__timesForm
-        +weekTimerTimes(model)
+        +weekCycleTimes(model)
         button(type="submit")= t("savechanges")
     +section("tab2", "Tab 2")
       | blablabla

@@ -2,9 +2,9 @@ should = require("should")
 sinon = require("sinon")
 VControlClient = require("../../../../../app/repo/vcontrol/vcontrolclient")
 VControlRepo = require("../../../../../app/repo/vcontrol/vcontrolrepo")
-WeekTimerTimes = require("../../../../../app/models/weektimertimes")
-TimerTimes = require("../../../../../app/models/timertimes")
-TimerTime = require("../../../../../app/models/timertime")
+WeekCycleTimes = require("../../../../../app/models/weekcycletimes")
+CycleTimes = require("../../../../../app/models/cycletimes")
+CycleTime = require("../../../../../app/models/cycletime")
 Time = require("../../../../../app/models/time")
 
 describe "A VControlRepo object", =>
@@ -44,17 +44,17 @@ describe "A VControlRepo object", =>
 
   describe "setting warmwater circulation times", =>
     it "should set the heatind times", =>
-      timerTimesMonday = new TimerTimes()
-      timerTimesMonday.add(new TimerTime(new Time("12:23"), new Time("13:24")))
-      timerTimesMonday.add(new TimerTime(new Time("23:12"), new Time("24:00")))
-      timerTimesWednesday = new TimerTimes()
-      timerTimesWednesday.add(new TimerTime(new Time("02:23"), new Time("03:24")))
-      timerTimesWednesday.add(new TimerTime(new Time("03:12"), new Time("04:00")))
-      weekTimerTimes = new WeekTimerTimes(timerTimesMonday, null, timerTimesWednesday)
+      cycleTimesMonday = new CycleTimes()
+      cycleTimesMonday.add(new CycleTime(new Time("12:23"), new Time("13:24")))
+      cycleTimesMonday.add(new CycleTime(new Time("23:12"), new Time("24:00")))
+      cycleTimesWednesday = new CycleTimes()
+      cycleTimesWednesday.add(new CycleTime(new Time("02:23"), new Time("03:24")))
+      cycleTimesWednesday.add(new CycleTime(new Time("03:12"), new Time("04:00")))
+      weekCycleTimes = new WeekCycleTimes(cycleTimesMonday, null, cycleTimesWednesday)
       @vControlClientMock.expects("setData").once().withArgs("setTimerZirkuMo", ["12:23", "13:24", "23:12", "24:00"])
       @vControlClientMock.expects("setData").once().withArgs("setTimerZirkuMi", ["02:23", "03:24", "03:12", "04:00"])
 
-      times = await @vControlRepo.setWarmWaterCirculationTimes(weekTimerTimes)
+      times = await @vControlRepo.setWarmWaterCirculationTimes(weekCycleTimes)
 
       @vControlClientMock.verify()
 
@@ -62,6 +62,6 @@ describe "A VControlRepo object", =>
     it "should open and close the connection properly and throw an error", =>
       sinon.stub(@vControlClient, "setData").throws()
 
-      await @vControlRepo.setWarmWaterCirculationTimes(new WeekTimerTimes(new TimerTimes())).should.rejected()
+      await @vControlRepo.setWarmWaterCirculationTimes(new WeekCycleTimes(new CycleTimes())).should.rejected()
 
       @vControlClientMock.verify()

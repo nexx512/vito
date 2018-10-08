@@ -1,4 +1,4 @@
-const TimerTimes = require("../models/timertimes")
+const CycleTimes = require("../models/cycletimes")
 const ValidationError = require("../models/validationerror")
 
 module.exports = class WarmWaterService {

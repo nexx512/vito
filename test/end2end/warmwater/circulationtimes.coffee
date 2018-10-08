@@ -15,7 +15,7 @@ describe "when loading the warmwater circulation configuration", =>
     await @mockVControlD.stop()
 
   it "should have 7 days with 4 timers each", =>
-    @browser.assert.elements(".timerTimes .timerTime", 28)
+    @browser.assert.elements(".cycleTimes .cycleTime", 28)
 
   describe "when I enter an invalid time and try to submit it", =>
     before =>

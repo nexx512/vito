@@ -1,5 +1,5 @@
 const VControlTimesConverter = require('./vcontroltimesconverter')
-const WeekTimerTimes = require('../../models/weektimertimes')
+const WeekCycleTimes = require('../../models/weekcycletimes')
 
 module.exports = class VControlRepo {
 
@@ -9,28 +9,28 @@ module.exports = class VControlRepo {
 
   async getWarmWaterHeatingTimes() {
     return await this.wrapConnection(async () => {
-      return new WeekTimerTimes(
-        VControlTimesConverter.fromVControlGetCommandTimesToTimerTimes(await this.vControlClient.getData('getTimerWWMo')),
-        VControlTimesConverter.fromVControlGetCommandTimesToTimerTimes(await this.vControlClient.getData('getTimerWWDi')),
-        VControlTimesConverter.fromVControlGetCommandTimesToTimerTimes(await this.vControlClient.getData('getTimerWWMi')),
-        VControlTimesConverter.fromVControlGetCommandTimesToTimerTimes(await this.vControlClient.getData('getTimerWWDo')),
-        VControlTimesConverter.fromVControlGetCommandTimesToTimerTimes(await this.vControlClient.getData('getTimerWWFr')),
-        VControlTimesConverter.fromVControlGetCommandTimesToTimerTimes(await this.vControlClient.getData('getTimerWWSa')),
-        VControlTimesConverter.fromVControlGetCommandTimesToTimerTimes(await this.vControlClient.getData('getTimerWWSo'))
+      return new WeekCycleTimes(
+        VControlTimesConverter.fromVControlGetCommandTimesToCycleTimes(await this.vControlClient.getData('getTimerWWMo')),
+        VControlTimesConverter.fromVControlGetCommandTimesToCycleTimes(await this.vControlClient.getData('getTimerWWDi')),
+        VControlTimesConverter.fromVControlGetCommandTimesToCycleTimes(await this.vControlClient.getData('getTimerWWMi')),
+        VControlTimesConverter.fromVControlGetCommandTimesToCycleTimes(await this.vControlClient.getData('getTimerWWDo')),
+        VControlTimesConverter.fromVControlGetCommandTimesToCycleTimes(await this.vControlClient.getData('getTimerWWFr')),
+        VControlTimesConverter.fromVControlGetCommandTimesToCycleTimes(await this.vControlClient.getData('getTimerWWSa')),
+        VControlTimesConverter.fromVControlGetCommandTimesToCycleTimes(await this.vControlClient.getData('getTimerWWSo'))
       )
     })
   }
 
   async getWarmWaterCirculationTimes() {
     return await this.wrapConnection(async () => {
-      return new WeekTimerTimes(
-        VControlTimesConverter.fromVControlGetCommandTimesToTimerTimes(await this.vControlClient.getData('getTimerZirkuMo')),
-        VControlTimesConverter.fromVControlGetCommandTimesToTimerTimes(await this.vControlClient.getData('getTimerZirkuDi')),
-        VControlTimesConverter.fromVControlGetCommandTimesToTimerTimes(await this.vControlClient.getData('getTimerZirkuMi')),
-        VControlTimesConverter.fromVControlGetCommandTimesToTimerTimes(await this.vControlClient.getData('getTimerZirkuDo')),
-        VControlTimesConverter.fromVControlGetCommandTimesToTimerTimes(await this.vControlClient.getData('getTimerZirkuFr')),
-        VControlTimesConverter.fromVControlGetCommandTimesToTimerTimes(await this.vControlClient.getData('getTimerZirkuSa')),
-        VControlTimesConverter.fromVControlGetCommandTimesToTimerTimes(await this.vControlClient.getData('getTimerZirkuSo'))
+      return new WeekCycleTimes(
+        VControlTimesConverter.fromVControlGetCommandTimesToCycleTimes(await this.vControlClient.getData('getTimerZirkuMo')),
+        VControlTimesConverter.fromVControlGetCommandTimesToCycleTimes(await this.vControlClient.getData('getTimerZirkuDi')),
+        VControlTimesConverter.fromVControlGetCommandTimesToCycleTimes(await this.vControlClient.getData('getTimerZirkuMi')),
+        VControlTimesConverter.fromVControlGetCommandTimesToCycleTimes(await this.vControlClient.getData('getTimerZirkuDo')),
+        VControlTimesConverter.fromVControlGetCommandTimesToCycleTimes(await this.vControlClient.getData('getTimerZirkuFr')),
+        VControlTimesConverter.fromVControlGetCommandTimesToCycleTimes(await this.vControlClient.getData('getTimerZirkuSa')),
+        VControlTimesConverter.fromVControlGetCommandTimesToCycleTimes(await this.vControlClient.getData('getTimerZirkuSo'))
       )
     })
   }
@@ -39,31 +39,31 @@ module.exports = class VControlRepo {
     await this.wrapConnection(async () => {
       if (circulationTimes.days.monday) {
         await this.vControlClient.setData('setTimerZirkuMo',
-          VControlTimesConverter.fromTimerTimesToVControlSetCommandTimes(circulationTimes.days.monday))
+          VControlTimesConverter.fromCycleTimesToVControlSetCommandTimes(circulationTimes.days.monday))
       }
       if (circulationTimes.days.tuesday) {
         await this.vControlClient.setData('setTimerZirkuDi',
-          VControlTimesConverter.fromTimerTimesToVControlSetCommandTimes(circulationTimes.days.tuesday))
+          VControlTimesConverter.fromCycleTimesToVControlSetCommandTimes(circulationTimes.days.tuesday))
       }
       if (circulationTimes.days.wednesday) {
         await this.vControlClient.setData('setTimerZirkuMi',
-          VControlTimesConverter.fromTimerTimesToVControlSetCommandTimes(circulationTimes.days.wednesday))
+          VControlTimesConverter.fromCycleTimesToVControlSetCommandTimes(circulationTimes.days.wednesday))
       }
       if (circulationTimes.days.thursday) {
         await this.vControlClient.setData('setTimerZirkuDo',
-          VControlTimesConverter.fromTimerTimesToVControlSetCommandTimes(circulationTimes.days.thursday))
+          VControlTimesConverter.fromCycleTimesToVControlSetCommandTimes(circulationTimes.days.thursday))
       }
       if (circulationTimes.days.friday) {
         await this.vControlClient.setData('setTimerZirkuFr',
-          VControlTimesConverter.fromTimerTimesToVControlSetCommandTimes(circulationTimes.days.friday))
+          VControlTimesConverter.fromCycleTimesToVControlSetCommandTimes(circulationTimes.days.friday))
       }
       if (circulationTimes.days.saturday) {
         await this.vControlClient.setData('setTimerZirkuSa',
-          VControlTimesConverter.fromTimerTimesToVControlSetCommandTimes(circulationTimes.days.saturday))
+          VControlTimesConverter.fromCycleTimesToVControlSetCommandTimes(circulationTimes.days.saturday))
       }
       if (circulationTimes.days.sunday) {
         await this.vControlClient.setData('setTimerZirkuSo',
-          VControlTimesConverter.fromTimerTimesToVControlSetCommandTimes(circulationTimes.days.sunday))
+          VControlTimesConverter.fromCycleTimesToVControlSetCommandTimes(circulationTimes.days.sunday))
       }
     })
   }

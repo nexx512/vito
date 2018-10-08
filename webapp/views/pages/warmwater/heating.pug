@@ -1,12 +1,12 @@
 extend ../layout/index.pug
 
 include /form/form
-include /weektimertimes/weektimertimes
+include /weekcycletimes/weekcycletimes
 
 block main
   h1= t("warmwater.heating")
   h2= t("warmwater.heating.times")
   +form("/warmwater/heating", "PUT")
-    +weekTimerTimes(model.times)
+    +weekCycleTimes(model.times)
           
     button(type="submit")= t("savechanges")

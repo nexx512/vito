@@ -1,8 +1,0 @@
-include /timertimes/timertimes
-
-mixin weekTimerTimes(weekTimerTimes)
-  .weekTimerTimes&attributes(attributes)
-    each timerTimes, day in weekTimerTimes
-      .weekTimerTimes__dayTimes
-        .weekTimerTimes__day= t(day)
-        +timerTimes(day, timerTimes).weekTimerTimes__times

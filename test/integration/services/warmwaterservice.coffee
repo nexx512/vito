@@ -6,9 +6,9 @@ MockVControlD = require("../../support/mockvcontrold")
 VControlRepo = require("../../../app/repo/vcontrol/vcontrolrepo")
 VControlClient = require("../../../app/repo/vcontrol/vcontrolclient")
 WarmWaterService = require("../../../app/services/warmwaterservice")
-WeekTimerTimes = require("../../../app/models/weektimertimes")
-TimerTimes = require("../../../app/models/timertimes")
-TimerTime = require("../../../app/models/timertime")
+WeekCycleTimes = require("../../../app/models/weekcycletimes")
+CycleTimes = require("../../../app/models/cycletimes")
+CycleTime = require("../../../app/models/cycletime")
 Time = require("../../../app/models/time")
 ValidationError = require("../../../app/models/validationerror")
 
@@ -26,23 +26,23 @@ describe "The WarmWaterService", =>
     it "should deliver heating times for all days", =>
       heatingTimes = await @warmWaterService.getHeatingTimes()
 
-      timerTimes = new TimerTimes()
-      timerTimes.add(new TimerTime(new Time("00:00"), new Time("24:00")))
-      timerTimes.add(new TimerTime(new Time("00:00"), new Time("24:00")))
-      timerTimes.add(new TimerTime(new Time("00:00"), new Time("24:00")))
-      timerTimes.add(new TimerTime(new Time(null), new Time(null)))
-      heatingTimes.days.monday.should.eql(timerTimes)
+      cycleTimes = new CycleTimes()
+      cycleTimes.add(new CycleTime(new Time("00:00"), new Time("24:00")))
+      cycleTimes.add(new CycleTime(new Time("00:00"), new Time("24:00")))
+      cycleTimes.add(new CycleTime(new Time("00:00"), new Time("24:00")))
+      cycleTimes.add(new CycleTime(new Time(null), new Time(null)))
+      heatingTimes.days.monday.should.eql(cycleTimes)
 
   describe "getting the circulation times", =>
     it "should deliver heating times for all days", =>
       circulationTimes = await @warmWaterService.getCirculationTimes()
 
-      timerTimes = new TimerTimes()
-      timerTimes.add(new TimerTime(new Time("00:01"), new Time("23:01")))
-      timerTimes.add(new TimerTime(new Time("00:00"), new Time("24:00")))
-      timerTimes.add(new TimerTime(new Time("00:00"), new Time("24:00")))
-      timerTimes.add(new TimerTime(new Time(null), new Time(null)))
-      circulationTimes.days.monday.should.eql(timerTimes)
+      cycleTimes = new CycleTimes()
+      cycleTimes.add(new CycleTime(new Time("00:01"), new Time("23:01")))
+      cycleTimes.add(new CycleTime(new Time("00:00"), new Time("24:00")))
+      cycleTimes.add(new CycleTime(new Time("00:00"), new Time("24:00")))
+      cycleTimes.add(new CycleTime(new Time(null), new Time(null)))
+      circulationTimes.days.monday.should.eql(cycleTimes)
 
   describe "setting the circulation times", =>
 
@@ -51,9 +51,9 @@ describe "The WarmWaterService", =>
 
     describe "with invalid times", =>
       it "should return errors", =>
-        times = new TimerTimes()
-        times.add(new TimerTime(new Time("00:a0"), new Time("01:00")))
-        weekTimes = new WeekTimerTimes(times)
+        times = new CycleTimes()
+        times.add(new CycleTime(new Time("00:a0"), new Time("01:00")))
+        weekTimes = new WeekCycleTimes(times)
 
         await @warmWaterService.setCirculationTimes(weekTimes).should.rejectedWith(new ValidationError("Circulation times invalid"))
 
@@ -61,9 +61,9 @@ describe "The WarmWaterService", =>
 
     describe "with valid times", =>
       it "should return no errors", =>
-        times = new TimerTimes()
-        times.add(new TimerTime(new Time("00:00"), new Time("01:00")))
-        weekTimes = new WeekTimerTimes(times)
+        times = new CycleTimes()
+        times.add(new CycleTime(new Time("00:00"), new Time("01:00")))
+        weekTimes = new WeekCycleTimes(times)
 
         await @warmWaterService.setCirculationTimes(weekTimes)
 

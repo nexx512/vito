@@ -1,7 +1,7 @@
 const WarmWaterService = require("../../app/services/warmwaterservice")
 const VControlRepo = require("../../app/repo/vcontrol/vcontrolrepo")
 const VControlClient = require("../../app/repo/vcontrol/vcontrolclient")
-const WeekTimerTimesConverter = require("../converter/weektimertimesconverter")
+const WeekCycleTimesConverter = require("../converter/weekcycletimesconverter")
 
 module.exports = function(app) {
 
@@ -19,7 +19,7 @@ module.exports = function(app) {
     const warmWaterService = new WarmWaterService(new VControlRepo(new VControlClient()))
     try {
       let circulationTimes = await warmWaterService.getCirculationTimes()
-      let times = WeekTimerTimesConverter.toWeekTimerTimesResponseDto(circulationTimes)
+      let times = WeekCycleTimesConverter.toWeekCycleTimesResponseDto(circulationTimes)
       res.render("warmwater/circulation", {model: times})
     } catch (e) {
       next(e)
@@ -29,12 +29,12 @@ module.exports = function(app) {
   app.put("/warmwater/circulation", async (req, res) => {
     const warmWaterService = new WarmWaterService(new VControlRepo(new VControlClient()))
 
-    let circulationTimes = WeekTimerTimesConverter.toWeekTimerTimesModel(req.body.times)
+    let circulationTimes = WeekCycleTimesConverter.toWeekCycleTimesModel(req.body.times)
     try {
       await warmWaterService.setCirculationTimes(circulationTimes)
       res.redirect("/warmwater/circulation")
     } catch (e) {
-      res.render("warmwater/circulation", {model: WeekTimerTimesConverter.toWeekTimerTimesResponseDto(circulationTimes), errors: [e.message]})
+      res.render("warmwater/circulation", {model: WeekCycleTimesConverter.toWeekCycleTimesResponseDto(circulationTimes), errors: [e.message]})
     }
 
   })

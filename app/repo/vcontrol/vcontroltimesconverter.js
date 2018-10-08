@@ -1,25 +1,25 @@
-const TimerTimes = require("../../models/timertimes")
-const TimerTime = require("../../models/timertime")
+const CycleTimes = require("../../models/cycletimes")
+const CycleTime = require("../../models/cycletime")
 const Time = require("../../models/time")
 
-module.exports.fromVControlGetCommandTimesToTimerTimes = (timeBlock) => {
-  let timerTimes = new TimerTimes()
+module.exports.fromVControlGetCommandTimesToCycleTimes = (timeBlock) => {
+  let cycleTimes = new CycleTimes()
   timeBlock
     .split('\n')
     .filter((line) => line)
     .forEach((line) => {
       let times = line.match(/An:(\d+:\d+|--)\s*Aus:(\d+:\d+|--)/)
         .map((time) => time === '--' ? new Time(null) : new Time(time))
-      timerTimes.add(new TimerTime(times[1], times[2]))
+      cycleTimes.add(new CycleTime(times[1], times[2]))
     })
-  return timerTimes
+  return cycleTimes
 }
 
-module.exports.fromTimerTimesToVControlSetCommandTimes = (timerTimes) => {
+module.exports.fromCycleTimesToVControlSetCommandTimes = (cycleTimes) => {
   let times = []
-  timerTimes.times.forEach((timerTime) => {
-    times.push(timerTime.on.time)
-    times.push(timerTime.off.time)
+  cycleTimes.times.forEach((cycleTime) => {
+    times.push(cycleTime.on.time)
+    times.push(cycleTime.off.time)
   })
   return times
 }

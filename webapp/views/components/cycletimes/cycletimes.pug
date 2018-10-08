@@ -1,0 +1,8 @@
+include /cycletime/cycletime
+
+mixin cycleTimes(id, cycleTimes)
+  .cycleTimes&attributes(attributes)
+    each cycleTime, index in cycleTimes
+      .cycleTimes__times
+        .cycleTimes__timesLabel= t("cycletimes.time." + index)
+        +cycleTime(id, "times[" + id + "][" + index + "]", cycleTime).cycleTimes__timeFields
