@@ -9,10 +9,24 @@ module.exports = function(app) {
     const warmWaterService = new WarmWaterService(new VControlRepo(new VControlClient()))
     try {
       let heatingTimes = await warmWaterService.getHeatingTimes()
-      res.render("warmwater/heating", {model: heatingTimes})
+      let times = WeekCycleTimesConverter.toWeekCycleTimesResponseDto(heatingTimes)
+      res.render("warmwater/heating", {model: times})
     } catch (e) {
       next(e)
     }
+  })
+
+  app.put("/warmwater/heating/times", async (req, res) => {
+    const warmWaterService = new WarmWaterService(new VControlRepo(new VControlClient()))
+
+    let circulationTimes = WeekCycleTimesConverter.toWeekCycleTimesModel(req.body.times)
+    try {
+      await warmWaterService.setHeatingTimes(circulationTimes)
+      res.redirect("/warmwater/heating")
+    } catch (e) {
+      res.render("warmwater/heating", {model: WeekCycleTimesConverter.toWeekCycleTimesResponseDto(circulationTimes), errors: [e.message]})
+    }
+
   })
 
   app.get("/warmwater/circulation", async (req, res, next) => {
@@ -26,7 +40,7 @@ module.exports = function(app) {
     }
   })
 
-  app.put("/warmwater/circulation", async (req, res) => {
+  app.put("/warmwater/circulation/times", async (req, res) => {
     const warmWaterService = new WarmWaterService(new VControlRepo(new VControlClient()))
 
     let circulationTimes = WeekCycleTimesConverter.toWeekCycleTimesModel(req.body.times)

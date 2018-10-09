@@ -21,6 +21,18 @@ module.exports = class VControlRepo {
     })
   }
 
+  async setWarmWaterHeatingTimes(circulationTimes) {
+    await this.wrapConnection(async () => {
+      await this.setCycleTimesIfPresent(circulationTimes.days.monday, "setTimerWWMo")
+      await this.setCycleTimesIfPresent(circulationTimes.days.tuesday, "setTimerWWDi")
+      await this.setCycleTimesIfPresent(circulationTimes.days.wednesday, "setTimerWWMi")
+      await this.setCycleTimesIfPresent(circulationTimes.days.thursday, "setTimerWWDo")
+      await this.setCycleTimesIfPresent(circulationTimes.days.friday, "setTimerWWFr")
+      await this.setCycleTimesIfPresent(circulationTimes.days.saturday, "setTimerWWSa")
+      await this.setCycleTimesIfPresent(circulationTimes.days.sunday, "setTimerWWSo")
+    })
+  }
+
   async getWarmWaterCirculationTimes() {
     return await this.wrapConnection(async () => {
       return new WeekCycleTimes(
@@ -37,35 +49,21 @@ module.exports = class VControlRepo {
 
   async setWarmWaterCirculationTimes(circulationTimes) {
     await this.wrapConnection(async () => {
-      if (circulationTimes.days.monday) {
-        await this.vControlClient.setData('setTimerZirkuMo',
-          VControlTimesConverter.fromCycleTimesToVControlSetCommandTimes(circulationTimes.days.monday))
-      }
-      if (circulationTimes.days.tuesday) {
-        await this.vControlClient.setData('setTimerZirkuDi',
-          VControlTimesConverter.fromCycleTimesToVControlSetCommandTimes(circulationTimes.days.tuesday))
-      }
-      if (circulationTimes.days.wednesday) {
-        await this.vControlClient.setData('setTimerZirkuMi',
-          VControlTimesConverter.fromCycleTimesToVControlSetCommandTimes(circulationTimes.days.wednesday))
-      }
-      if (circulationTimes.days.thursday) {
-        await this.vControlClient.setData('setTimerZirkuDo',
-          VControlTimesConverter.fromCycleTimesToVControlSetCommandTimes(circulationTimes.days.thursday))
-      }
-      if (circulationTimes.days.friday) {
-        await this.vControlClient.setData('setTimerZirkuFr',
-          VControlTimesConverter.fromCycleTimesToVControlSetCommandTimes(circulationTimes.days.friday))
-      }
-      if (circulationTimes.days.saturday) {
-        await this.vControlClient.setData('setTimerZirkuSa',
-          VControlTimesConverter.fromCycleTimesToVControlSetCommandTimes(circulationTimes.days.saturday))
-      }
-      if (circulationTimes.days.sunday) {
-        await this.vControlClient.setData('setTimerZirkuSo',
-          VControlTimesConverter.fromCycleTimesToVControlSetCommandTimes(circulationTimes.days.sunday))
-      }
+      await this.setCycleTimesIfPresent(circulationTimes.days.monday, "setTimerZirkuMo")
+      await this.setCycleTimesIfPresent(circulationTimes.days.tuesday, "setTimerZirkuDi")
+      await this.setCycleTimesIfPresent(circulationTimes.days.wednesday, "setTimerZirkuMi")
+      await this.setCycleTimesIfPresent(circulationTimes.days.thursday, "setTimerZirkuDo")
+      await this.setCycleTimesIfPresent(circulationTimes.days.friday, "setTimerZirkuFr")
+      await this.setCycleTimesIfPresent(circulationTimes.days.saturday, "setTimerZirkuSa")
+      await this.setCycleTimesIfPresent(circulationTimes.days.sunday, "setTimerZirkuSo")
     })
+  }
+
+  async setCycleTimesIfPresent(cycleTimes, command) {
+    if (cycleTimes) {
+      await this.vControlClient.setData(command,
+        VControlTimesConverter.fromCycleTimesToVControlSetCommandTimes(cycleTimes))
+    }
   }
 
   async wrapConnection(callback) {

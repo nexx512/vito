@@ -10,6 +10,13 @@ module.exports = class WarmWaterService {
     return await this.repo.getWarmWaterHeatingTimes()
   }
 
+  async setHeatingTimes(circulationTimes) {
+    if (!circulationTimes.validate()) {
+      throw new ValidationError("Heating times invalid")
+    }
+    await this.repo.setWarmWaterHeatingTimes(circulationTimes)
+  }
+
   async getCirculationTimes() {
     return await this.repo.getWarmWaterCirculationTimes()
   }

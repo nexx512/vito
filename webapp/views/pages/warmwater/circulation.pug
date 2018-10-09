@@ -12,7 +12,7 @@ block main
   +sections().warmwaterCirculation__sections
     +section("circulationTimes", t("warmwater.circulation.times"), true)
       +notificationError(errors, true).warmwaterCirculation__timesError
-      +form("/warmwater/circulation", "PUT").warmwaterCirculation__timesForm
+      +form("/warmwater/circulation/times", "PUT").warmwaterCirculation__timesForm
         +weekCycleTimes(model)
         button(type="submit")= t("savechanges")
     +section("tab2", "Tab 2")

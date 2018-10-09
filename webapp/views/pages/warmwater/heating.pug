@@ -1,12 +1,20 @@
 extend ../layout/index.pug
 
+include /notification/notification
 include /form/form
 include /weekcycletimes/weekcycletimes
+include /section/section
+
+block breadcrumb
+  h2= t("warmwater.heating")
 
 block main
-  h1= t("warmwater.heating")
-  h2= t("warmwater.heating.times")
-  +form("/warmwater/heating", "PUT")
-    +weekCycleTimes(model.times)
-          
-    button(type="submit")= t("savechanges")
+  +sections().warmwaterHeating__sections
+    +section("settings", t("warmwater.heating.settings"), true)
+      +form("/warmwater/heating/settings", "PUT").warmwaterHeating__settingsForm
+      
+    +section("heatingTimes", t("warmwater.heating.times"))
+      +notificationError(errors, true).warmwaterHeating__timesError
+      +form("/warmwater/heating/times", "PUT").warmwaterHeating__timesForm
+        +weekCycleTimes(model)
+        button(type="submit")= t("savechanges")
