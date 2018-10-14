@@ -9,7 +9,7 @@ const replace = require("gulp-replace")
 const pug = require("gulp-pug")
 
 const src = {
-  styles: ["webapp/views/styles/*.styl", "webapp/views/pages/**/*.styl", "webapp/views/components/**/*.styl"]
+  styles: ["webapp/views/styles/**/*.styl", "webapp/views/pages/**/*.styl", "webapp/views/components/**/*.styl"]
 }
 
 const assets = "webapp/assets"

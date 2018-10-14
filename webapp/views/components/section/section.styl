@@ -2,8 +2,10 @@
   display flex
   position relative
   overflow hidden
+  background-color $color-background2
 
   .section
+
     &__selector
       display none
 
@@ -19,10 +21,12 @@
       padding 4px
 
     &__content
+      background-color $color-background
       transition visibility 0.2s, opacity 0.2s
       opacity 0
       visibility hidden
       position absolute
+      padding 8px 0 0 16px
       left 0
       top 32px
       height calc(100% - 32px)

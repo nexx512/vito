@@ -1,5 +1,7 @@
 extend ../layout/index.pug
 
+block breadcrumb
+  h2= t("overview")
+
 block main
-  h1= t('overview')
   = model

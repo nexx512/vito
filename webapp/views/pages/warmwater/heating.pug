@@ -4,6 +4,7 @@ include /notification/notification
 include /form/form
 include /weekcycletimes/weekcycletimes
 include /section/section
+include /button/button
 
 block breadcrumb
   h2= t("warmwater.heating")
@@ -17,4 +18,4 @@ block main
       +notificationError(errors, true).warmwaterHeating__timesError
       +form("/warmwater/heating/times", "PUT").warmwaterHeating__timesForm
         +weekCycleTimes(model)
-        button(type="submit")= t("savechanges")
+        +buttonPrimary(t("savechanges"))(type="submit")
