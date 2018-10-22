@@ -1,7 +1,7 @@
-const express = require("express")
-const path = require("path")
+import express from "express"
+import path from "path"
 
-module.exports = () => {
+export default () => {
   let distAssetPath = path.join(__dirname, "dist/assets")
   if (process.env.NODE_ENV == "production") {
     return express.static(distAssetPath, {

@@ -7,13 +7,14 @@ const csswring = require("csswring")
 const del = require("del");
 const replace = require("gulp-replace")
 const pug = require("gulp-pug")
+const ts = require("gulp-typescript")
 
 const src = {
   styles: ["webapp/views/styles/**/*.styl", "webapp/views/pages/**/*.styl", "webapp/views/components/**/*.styl"]
 }
 
 const assets = "webapp/assets"
-const dist = "webapp/dist"
+const dist = "dist"
 const distAssets = dist + "/assets"
 
 //////////
@@ -21,6 +22,18 @@ const distAssets = dist + "/assets"
 //////////
 gulp.task('clean', () => del([dist, assets]));
 
+
+
+//////////
+// Compile TypeScript files
+//////////
+let tsProject = ts.createProject("tsconfig.json")
+gulp.task("src", () =>
+  tsProject.src()
+  .pipe(tsProject())
+  .js
+  .pipe(gulp.dest("dist/"))
+);
 
 //////////
 // Precompiling views
@@ -95,4 +108,4 @@ gulp.task("rev", ["optimize"], () => {
 //////////
 gulp.task("build", ["styles"])
 gulp.task("develop", () => runSequence(["build"], ["watch"]))
-gulp.task("production", () => runSequence(["clean"], ["rev", "views"]))
+gulp.task("production", () => runSequence(["clean"], ["src", "rev", "views"]))

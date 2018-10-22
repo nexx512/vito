@@ -1,15 +1,30 @@
-const net = require("net")
+import net from "net"
 
-module.exports = class VControlClient {
+export default class VControlClient {
+
+  client: net.Socket
+  closeHandler: () => void
+  dataHandler: (message: string) => void
+  errorHandler: (error: Error) => void
 
   constructor() {
     this.client = new net.Socket()
 
+    // this.resetHandlers()
+    // Initialize explicitely here because typescript parser can not infere the initialization
     this.closeHandler = () => {}
+    this.errorHandler = () => {}
+    this.dataHandler = () => {}
 
     this.client.on("data", (data) => this.dataHandler(data.toString()))
     this.client.on("error", (error) => this.errorHandler(error))
     this.client.on("close", () => this.closeHandler())
+  }
+
+  private resetHandlers() {
+    this.closeHandler = () => {}
+    this.errorHandler = () => {}
+    this.dataHandler = () => {}
   }
 
   async connect() {
@@ -24,11 +39,9 @@ module.exports = class VControlClient {
         }
       }
       console.log("Connecting to vControl...")
-      this.client.connect(Config.vcontrold.port, Config.vcontrold.host)
+      this.client.connect(global.Config.vcontrold.port, global.Config.vcontrold.host)
     }).then(() => {
-      this.errorHandler = () => {}
-      this.dataHandler = () => {}
-      this.closeHandler = () => {}
+      this.resetHandlers()
     })
   }
 
@@ -41,22 +54,20 @@ module.exports = class VControlClient {
       }
       this.client.write("quit\n")
     }).then(() => {
-      this.errorHandler = () => {}
-      this.dataHandler = () => {}
-      this.closeHandler = () => {}
+      this.resetHandlers()
     })
   }
 
-  async getData(command) {
-    return new Promise((resolve, reject) => {
-      let response
+  async getData(command: string) {
+    return new Promise<string>((resolve, reject) => {
+      let response: string
       this.errorHandler = reject
       this.dataHandler = (data) => {
         let dataMatches = data.match(/([\s\S]*?)(vctrld>)?$/)
-        if (dataMatches[1]) {
+        if (dataMatches && dataMatches[1]) {
           response = dataMatches[1]
         }
-        if (dataMatches[2]) {
+        if (dataMatches && dataMatches[2]) {
           console.log("Command finished.")
           if (response.startsWith("ERR:")) {
             return reject(new Error("Unable to perform command '" + command + "': " + response))
@@ -75,17 +86,17 @@ module.exports = class VControlClient {
     })
   }
 
-  async setData(command, args) {
+  async setData(command: string, args: string[]|string) {
     return new Promise((resolve, reject) => {
-      let response
-      let commandString
+      let response: string
+      let commandString: string
       this.errorHandler = reject
       this.dataHandler = (data) => {
         let dataMatches = data.match(/([\s\S]*?)(vctrld>)?$/)
-        if (dataMatches[1]) {
+        if (dataMatches && dataMatches[1]) {
           response = dataMatches[1]
         }
-        if (dataMatches[2]) {
+        if (dataMatches && dataMatches[2]) {
           console.log("Command finished.")
           if (response.startsWith("OK")) {
             return resolve(response)

@@ -1,10 +1,12 @@
-module.exports = () => {
-  let rev = {}
+import {RequestHandler} from "express"
+
+export default (): RequestHandler => {
+  let rev: any = {}
   if (process.env.NODE_ENV == "production") {
     rev = require("../dist/assets/rev-manifest.json")
   }
 
-  function resolveRevision(path) {
+  function resolveRevision(path: string) {
     if (rev[path]) {
       return "/assets/" + rev[path]
     } else {
@@ -12,7 +14,7 @@ module.exports = () => {
     }
   }
 
-  return (req, res, next) => {
+  return (_req, res, next) => {
     res.locals.assets = resolveRevision
     next()
   }

@@ -1,10 +1,11 @@
-const VControlTimesConverter = require('./vcontroltimesconverter')
-const WeekCycleTimes = require('../../models/weekcycletimes')
+import VControlClient from "./vcontrolclient"
+import VControlTimesConverter from "./vcontroltimesconverter"
+import CycleTimes from "../../models/cycletimes"
+import WeekCycleTimes from "../../models/weekcycletimes"
 
-module.exports = class VControlRepo {
+export default class VControlRepo {
 
-  constructor(vControlClient) {
-    this.vControlClient = vControlClient
+  constructor(public vControlClient: VControlClient) {
   }
 
   async getWarmWaterHeatingTimes() {
@@ -21,7 +22,7 @@ module.exports = class VControlRepo {
     })
   }
 
-  async setWarmWaterHeatingTimes(circulationTimes) {
+  async setWarmWaterHeatingTimes(circulationTimes: WeekCycleTimes) {
     await this.wrapConnection(async () => {
       await this.setCycleTimesIfPresent(circulationTimes.days.monday, "setTimerWWMo")
       await this.setCycleTimesIfPresent(circulationTimes.days.tuesday, "setTimerWWDi")
@@ -47,7 +48,7 @@ module.exports = class VControlRepo {
     })
   }
 
-  async setWarmWaterCirculationTimes(circulationTimes) {
+  async setWarmWaterCirculationTimes(circulationTimes: WeekCycleTimes) {
     await this.wrapConnection(async () => {
       await this.setCycleTimesIfPresent(circulationTimes.days.monday, "setTimerZirkuMo")
       await this.setCycleTimesIfPresent(circulationTimes.days.tuesday, "setTimerZirkuDi")
@@ -59,14 +60,14 @@ module.exports = class VControlRepo {
     })
   }
 
-  async setCycleTimesIfPresent(cycleTimes, command) {
+  async setCycleTimesIfPresent(cycleTimes: CycleTimes|null, command: string) {
     if (cycleTimes) {
       await this.vControlClient.setData(command,
         VControlTimesConverter.fromCycleTimesToVControlSetCommandTimes(cycleTimes))
     }
   }
 
-  async wrapConnection(callback) {
+  async wrapConnection(callback: any) {
     await this.vControlClient.connect()
     try {
       let result = await callback()

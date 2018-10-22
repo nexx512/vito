@@ -1,9 +1,10 @@
-Locales = require("../utils/locales")
+import {RequestHandler} from "express"
+import Locales from "../utils/locales"
 const locales = new Locales()
 
-module.exports = () => {
-  return (req, res, next) => {
-    res.locals.t = (key, fallback) => {
+export default (): RequestHandler => {
+  return (_req, res, next) => {
+    res.locals.t = (key: string, fallback: string) => {
       return locales.translate('de', key, fallback)
     }
     next()

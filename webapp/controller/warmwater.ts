@@ -1,11 +1,12 @@
-const WarmWaterService = require("../../app/services/warmwaterservice")
-const VControlRepo = require("../../app/repo/vcontrol/vcontrolrepo")
-const VControlClient = require("../../app/repo/vcontrol/vcontrolclient")
-const WeekCycleTimesConverter = require("../converter/weekcycletimesconverter")
+import {Express} from "express"
+import WarmWaterService from "../../app/services/warmwaterservice"
+import VControlRepo from "../../app/repo/vcontrol/vcontrolrepo"
+import VControlClient from "../../app/repo/vcontrol/vcontrolclient"
+import WeekCycleTimesConverter from "../converter/weekcycletimesconverter"
 
-module.exports = function(app) {
+export default (app: Express) => {
 
-  app.get("/warmwater/heating", async (req, res, next) => {
+  app.get("/warmwater/heating", async (_req, res, next) => {
     const warmWaterService = new WarmWaterService(new VControlRepo(new VControlClient()))
     try {
       let heatingTimes = await warmWaterService.getHeatingTimes()
@@ -29,7 +30,7 @@ module.exports = function(app) {
 
   })
 
-  app.get("/warmwater/circulation", async (req, res, next) => {
+  app.get("/warmwater/circulation", async (_req, res, next) => {
     const warmWaterService = new WarmWaterService(new VControlRepo(new VControlClient()))
     try {
       let circulationTimes = await warmWaterService.getCirculationTimes()

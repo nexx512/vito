@@ -1,6 +1,8 @@
-module.exports = function(app) {
+import {Express} from "express"
 
-  app.get('/heating/times', (req, res) => {
+export default (app: Express) => {
+
+  app.get('/heating/times', (_req, res) => {
     res.render('heating/times', {model: null})
   })
 

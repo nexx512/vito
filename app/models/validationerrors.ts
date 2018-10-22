@@ -1,6 +1,10 @@
-module.exports = class ValidationErrors {
+import ValidationError from "./validationerror"
 
-  constructor(errors) {
+export default class ValidationErrors {
+
+  items: ValidationError[]
+
+  constructor(errors?: ValidationError[]) {
     if (errors) {
       this.items = errors
     } else {
@@ -12,7 +16,7 @@ module.exports = class ValidationErrors {
     return this.items.length > 0
   }
 
-  add(error) {
+  add(error: ValidationError) {
     this.items.push(error)
     return this
   }

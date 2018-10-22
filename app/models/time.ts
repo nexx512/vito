@@ -1,9 +1,12 @@
-const ValidationErrors = require("./validationerrors")
-const ValidationError = require("./validationerror")
+import Validatable from "./validatable"
+import ValidationErrors from "./validationerrors"
+import ValidationError from "./validationerror"
 
-module.exports = class Time {
-  constructor(time) {
-    this.time = time
+export default class Time implements Validatable {
+
+  errors: ValidationErrors
+
+  constructor(public time: string|null) {
     this.errors = new ValidationErrors()
   }
 

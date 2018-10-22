@@ -1,7 +1,14 @@
-const ValidationErrors = require("./validationerrors")
+import Validatable from "./validatable"
+import ValidationErrors from "./validationerrors"
+import Time from "./time"
 
-module.exports = class CycleTime {
-  constructor(timeOn, timeOff) {
+export default class CycleTime implements Validatable {
+
+  on: Time
+  off: Time
+  errors: ValidationErrors
+
+  constructor(timeOn: Time, timeOff: Time) {
     this.on = timeOn,
     this.off = timeOff
     this.errors = new ValidationErrors()
@@ -14,8 +21,4 @@ module.exports = class CycleTime {
     return isValid
   }
 
-}
-
-function validateTime(errors, name, time) {
-  let innerErrors = time.validate()
 }

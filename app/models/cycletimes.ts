@@ -1,12 +1,18 @@
-const ValidationErrors = require("./validationerrors")
+import Validatable from "./validatable"
+import ValidationErrors from "./validationerrors"
+import CycleTime from "./cycletime"
 
-module.exports = class CycleTimes {
+export default class CycleTimes implements Validatable {
+
+  times: CycleTime[]
+  errors: ValidationErrors
+
   constructor() {
     this.times = []
     this.errors = new ValidationErrors()
   }
 
-  add(time) {
+  add(time: CycleTime) {
     this.times.push(time)
   }
 

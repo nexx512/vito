@@ -1,9 +1,9 @@
-const locales = {
+const locales: any = {
   de: require("../i18n/de.json")
 }
 
-module.exports = class Translations {
-  translate(locale, key, fallback) {
+export default class Locales {
+  translate(locale: string, key: string, fallback: string) {
     if (locales[locale][key]) {
       return locales[locale][key]
     } else {

@@ -1,16 +1,17 @@
-const CycleTimes = require("../models/cycletimes")
-const ValidationError = require("../models/validationerror")
+import WeekCycleTimes from "../models/weekcycletimes"
+import ValidationError from "../models/validationerror"
+import VControlRepo from "../repo/vcontrol/vcontrolrepo"
 
-module.exports = class WarmWaterService {
-  constructor(repo) {
-    this.repo = repo
+export default class WarmWaterService {
+
+  constructor(public repo: VControlRepo) {
   }
 
   async getHeatingTimes() {
     return await this.repo.getWarmWaterHeatingTimes()
   }
 
-  async setHeatingTimes(circulationTimes) {
+  async setHeatingTimes(circulationTimes: WeekCycleTimes) {
     if (!circulationTimes.validate()) {
       throw new ValidationError("Heating times invalid")
     }
@@ -21,7 +22,7 @@ module.exports = class WarmWaterService {
     return await this.repo.getWarmWaterCirculationTimes()
   }
 
-  async setCirculationTimes(circulationTimes) {
+  async setCirculationTimes(circulationTimes: WeekCycleTimes) {
     if (!circulationTimes.validate()) {
       throw new ValidationError("Circulation times invalid")
     }

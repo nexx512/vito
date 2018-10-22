@@ -1,6 +1,8 @@
-module.exports = function(app) {
+import {Express} from "express"
 
-  app.get('/', async (req, res) => {
+export default (app: Express) => {
+
+  app.get('/', async (_req, res) => {
     res.render('home', {model: null})
   })
 

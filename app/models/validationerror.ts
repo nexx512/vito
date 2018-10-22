@@ -1,8 +1,8 @@
-module.exports = class ValidationError {
+import ValidationErrors from "./validationerrors"
 
-  constructor(message, innerErrors) {
-    this.message = message
-    this.inner = innerErrors
+export default class ValidationError {
+
+  constructor(public message: string, public inner?: ValidationErrors) {
   }
 
 }
