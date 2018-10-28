@@ -1,15 +1,11 @@
 {
   "files": [
-    "app.ts",
+    "src/app.ts",
     "src/types/custom.d.ts"
   ],
   "include": [
-    "app/**/*.ts",
-    "webapp/**/*.ts"
-  ],
-  "exclude": [
-    "webapp/dist/**/*",
-
+    "src/app/**/*.ts",
+    "src/webapp/**/*.ts"
   ],
   "compilerOptions": {
     "strict": true,

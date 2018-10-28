@@ -1,6 +1,6 @@
 should = require("should")
-Time = require("../../../../app/models/time")
-ValidationError = require("../../../../app/models/validationerror")
+Time = require("../../../../dist/app/models/time").default
+ValidationError = require("../../../../dist/app/models/validationerror").default
 
 describe "A Time model", =>
 

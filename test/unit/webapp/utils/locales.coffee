@@ -1,5 +1,5 @@
 should = require("should")
-Locales = require("../../../../webapp/utils/locales")
+Locales = require("../../../../dist/webapp/utils/locales").default
 
 describe "A Locales object", =>
 

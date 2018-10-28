@@ -1,9 +1,9 @@
 should = require("should")
-WeekCycleTimesConverter = require("../../../../webapp/converter/weekcycletimesconverter")
-WeekCycleTimes = require("../../../../app/models/weekcycletimes")
-CycleTimes = require("../../../../app/models/cycletimes")
-CycleTime = require("../../../../app/models/cycletime")
-Time = require("../../../../app/models/time")
+WeekCycleTimesConverter = require("../../../../dist/webapp/converter/weekcycletimesconverter").default
+WeekCycleTimes = require("../../../../dist/app/models/weekcycletimes").default
+CycleTimes = require("../../../../dist/app/models/cycletimes").default
+CycleTime = require("../../../../dist/app/models/cycletime").default
+Time = require("../../../../dist/app/models/time").default
 
 describe "A WeekCycleTimes converet", =>
 

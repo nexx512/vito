@@ -1,8 +1,8 @@
 should = require("should")
-VControlTimesConverter = require("../../../../../app/repo/vcontrol/vcontroltimesconverter")
-CycleTimes = require("../../../../../app/models/cycletimes")
-CycleTime = require("../../../../../app/models/cycletime")
-Time = require("../../../../../app/models/time")
+VControlTimesConverter = require("../../../../../dist/app/repo/vcontrol/vcontroltimesconverter").default
+CycleTimes = require("../../../../../dist/app/models/cycletimes").default
+CycleTime = require("../../../../../dist/app/models/cycletime").default
+Time = require("../../../../../dist/app/models/time").default
 
 describe "Convert VControl get command times to CycleTimes", =>
   describe "with times at the boundaries", =>

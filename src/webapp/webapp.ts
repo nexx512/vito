@@ -21,8 +21,8 @@ if (process.env.NODE_ENV == "production") {
 } else {
   // Use pug files in development mode for views
   app.set("view engine", "pug")
-  app.set("views", "webapp/views/pages")
-  app.locals.basedir = "webapp/views/components"
+  app.set("views", "src/webapp/views/pages")
+  app.locals.basedir = "src/webapp/views/components"
 }
 
 app.use("/assets", staticAssets())

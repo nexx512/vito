@@ -3,7 +3,7 @@ global.Config = require("../../../../config/config.json")
 
 MockVControlD = require("../../../support/mockvcontrold")
 
-VControlClient = require("../../../../app/repo/vcontrol/vcontrolclient")
+VControlClient = require("../../../../dist/app/repo/vcontrol/vcontrolclient").default
 
 describe "The VControlClient", =>
 

@@ -1,7 +1,7 @@
 should = require("should")
-CycleTime = require("../../../../app/models/cycletime")
-Time = require("../../../../app/models/time")
-ValidationError = require("../../../../app/models/validationerror")
+CycleTime = require("../../../../dist/app/models/cycletime").default
+Time = require("../../../../dist/app/models/time").default
+ValidationError = require("../../../../dist/app/models/validationerror").default
 
 describe "A CycleTime model", =>
 

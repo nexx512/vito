@@ -10,8 +10,9 @@ const pug = require("gulp-pug")
 const ts = require("gulp-typescript")
 
 const src = {
-  styles: ["webapp/views/styles/**/*.styl", "webapp/views/pages/**/*.styl", "webapp/views/components/**/*.styl"],
-  json: ["webapp/i18n/*.json"]
+  styles: ["src/webapp/views/styles/**/*.styl", "src/webapp/views/pages/**/*.styl", "src/webapp/views/components/**/*.styl"],
+  pug: ["webapp/views/pages/**/*.pug"],
+  json: ["src/webapp/i18n/*.json"]
 }
 
 const dist = "dist"
@@ -52,11 +53,10 @@ gulp.task("ts", () => {
 //////////
 gulp.task("views", () =>
   // get all the pug files and compile them for client
-  gulp.src([
-      "webapp/views/pages/**/*.pug"
-  ]).pipe(pug({
+  gulp.src(src.pug)
+  .pipe(pug({
       client: true,
-      basedir: "webapp/views/components"
+      basedir: "src/webapp/views/components"
   }))
   // replace the function definition
   .pipe(replace("function template(locals)", "module.exports = function(locals, pug)"))
@@ -71,7 +71,7 @@ gulp.task("styles", () =>
   gulp.src(src.styles)
     .pipe(p.plumber())
     .pipe(p.stylus({
-      paths: ["webapp/views/styles/lib"],
+      paths: ["src/webapp/views/styles/lib"],
       import: ["defaults"],
       url: { name: "embedurl" }
     }))
