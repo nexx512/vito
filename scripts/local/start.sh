@@ -10,6 +10,6 @@ set -e
 echo -n "Starting node..."
 
 echo "$(DATE): Starting node..." >> $LOG
-NODE_ENV=production node app.js >> $LOG &
+NODE_ENV=production node dist/app.js >> $LOG &
 
 echo "OK"

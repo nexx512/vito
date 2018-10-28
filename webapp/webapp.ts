@@ -17,12 +17,12 @@ if (process.env.NODE_ENV == "production") {
     callback(null, html)
   })
   app.set("view engine", "js");
-  app.set("views", path.join(__dirname, "dist/views"));
+  app.set("views", path.join(__dirname, "views"));
 } else {
   // Use pug files in development mode for views
   app.set("view engine", "pug")
-  app.set("views", path.join(__dirname, "views/pages"))
-  app.locals.basedir = path.join(__dirname, "views/components")
+  app.set("views", "webapp/views/pages")
+  app.locals.basedir = "webapp/views/components"
 }
 
 app.use("/assets", staticAssets())
@@ -39,9 +39,13 @@ app.use(methodOverride((req) => {
 app.use(locale())
 app.use(assets())
 
-require("./controller/home")(app)
-require("./controller/heating")(app)
-require("./controller/warmwater")(app)
+import home from "./controller/home"
+import heating from "./controller/heating"
+import warmwater from "./controller/warmwater"
+
+home(app)
+heating(app)
+warmwater(app)
 
 const server = app.listen(global.Config.port, () => {
   console.log("Server started on port " + server.address().port + " in " + (process.env.NODE_ENV == "production" ? "production" : "development") + " mode")

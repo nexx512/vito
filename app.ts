@@ -1,3 +1,3 @@
-global.Config = require("./config/config.json")
+global.Config = require("../config/config.json")
 
 require("./webapp/webapp")

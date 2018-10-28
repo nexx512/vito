@@ -10,30 +10,42 @@ const pug = require("gulp-pug")
 const ts = require("gulp-typescript")
 
 const src = {
-  styles: ["webapp/views/styles/**/*.styl", "webapp/views/pages/**/*.styl", "webapp/views/components/**/*.styl"]
+  styles: ["webapp/views/styles/**/*.styl", "webapp/views/pages/**/*.styl", "webapp/views/components/**/*.styl"],
+  json: ["webapp/i18n/*.json"]
 }
 
-const assets = "webapp/assets"
 const dist = "dist"
-const distAssets = dist + "/assets"
+const distWebapp = dist + "/webapp"
+const distAssets = distWebapp + "/assets"
 
 //////////
 // Clean dist folders
 //////////
-gulp.task('clean', () => del([dist, assets]));
+gulp.task('clean', () => del([dist]));
 
+
+//////////
+// Copy json files
+//////////
+gulp.task("json", () => {
+  gulp.src(src.json, {
+    base: "."
+  })
+  .pipe(gulp.dest(dist))
+})
 
 
 //////////
 // Compile TypeScript files
 //////////
-let tsProject = ts.createProject("tsconfig.json")
-gulp.task("src", () =>
+gulp.task("ts", () => {
+  let tsProject = ts.createProject("tsconfig.json")
   tsProject.src()
   .pipe(tsProject())
   .js
-  .pipe(gulp.dest("dist/"))
-);
+  .pipe(gulp.dest(dist))
+});
+
 
 //////////
 // Precompiling views
@@ -48,7 +60,7 @@ gulp.task("views", () =>
   }))
   // replace the function definition
   .pipe(replace("function template(locals)", "module.exports = function(locals, pug)"))
-  .pipe(gulp.dest(dist + "/views") )
+  .pipe(gulp.dest(distWebapp + "/views") )
 );
 
 
@@ -65,11 +77,11 @@ gulp.task("styles", () =>
     }))
     .pipe(p.concat("styles.css"))
     .pipe(p.postcss([autoprefixer({ browsers: ["last 2 versions", "ie >= 10"] })]))
-    .pipe(gulp.dest(assets + "/styles"))
+    .pipe(gulp.dest(distAssets + "/styles"))
 )
 
 gulp.task("styles:optimize", ["styles"], () =>
-  gulp.src(assets + "/styles/*.css")
+  gulp.src(distAssets + "/styles/*.css")
     .pipe(p.plumber())
     .pipe(p.postcss([mqpacker, csswring]))
     .pipe(gulp.dest(distAssets + "/styles"))
@@ -86,26 +98,27 @@ gulp.task("optimize", ["styles:optimize"])
 // Watching source changes
 //////////
 gulp.task("watch", cb => {
+  gulp.watch(["**/*.ts"], ["ts"])
   gulp.watch(src.styles, ["styles"])
+  gulp.watch(src.json, ["json"])
 })
 
 
 //////////
 // Revisioning previously built and optimized assets
 //////////
-gulp.task("rev", ["optimize"], () => {
-  return gulp.src([distAssets + "/**/*"])
+gulp.task("rev", ["optimize"], () =>
+  gulp.src([distAssets + "/**/*"])
     .pipe(p.revAll.revision())
     .pipe(p.revDeleteOriginal())
     .pipe(gulp.dest(distAssets))
     .pipe(p.revAll.manifestFile())
     .pipe(gulp.dest(distAssets))
-})
+)
 
 
 //////////
 // Main tasks used to create a full set of assets
 //////////
-gulp.task("build", ["styles"])
-gulp.task("develop", () => runSequence(["build"], ["watch"]))
-gulp.task("production", () => runSequence(["clean"], ["src", "rev", "views"]))
+gulp.task("develop", () => runSequence(["json", "ts", "styles"], ["watch"]))
+gulp.task("production", () => runSequence(["clean"], ["json", "ts", "rev", "views"]))

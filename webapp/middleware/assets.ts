@@ -1,16 +1,17 @@
 import {RequestHandler} from "express"
+import path from "path"
 
 export default (): RequestHandler => {
   let rev: any = {}
   if (process.env.NODE_ENV == "production") {
-    rev = require("../dist/assets/rev-manifest.json")
+    rev = require(path.join(__dirname, "../assets/rev-manifest.json"))
   }
 
-  function resolveRevision(path: string) {
-    if (rev[path]) {
-      return "/assets/" + rev[path]
+  function resolveRevision(assetPath: string) {
+    if (process.env.NODE_ENV == "production") {
+      return "/assets/" + rev[assetPath]
     } else {
-      return "/assets/" + path
+      return "/assets/" + assetPath
     }
   }
 

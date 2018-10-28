@@ -11,9 +11,9 @@ set -e
 mkdir -p log
 echo > $LOG
 
-echo -n "Building production assets... "
-echo "##### Building production assets... " >> $LOG
-./node_modules/.bin/gulp production >> $LOG 2>&1
+echo -n "Building production code... "
+echo "##### Building production code... " >> $LOG
+npm run build >> $LOG 2>&1
 echo "OK"
 
 echo -n "Stopping service on target... "
@@ -23,7 +23,7 @@ echo "OK"
 
 echo -n "Copying files to target... "
 echo "##### Copying files to target... " >> $LOG
-rsync -av --del models node_modules repo scripts services webapp app.js --exclude config $TARGET:/srv/vito >> $LOG 2>&1
+rsync -av --del dist node_modules --exclude dist/config $TARGET:/srv/vito >> $LOG 2>&1
 echo "OK"
 
 echo -n "Rebuilding native modules... "

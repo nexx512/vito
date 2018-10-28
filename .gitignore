@@ -1,5 +1,4 @@
-webapp/assets/styles
-webapp/dist
 node_modules/.bin
 log
 config/config.json
+dist

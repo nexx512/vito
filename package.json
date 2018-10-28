@@ -36,11 +36,11 @@
     "zombie": "^6.1.3"
   },
   "scripts": {
-    "start": "node app.js",
+    "start": "node dist/app.js",
     "test": "mocha --recursive test",
-    "build": "./node_modules/.bin/gulp develop",
+    "build": "./node_modules/.bin/gulp production",
     "mock": "node test/support/runmockvcontrold.js",
-    "run-dev": "./node_modules/.bin/gulp develop; node test/support/runmockvcontrold.js; node app.js"
+    "dev": "./node_modules/.bin/gulp develop; node test/support/runmockvcontrold.js; node dist/app.js"
   },
   "author": "Jürgen Diez",
   "license": "GPL-3.0",
