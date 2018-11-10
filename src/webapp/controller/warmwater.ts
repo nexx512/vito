@@ -1,13 +1,17 @@
 import {Express} from "express"
 import WarmWaterService from "../../app/services/warmwaterservice"
 import VControlRepo from "../../app/repo/vcontrol/vcontrolrepo"
-import VControlClient from "../../app/repo/vcontrol/vcontrolclient"
+import VControlClient from "vcontrol-client"
 import WeekCycleTimesConverter from "../converter/weekcycletimesconverter"
 
 export default (app: Express) => {
 
   app.get("/warmwater/heating", async (_req, res, next) => {
-    const warmWaterService = new WarmWaterService(new VControlRepo(new VControlClient()))
+    const warmWaterService = new WarmWaterService(new VControlRepo(new VControlClient({
+      host: global.Config.vcontrold.host,
+      port: global.Config.vcontrold.port
+    })))
+
     try {
       let heatingTimes = await warmWaterService.getHeatingTimes()
       let times = WeekCycleTimesConverter.toWeekCycleTimesResponseDto(heatingTimes)
@@ -18,7 +22,10 @@ export default (app: Express) => {
   })
 
   app.put("/warmwater/heating/times", async (req, res) => {
-    const warmWaterService = new WarmWaterService(new VControlRepo(new VControlClient()))
+    const warmWaterService = new WarmWaterService(new VControlRepo(new VControlClient({
+      host: global.Config.vcontrold.host,
+      port: global.Config.vcontrold.port
+    })))
 
     let circulationTimes = WeekCycleTimesConverter.toWeekCycleTimesModel(req.body.times)
     try {
@@ -31,7 +38,11 @@ export default (app: Express) => {
   })
 
   app.get("/warmwater/circulation", async (_req, res, next) => {
-    const warmWaterService = new WarmWaterService(new VControlRepo(new VControlClient()))
+    const warmWaterService = new WarmWaterService(new VControlRepo(new VControlClient({
+      host: global.Config.vcontrold.host,
+      port: global.Config.vcontrold.port
+    })))
+
     try {
       let circulationTimes = await warmWaterService.getCirculationTimes()
       let times = WeekCycleTimesConverter.toWeekCycleTimesResponseDto(circulationTimes)
@@ -42,7 +53,10 @@ export default (app: Express) => {
   })
 
   app.put("/warmwater/circulation/times", async (req, res) => {
-    const warmWaterService = new WarmWaterService(new VControlRepo(new VControlClient()))
+    const warmWaterService = new WarmWaterService(new VControlRepo(new VControlClient({
+      host: global.Config.vcontrold.host,
+      port: global.Config.vcontrold.port
+    })))
 
     let circulationTimes = WeekCycleTimesConverter.toWeekCycleTimesModel(req.body.times)
     try {

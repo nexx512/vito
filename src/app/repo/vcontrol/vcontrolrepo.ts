@@ -1,4 +1,4 @@
-import VControlClient from "./vcontrolclient"
+import VControlClient from "vcontrol-client"
 import VControlTimesConverter from "./vcontroltimesconverter"
 import CycleTimes from "../../models/cycletimes"
 import WeekCycleTimes from "../../models/weekcycletimes"
