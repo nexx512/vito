@@ -41,7 +41,7 @@
     "test": "mocha --recursive test",
     "build": "./node_modules/.bin/gulp production",
     "mock": "node test/support/runmockvcontrold.js",
-    "dev": "./node_modules/.bin/gulp develop; node test/support/runmockvcontrold.js; node dist/app.js"
+    "develop": "./node_modules/.bin/gulp develop & node test/support/runmockvcontrold.js & node dist/app.js"
   },
   "author": "Jürgen Diez",
   "license": "GPL-3.0",
