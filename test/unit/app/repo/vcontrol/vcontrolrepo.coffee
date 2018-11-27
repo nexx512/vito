@@ -1,6 +1,6 @@
 should = require("should")
 sinon = require("sinon")
-VControlClient = require("../../../../../dist/app/repo/vcontrol/vcontrolclient").default
+VControlClient = require("vcontrol")
 VControlRepo = require("../../../../../dist/app/repo/vcontrol/vcontrolrepo").default
 WeekCycleTimes = require("../../../../../dist/app/models/weekcycletimes").default
 CycleTimes = require("../../../../../dist/app/models/cycletimes").default
@@ -10,7 +10,7 @@ Time = require("../../../../../dist/app/models/time").default
 describe "A VControlRepo object", =>
 
   beforeEach =>
-    @vControlClient = new VControlClient()
+    @vControlClient = new VControlClient({})
     @vControlClientMock = sinon.mock(@vControlClient)
     @vControlClientMock.expects("connect").once()
     @vControlClientMock.expects("close").once()

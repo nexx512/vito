@@ -3,8 +3,8 @@ global.Config = require("../../../config/config.json")
 
 MockVControlD = require("../../support/mockvcontrold")
 
+VControlClient = require("vcontrol")
 VControlRepo = require("../../../dist/app/repo/vcontrol/vcontrolrepo").default
-VControlClient = require("../../../dist/app/repo/vcontrol/vcontrolclient").default
 WarmWaterService = require("../../../dist/app/services/warmwaterservice").default
 WeekCycleTimes = require("../../../dist/app/models/weekcycletimes").default
 CycleTimes = require("../../../dist/app/models/cycletimes").default
@@ -15,7 +15,7 @@ ValidationError = require("../../../dist/app/models/validationerror").default
 describe "The WarmWaterService", =>
 
   before =>
-    @warmWaterService = new WarmWaterService(new VControlRepo(new VControlClient()))
+    @warmWaterService = new WarmWaterService(new VControlRepo(new VControlClient({})))
     @mockVControlD = new MockVControlD()
     await @mockVControlD.start()
 

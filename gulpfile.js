@@ -30,7 +30,7 @@ gulp.task('clean', () => del([dist]));
 //////////
 gulp.task("json", () => {
   gulp.src(src.json, {
-    base: "."
+    base: "src"
   })
   .pipe(gulp.dest(dist))
 })
