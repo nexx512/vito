@@ -26,9 +26,3 @@ describe "A WeekCycleTimes model", =>
       weekCycleTimes.set("sunday", cycleTimes)
 
       weekCycleTimes.days.sunday.should.eql(cycleTimes)
-
-  describe "set with an invalid day", =>
-    it "should throw an error", =>
-      weekCycleTimes = new WeekCycleTimes()
-
-      should.throws => weekCycleTimes.set("fraturday", new CycleTimes())

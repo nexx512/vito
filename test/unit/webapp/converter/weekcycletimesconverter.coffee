@@ -16,13 +16,13 @@ describe "A WeekCycleTimes converet", =>
     convertedWeekCycleTimesReponseDto = WeekCycleTimesConverter.toWeekCycleTimesResponseDto(weekCycleTimesModel)
 
     weekCycleTimesReponseDto =
-      monday: new Array(4)
-      tuesday: new Array(4)
-      wednesday: new Array(4)
-      thursday: new Array(4)
-      friday: new Array(4)
-      saturday: new Array(4)
-      sunday: new Array(4)
+      monday: new Array()
+      tuesday: new Array()
+      wednesday: new Array()
+      thursday: new Array()
+      friday: new Array()
+      saturday: new Array()
+      sunday: new Array()
     weekCycleTimesReponseDto.monday[0] =
       on:
         time: "00:01"
@@ -30,7 +30,7 @@ describe "A WeekCycleTimes converet", =>
       off:
         time: "00:0a"
         errors: ["Time format invalid"]
-    convertedWeekCycleTimesReponseDto.monday.length.should.equal(4)
+    convertedWeekCycleTimesReponseDto.monday.length.should.equal(1)
     convertedWeekCycleTimesReponseDto.should.eql(weekCycleTimesReponseDto)
 
   it "should transform a WeekCycleTimerDto to a WeekCycleTimesModel", =>

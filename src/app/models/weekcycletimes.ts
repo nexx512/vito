@@ -45,7 +45,6 @@ export default class WeekCycleTimes implements Validatable {
   }
 
   set(day: WeekCycleTimesTypes.Days, times: CycleTimes) {
-    //if (!(day in this.days)) throw new Error(day + " is not a valid day")
     this.days[day] = times
   }
 
