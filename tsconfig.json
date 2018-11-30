@@ -2,7 +2,7 @@
   "files": [
     "src/app.ts",
     "src/types/custom.d.ts",
-    "src/types/vcontrol-client.d.ts"
+    "src/types/vcontrol.d.ts"
   ],
   "include": [
     "src/app/**/*.ts",

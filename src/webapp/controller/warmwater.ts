@@ -1,7 +1,7 @@
 import {Express} from "express"
 import WarmWaterService from "../../app/services/warmwaterservice"
 import VControlRepo from "../../app/repo/vcontrol/vcontrolrepo"
-import VControlClient from "vcontrol-client"
+import VControlClient from "vcontrol"
 import WeekCycleTimesConverter from "../converter/weekcycletimesconverter"
 
 export default (app: Express) => {

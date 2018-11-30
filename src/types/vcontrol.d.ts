@@ -1,4 +1,4 @@
-declare module "vcontrol-client" {
+declare module "vcontrol" {
   export default class VControlClient {
     constructor (config: {
       host:string,
