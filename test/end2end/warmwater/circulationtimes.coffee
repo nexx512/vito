@@ -51,14 +51,12 @@ describe "when loading the warmwater circulation configuration", =>
         "setTimerZirkuFr 00:05 23:05 00:00 24:00 00:00 24:00",
         "setTimerZirkuSa 00:06 23:06 00:00 24:00 00:00 24:00",
         "setTimerZirkuSo 00:06 23:07 00:00 24:00 00:00 24:00",
-        "quit",
         "getTimerZirkuMo",
         "getTimerZirkuDi",
         "getTimerZirkuMi",
         "getTimerZirkuDo",
         "getTimerZirkuFr",
         "getTimerZirkuSa",
-        "getTimerZirkuSo",
-        "quit"
+        "getTimerZirkuSo"
       ])
       #@browser.assert.input("input[name=\"times[monday][0][off]\"]", "15:00")

@@ -51,14 +51,12 @@ describe "when loading the warmwater heating configuration", =>
         "setTimerWWFr 04:00 23:30 00:00 24:00 00:00 24:00",
         "setTimerWWSa 05:00 23:40 00:00 24:00 00:00 24:00",
         "setTimerWWSo 06:00 23:50 00:00 24:00 00:00 24:00",
-        "quit",
         "getTimerWWMo",
         "getTimerWWDi",
         "getTimerWWMi",
         "getTimerWWDo",
         "getTimerWWFr",
         "getTimerWWSa",
-        "getTimerWWSo",
-        "quit"
+        "getTimerWWSo"
       ])
       #@browser.assert.input("input[name=\"times[monday][0][off]\"]", "15:00")

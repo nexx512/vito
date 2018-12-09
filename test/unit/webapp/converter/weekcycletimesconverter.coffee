@@ -15,23 +15,24 @@ describe "A WeekCycleTimes converet", =>
 
     convertedWeekCycleTimesReponseDto = WeekCycleTimesConverter.toWeekCycleTimesResponseDto(weekCycleTimesModel)
 
-    weekCycleTimesReponseDto =
-      monday: new Array()
-      tuesday: new Array()
-      wednesday: new Array()
-      thursday: new Array()
-      friday: new Array()
-      saturday: new Array()
-      sunday: new Array()
-    weekCycleTimesReponseDto.monday[0] =
+    Object.keys(convertedWeekCycleTimesReponseDto).should.eql(["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"])
+    convertedWeekCycleTimesReponseDto.monday.length.should.equal(4)
+    convertedWeekCycleTimesReponseDto.monday[0].should.eql(
       on:
         time: "00:01"
         errors: []
       off:
         time: "00:0a"
         errors: ["Time format invalid"]
-    convertedWeekCycleTimesReponseDto.monday.length.should.equal(1)
-    convertedWeekCycleTimesReponseDto.should.eql(weekCycleTimesReponseDto)
+    )
+    convertedWeekCycleTimesReponseDto.monday[1].should.eql(
+      on:
+        time: null
+        errors: []
+      off:
+        time: null
+        errors: []
+    )
 
   it "should transform a WeekCycleTimerDto to a WeekCycleTimesModel", =>
     weekCycleTimesReponseDto =
