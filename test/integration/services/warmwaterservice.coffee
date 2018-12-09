@@ -15,7 +15,10 @@ ValidationError = require("../../../dist/app/models/validationerror").default
 describe "The WarmWaterService", =>
 
   before =>
-    @warmWaterService = new WarmWaterService(new VControlRepo(new VControlClient({})))
+    @warmWaterService = new WarmWaterService(new VControlRepo(new VControlClient({
+      host: "localhost"
+      port: 3002
+    })))
     @mockVControlD = new MockVControlD()
     await @mockVControlD.start()
 
@@ -56,7 +59,7 @@ describe "The WarmWaterService", =>
 
         await @warmWaterService.setHeatingTimes(weekTimes)
 
-        @mockVControlD.commandLog.should.eql(["setTimerWWMo 00:00 01:00", "quit"])
+        @mockVControlD.commandLog.should.eql(["setTimerWWMo 00:00 01:00"])
 
   describe "getting the circulation times", =>
     it "should deliver heating times for all days", =>
@@ -92,4 +95,4 @@ describe "The WarmWaterService", =>
 
         await @warmWaterService.setCirculationTimes(weekTimes)
 
-        @mockVControlD.commandLog.should.eql(["setTimerZirkuMo 00:00 01:00", "quit"])
+        @mockVControlD.commandLog.should.eql(["setTimerZirkuMo 00:00 01:00"])
