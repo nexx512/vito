@@ -2,3 +2,8 @@
 /log
 /config/config.json
 /dist
+/vito.iml
+/.idea/
+/cypress/screenshots
+/cypress/integration/examples
+/cypress/fixtures/example.json

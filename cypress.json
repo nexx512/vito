@@ -1,0 +1,4 @@
+{
+  "baseUrl": "http://localhost:8005",
+  "watchForFileChanges": false
+}

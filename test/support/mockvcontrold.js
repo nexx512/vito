@@ -6,19 +6,19 @@ module.exports = class MockVControlD {
   constructor(logger) {
     this.logger = logger ? logger : () => {}
     this.server = new net.Server((c) => {
-      c.on("end", () => this.logger("client disconnected."))
-      this.logger("client connected.")
+      c.on("end", () => this.logger("Client disconnected."))
+      this.logger("Client connected.")
       c.write("vctrld>")
       c.on("data", (data) => {
         let rawCommand = data.toString().replace(/\r?\n$/, "")
         this.commandLog.push(rawCommand)
         let args = rawCommand.split(" ")
         let command = args.shift()
-        if (command == "quit") {
+        if (command === "quit") {
           c.end()
         } else {
           this.logger("Command:", command)
-          if (args.length == 0) {
+          if (args.length === 0) {
             let response = mockVControldData[command]
             if (response) {
               this.logger("Response:", response)
@@ -51,8 +51,14 @@ module.exports = class MockVControlD {
 
   async start() {
     return new Promise((resolve, reject) => {
-      this.server.listen(3002, "localhost", (e) => {
-        e ? reject(e) : resolve()
+      const port = 3002;
+      this.server.listen(port, "localhost", (e) => {
+        if (e) {
+          reject(e);
+        } else {
+          this.logger("VControlD mock started on port " + port + ".");
+          resolve();
+        }
       })
     })
   }
@@ -60,7 +66,12 @@ module.exports = class MockVControlD {
   async stop() {
     return new Promise((resolve, reject) => {
       this.server.close((e) => {
-        e ? reject(e) : resolve()
+        if (e) {
+          reject(e);
+        } else {
+          this.logger("VControlD mock stopped.");
+          resolve();
+        }
       })
     })
   }
