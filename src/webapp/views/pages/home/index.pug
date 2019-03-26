@@ -4,4 +4,12 @@ block breadcrumb
   h2= t("overview")
 
 block main
-  = model
+  //- if model && model.errors && model.errors.length > 0
+    +notificationError(model.errors)
+  //- else
+    +notificationSuccess(t("noerror"))
+  //- +heatingMode(model.heatingMode)
+  .home__systemDate= model.systemTime.toLocaleDateString(locale)
+  .home__systemTime= model.systemTime.toLocaleTimeString(locale)
+  .home__outsideTemperature= model.outsideTemp.temperature
+  = JSON.stringify(model)

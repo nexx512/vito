@@ -3,6 +3,10 @@ Locales = require("../../../../dist/webapp/utils/locales").default
 
 describe "A Locales object", =>
 
+  it "should return the key language is not defined", =>
+    locales = new Locales()
+    locales.translate("", "unavailablekey").should.equal("[unavailablekey]")
+
   it "should return the key if not found in language", =>
     locales = new Locales()
     locales.translate("de", "unavailablekey").should.equal("[unavailablekey]")

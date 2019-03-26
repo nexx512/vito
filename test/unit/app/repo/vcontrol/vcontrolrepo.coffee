@@ -81,3 +81,21 @@ describe "A VControlRepo object", =>
       await @vControlRepo.setWarmWaterCirculationTimes(new WeekCycleTimes(new CycleTimes())).should.rejected()
 
       @vControlClientMock.verify()
+
+  describe "getting the system time", =>
+    it "should deliver the heating time in ISO format", =>
+      sinon.stub(@vControlClient, "getData").returns("2019-02-12T23:20:52+0000\n")
+
+      systemTime = await @vControlRepo.getSystemTime()
+
+      systemTime.should.eql new Date("2019-02-12T23:20:52+0000")
+      @vControlClientMock.verify()
+
+  describe "getting the outside temperature", =>
+    it "should deliver the temperature in the Temperature type", =>
+      sinon.stub(@vControlClient, "getData").returns("6.100000 Grad Celsius\n")
+
+      outsideTemp = await @vControlRepo.getOutsideTemp()
+
+      outsideTemp.temperature.should.eql 6.1
+      @vControlClientMock.verify()

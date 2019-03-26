@@ -4,7 +4,7 @@ const locales: any = {
 
 export default class Locales {
   translate(locale: string, key: string, fallback: string) {
-    if (locales[locale][key]) {
+    if (locales[locale] && locales[locale][key]) {
       return locales[locale][key]
     } else {
       if ((fallback !== null) && (fallback !== undefined)) {
