@@ -1,4 +1,5 @@
-node_modules/.bin
-log
-config/config.json
-dist
+/node_modules/.bin
+/log
+/config/config.json
+/dist
+/npm-debug.log
