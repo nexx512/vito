@@ -30,6 +30,7 @@
     "gulp-rev-delete-original": "^0.2.3",
     "gulp-stylus": "^2.7.0",
     "gulp-typescript": "^5.0.0-alpha.3",
+    "rewire": "^4.0.1",
     "run-sequence": "^2.2.1",
     "should": "^13.2.3",
     "sinon": "^6.1.5",
