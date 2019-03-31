@@ -1,0 +1,6 @@
+mixin dateTime(date, locale)
+  .dateTime&attributes(attributes)
+    span.dateTime__date= date.toLocaleDateString(locale)
+    span.dateTime__time= date.toLocaleTimeString(locale)
+
+    

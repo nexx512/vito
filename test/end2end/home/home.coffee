@@ -32,11 +32,10 @@ describe "when loading the home page", =>
     ])
 
   it "should have the date and time", =>
-    @browser.assert.text(".home__systemDate", "13.2.2019")
-    @browser.assert.text(".home__systemTime", "00:20:52")
+    @browser.assert.text(".home__systemTime", "13.2.201900:20:52")
 
   it "should have the outside temperature", =>
-    @browser.assert.text(".home__outsideTemperature", "-5.1")
+    @browser.assert.text(".home__outsideTemperature", "-5.10 °C")
 
   it "should have the failure status", =>
     @browser.assert.element(".failureStatus__hasFailure")

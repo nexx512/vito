@@ -1,5 +1,5 @@
 mixin failureStatus(failureStatus)
-  .failureStatus
+  .failureStatus&attributes(attributes)
     if (failureStatus)
       .failureStatus__hasFailure
         = Fehler

@@ -1,5 +1,7 @@
 extend ../layout/index.pug
 
+include /datetime/datetime
+include /temperature/temperature
 include /failurestatus/failurestatus
 
 block breadcrumb
@@ -11,8 +13,7 @@ block main
   //- else
     +notificationSuccess(t("noerror"))
   //- +heatingMode(model.heatingMode)
-  .home__systemDate= model.systemTime.toLocaleDateString(locale)
-  .home__systemTime= model.systemTime.toLocaleTimeString(locale)
-  .home__outsideTemperature= model.outsideTemp.temperature
-  +failureStatus(model.failureStatus)
+  +dateTime(model.systemTime, locale).home__systemTime
+  +temperature(model.outsideTemp.temperature).home__outsideTemperature
+  +failureStatus(model.failureStatus.hasFailure)
   = JSON.stringify(model)
