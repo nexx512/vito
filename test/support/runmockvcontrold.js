@@ -1,6 +1,8 @@
 const MockVControlD = require("./mockvcontrold")
 
-let mockVControlD = new MockVControlD(null, console.log)
+const mockData = require("./mockvcontrolddata.json")
+
+let mockVControlD = new MockVControlD(mockData, console.log)
 mockVControlD.start()
 
 process.once("SIGTERM", async () => {
