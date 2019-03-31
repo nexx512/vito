@@ -5,9 +5,27 @@ Zombie = require("zombie")
 MockVControlD = require("../../support/mockvcontrold")
 
 describe "when loading the warmwater circulation configuration", =>
+
+  mockVControldData = {
+    "getTimerZirkuMo": "An:00:01  Aus:23:01\nAn:00:00  Aus:24:00\nAn:00:00  Aus:24:00\nAn:--     Aus:--",
+    "getTimerZirkuDi": "An:00:02  Aus:23:02\nAn:00:00  Aus:24:00\nAn:00:00  Aus:24:00\nAn:--     Aus:--",
+    "getTimerZirkuMi": "An:00:03  Aus:23:03\nAn:00:00  Aus:24:00\nAn:00:00  Aus:24:00\nAn:--     Aus:--",
+    "getTimerZirkuDo": "An:00:04  Aus:23:04\nAn:00:00  Aus:24:00\nAn:00:00  Aus:24:00\nAn:--     Aus:--",
+    "getTimerZirkuFr": "An:00:05  Aus:23:05\nAn:00:00  Aus:24:00\nAn:00:00  Aus:24:00\nAn:--     Aus:--",
+    "getTimerZirkuSa": "An:00:06  Aus:23:06\nAn:00:00  Aus:24:00\nAn:00:00  Aus:24:00\nAn:--     Aus:--",
+    "getTimerZirkuSo": "An:00:06  Aus:23:07\nAn:00:00  Aus:24:00\nAn:00:00  Aus:24:00\nAn:--     Aus:--",
+    "setTimerZirkuMo": "^\\d+:\\d+$",
+    "setTimerZirkuDi": "^\\d+:\\d+$",
+    "setTimerZirkuMi": "^\\d+:\\d+$",
+    "setTimerZirkuDo": "^\\d+:\\d+$",
+    "setTimerZirkuFr": "^\\d+:\\d+$",
+    "setTimerZirkuSa": "^\\d+:\\d+$",
+    "setTimerZirkuSo": "^\\d+:\\d+$",
+  }
+
   before =>
     @browser = new Zombie()
-    @mockVControlD = new MockVControlD()
+    @mockVControlD = new MockVControlD(mockVControldData)
     await @mockVControlD.start()
     await @browser.visit("http://localhost:" + Config.port + "/warmwater/circulation")
 

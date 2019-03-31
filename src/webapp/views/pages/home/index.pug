@@ -1,5 +1,7 @@
 extend ../layout/index.pug
 
+include /failurestatus/failurestatus
+
 block breadcrumb
   h2= t("overview")
 
@@ -12,4 +14,5 @@ block main
   .home__systemDate= model.systemTime.toLocaleDateString(locale)
   .home__systemTime= model.systemTime.toLocaleTimeString(locale)
   .home__outsideTemperature= model.outsideTemp.temperature
+  +failureStatus(model.failureStatus)
   = JSON.stringify(model)

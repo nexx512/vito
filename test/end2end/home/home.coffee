@@ -5,9 +5,16 @@ Zombie = require("zombie")
 MockVControlD = require("../../support/mockvcontrold")
 
 describe "when loading the home page", =>
+
+  mockVControldData = {
+    "getSystemTime": "2019-02-12T23:20:52+0000",
+    "getTempA": "-5.10000  Grad Celsius",
+    "getStatusStoerung": "Fehler"
+  }
+
   before =>
     @browser = new Zombie()
-    @mockVControlD = new MockVControlD()
+    @mockVControlD = new MockVControlD(mockVControldData)
     await @mockVControlD.start()
     await @browser.visit("http://localhost:" + Config.port)
 
@@ -18,7 +25,7 @@ describe "when loading the home page", =>
     @mockVControlD.commandLog.should.containDeep([
       "getSystemTime"
       "getTempA"
-#      "getStatusStoerung"
+      "getStatusStoerung"
 #      "getTempRaumNorSollM1"
 #      "getBetriebArt"
 #      "getStatusFrostM1"
@@ -31,7 +38,9 @@ describe "when loading the home page", =>
   it "should have the outside temperature", =>
     @browser.assert.text(".home__outsideTemperature", "-5.1")
 
-  it.skip "should have the heating mode", =>
+  it "should have the failure status", =>
+    @browser.assert.element(".failureStatus__hasFailure")
 
+  it.skip "should have the heating mode", =>
     @browser.assert.element(".heatingMode .heatingMode__heating")
     @browser.assert.element(".heatingMode .heatingMode__warmwater")

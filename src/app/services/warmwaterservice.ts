@@ -4,7 +4,7 @@ import VControlRepo from "../repo/vcontrol/vcontrolrepo"
 
 export default class WarmWaterService {
 
-  constructor(public repo: VControlRepo) {
+  constructor(private repo: VControlRepo) {
   }
 
   async getHeatingTimes() {

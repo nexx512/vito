@@ -5,9 +5,27 @@ Zombie = require("zombie")
 MockVControlD = require("../../support/mockvcontrold")
 
 describe "when loading the warmwater heating configuration", =>
+
+  mockVControldData = {
+    "getTimerWWMo": "An:00:00  Aus:24:00\nAn:00:00  Aus:24:00\nAn:00:00  Aus:24:00\nAn:--     Aus:--",
+    "getTimerWWDi": "An:01:00  Aus:23:00\nAn:00:00  Aus:24:00\nAn:00:00  Aus:24:00\nAn:--     Aus:--",
+    "getTimerWWMi": "An:02:00  Aus:23:10\nAn:00:00  Aus:24:00\nAn:00:00  Aus:24:00\nAn:--     Aus:--",
+    "getTimerWWDo": "An:03:00  Aus:23:20\nAn:00:00  Aus:24:00\nAn:00:00  Aus:24:00\nAn:--     Aus:--",
+    "getTimerWWFr": "An:04:00  Aus:23:30\nAn:00:00  Aus:24:00\nAn:00:00  Aus:24:00\nAn:--     Aus:--",
+    "getTimerWWSa": "An:05:00  Aus:23:40\nAn:00:00  Aus:24:00\nAn:00:00  Aus:24:00\nAn:--     Aus:--",
+    "getTimerWWSo": "An:06:00  Aus:23:50\nAn:00:00  Aus:24:00\nAn:00:00  Aus:24:00\nAn:--     Aus:--",
+    "setTimerMo": "^\\d+:\\d+$",
+    "setTimerDi": "^\\d+:\\d+$",
+    "setTimerMi": "^\\d+:\\d+$",
+    "setTimerDo": "^\\d+:\\d+$",
+    "setTimerFr": "^\\d+:\\d+$",
+    "setTimerSa": "^\\d+:\\d+$",
+    "setTimerSo": "^\\d+:\\d+$",
+  }
+
   before =>
     @browser = new Zombie()
-    @mockVControlD = new MockVControlD()
+    @mockVControlD = new MockVControlD(mockVControldData)
     await @mockVControlD.start()
     await @browser.visit("http://localhost:" + Config.port + "/warmwater/heating")
 

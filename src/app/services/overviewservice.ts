@@ -3,13 +3,14 @@ import HeatingStatus from "../models/heatingstatus"
 
 export default class OverviewService {
 
-  constructor(public repo: VControlRepo) {
+  constructor(private repo: VControlRepo) {
   }
 
   async getGeneralHeatingStatus() {
     let heatingStatus = new HeatingStatus()
     heatingStatus.systemTime = await this.repo.getSystemTime()
     heatingStatus.outsideTemp = await this.repo.getOutsideTemp()
+    heatingStatus.failureStatus = await this.repo.getFailureStatus()
     return heatingStatus
   }
 

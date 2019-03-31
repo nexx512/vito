@@ -1,9 +1,7 @@
-const mockVControldData = require("./mockvcontrolddata.json")
 const net = require("net")
 
 module.exports = class MockVControlD {
-
-  constructor(logger) {
+  constructor(mockData = {}, logger) {
     this.logger = logger ? logger : () => {}
     this.server = new net.Server((c) => {
       c.on("end", () => this.logger("client disconnected."))
@@ -19,7 +17,7 @@ module.exports = class MockVControlD {
         } else {
           this.logger("Command:", command)
           if (args.length == 0) {
-            let response = mockVControldData[command]
+            let response = mockData[command]
             if (response) {
               this.logger("Response:", response)
               c.write(response + "\n")
@@ -28,7 +26,7 @@ module.exports = class MockVControlD {
               c.write("ERR: unknown command\n")
             }
           } else {
-            let commandArgsRegexp = new RegExp(mockVControldData[command])
+            let commandArgsRegexp = new RegExp(mockData[command])
             this.logger("Arguments:", args)
             if (args.every((a) => commandArgsRegexp.test(a))) {
               c.write("OK\n")
