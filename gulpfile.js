@@ -11,6 +11,7 @@ const ts = require("gulp-typescript")
 
 const src = {
   styles: ["src/webapp/views/styles/**/*.styl", "src/webapp/views/pages/**/*.styl", "src/webapp/views/components/**/*.styl"],
+  icons: ["src/webapp/assets/icons/*.svg"],
   pug: ["webapp/views/pages/**/*.pug"],
   json: ["src/webapp/i18n/*.json"]
 }
@@ -89,7 +90,38 @@ gulp.task("styles:optimize", ["styles"], () =>
 
 
 //////////
-// Optimizing previously build assets
+// Copy sprites
+//////////
+gulp.task("icons", () => {
+  gulp.src(src.icons)
+  .pipe(p.plumber())
+  .pipe(p.svgmin({
+    plugins: [{
+      removeComments: true
+    }, {
+      removeTitle: true
+    }, {
+      cleanupNumericValues: {
+        floatPrecision: 2
+      }
+    }]
+  }))
+  .pipe(p.rename({prefix: 'icon-'}))
+  .pipe(p.svgSprite({
+    mode: {
+      inline: true,
+      symbol: {
+        dest: ".",
+        sprite: "icons.svg"
+      }
+    }
+  }))
+  .pipe(gulp.dest(distAssets + "/icons"))
+})
+
+
+//////////
+// Optimizing previously build styles
 //////////
 gulp.task("optimize", ["styles:optimize"])
 
@@ -101,13 +133,14 @@ gulp.task("watch", cb => {
   gulp.watch(["**/*.ts"], ["ts"])
   gulp.watch(src.styles, ["styles"])
   gulp.watch(src.json, ["json"])
+  gulp.watch(src.sprites, ["sprites"])
 })
 
 
 //////////
 // Revisioning previously built and optimized assets
 //////////
-gulp.task("rev", ["optimize"], () =>
+gulp.task("rev", ["optimize", "icons"], () =>
   gulp.src([distAssets + "/**/*"])
     .pipe(p.revAll.revision())
     .pipe(p.revDeleteOriginal())
@@ -120,5 +153,5 @@ gulp.task("rev", ["optimize"], () =>
 //////////
 // Main tasks used to create a full set of assets
 //////////
-gulp.task("develop", () => runSequence(["json", "ts", "styles"], ["watch"]))
+gulp.task("develop", () => runSequence(["json", "ts", "styles", "icons"], ["watch"]))
 gulp.task("production", () => runSequence(["clean"], ["json", "ts", "rev", "views"]))
