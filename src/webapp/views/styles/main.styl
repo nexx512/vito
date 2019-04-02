@@ -37,25 +37,50 @@ header
   position fixed
   width 100%
   height 100px
-  margin-left 250px
   top 0
   color $header-text-color
 
+#sidebarNavigationTrigger__selector
+  display none
+
+  @media $mq-up_to_l
+    &:checked
+      & + .sidebarNavigation
+        left 0
+
+.sidebarNavigationTrigger
+  @media $mq-l_and_up
+    display none
+
 .sidebarNavigation
+  background-color $color-main
   width 250px
   position fixed
+  z-index 999
+  @media $mq-up_to_l
+    left -250px
+    height 100vh
+  @media $mq-l_and_up
+    height calc(100vh - 100px)
+
+  &__trigger
+    color white
+    @media $mq-l_and_up
+      display none
 
 main
-  margin 100px 0 0 250px
   background-color $color-background
   min-height calc(100vh - 100px)
+  margin-top 100px
+  @media $mq-l_and_up
+    margin-left 250px
 
 footer
   position fixed
   bottom 4px
 
 .page
-	&__title
+  &__title
     background-color $color-header
     color $color-header-inverse
     padding-left 16px
@@ -67,7 +92,7 @@ footer
     h1
       margin-bottom 4px
 
-	&__header
+  &__header
     background-color $color-header2
     color $color-header2-inverse
     border-bottom 1px solid $color-separator
@@ -77,7 +102,7 @@ footer
     display flex
     align-items flex-end
 
-	&__breadcrumb
+  &__breadcrumb
     height 25px
     overflow hidden
     margin-bottom 8px

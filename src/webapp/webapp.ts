@@ -48,5 +48,5 @@ heating(app)
 warmwater(app)
 
 const server = app.listen(global.Config.port, () => {
-  console.log("Server started on port " + server.address().port + " in " + (process.env.NODE_ENV == "production" ? "production" : "development") + " mode")
+  console.log("Server started on port " + global.Config.port + " in " + (process.env.NODE_ENV == "production" ? "production" : "development") + " mode")
 })

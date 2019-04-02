@@ -10,7 +10,7 @@ const pug = require("gulp-pug")
 const ts = require("gulp-typescript")
 
 const src = {
-  styles: ["src/webapp/views/styles/**/*.styl", "src/webapp/views/pages/**/*.styl", "src/webapp/views/components/**/*.styl"],
+  styles: ["src/webapp/views/styles/*.styl", "src/webapp/views/pages/**/*.styl", "src/webapp/views/components/**/*.styl"],
   pug: ["webapp/views/pages/**/*.pug"],
   json: ["src/webapp/i18n/*.json"]
 }
@@ -72,7 +72,7 @@ gulp.task("styles", () =>
     .pipe(p.plumber())
     .pipe(p.stylus({
       paths: ["src/webapp/views/styles/lib"],
-      import: ["defaults"],
+      import: ["defaults", "mediaqueries"],
       url: { name: "embedurl" }
     }))
     .pipe(p.concat("styles.css"))

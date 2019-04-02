@@ -1,12 +1,15 @@
 include /navigation/navigation
 
-+navigation([
-  {url: "/", label: t("overview")},
-  {label: t("warmwater"), items: [
-    {url: "/warmwater/heating", label: t("warmwater.heating.times")},
-    {url: "/warmwater/circulation", label: t("warmwater.circulation.times")}
-  ]},
-  {label: t("heating"), items: [
-    {url: "/heating/times", label: t("heating.times")},
-  ]}
-]).sidebarNavigation
+.sidebarNavigation
+  .sidebarNavigation__trigger
+    label(for="sidebarNavigationTrigger__selector") X
+  +navigation([
+    {url: "/", label: t("overview")},
+    {label: t("warmwater"), items: [
+      {url: "/warmwater/heating", label: t("warmwater.heating.times")},
+      {url: "/warmwater/circulation", label: t("warmwater.circulation.times")}
+    ]},
+    {label: t("heating"), items: [
+      {url: "/heating/times", label: t("heating.times")},
+    ]}
+  ])

@@ -2,7 +2,9 @@ include /cycletimes/cycletimes
 
 mixin weekCycleTimes(weekCycleTimes)
   .weekCycleTimes&attributes(attributes)
+    - var rowIndex = 0
     each cycleTimes, day in weekCycleTimes
-      .weekCycleTimes__dayTimes
+      - const classes = rowIndex++ % 2 === 1 ? "weekCycleTimes__dayTimes--odd" : "weekCycleTimes__dayTimes--even"
+      .weekCycleTimes__dayTimes(class=classes)
         .weekCycleTimes__day= t(day)
         +cycleTimes(day, cycleTimes).weekCycleTimes__times
