@@ -1,5 +1,4 @@
 {
-  "getTempA": "60.00000",
   "getTimerWWMo": "An:00:00  Aus:24:00\nAn:00:00  Aus:24:00\nAn:00:00  Aus:24:00\nAn:--     Aus:--",
   "getTimerWWDi": "An:01:00  Aus:23:00\nAn:00:00  Aus:24:00\nAn:00:00  Aus:24:00\nAn:--     Aus:--",
   "getTimerWWMi": "An:02:00  Aus:23:10\nAn:00:00  Aus:24:00\nAn:00:00  Aus:24:00\nAn:--     Aus:--",
@@ -20,5 +19,8 @@
   "setTimerZirkuDo": "^\\d+:\\d+$",
   "setTimerZirkuFr": "^\\d+:\\d+$",
   "setTimerZirkuSa": "^\\d+:\\d+$",
-  "setTimerZirkuSo": "^\\d+:\\d+$"
+  "setTimerZirkuSo": "^\\d+:\\d+$",  
+  "getSystemTime": "2019-02-12T23:20:52+0000",
+  "getTempA": "-5.10000  Grad Celsius",
+  "getStatusStoerung": "Stoerung"
 }

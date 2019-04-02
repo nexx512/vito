@@ -17,6 +17,6 @@ mixin __navigationItems(items, level, prefix)
         else
           label(for=id).navigation__label
             span= item.label
-            +icon("caret-down").navigation__labelIcon
+            +icon("angle-down").navigation__labelIcon
         if item.items
           +__navigationItems(item.items, level + 1, id)

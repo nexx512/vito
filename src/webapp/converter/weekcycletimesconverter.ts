@@ -59,6 +59,20 @@ export default class WeekCycleTimesConverter {
             }
           }
         })
+
+        // fill missing times to always have at least 4 timeslots
+        for (let i = dayTimes.times.length; i < 4; ++i) {
+          weekCycleTimesResponseDto[day][i] = {
+            on: {
+              time: null,
+              errors: []
+            },
+            off: {
+              time: null,
+              errors: []
+            }
+          }
+        }
       }
     }
     return weekCycleTimesResponseDto

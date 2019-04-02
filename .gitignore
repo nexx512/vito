@@ -2,6 +2,7 @@
 /log
 /config/config.json
 /dist
+/npm-debug.log
 /vito.iml
 /.idea/
 /cypress/screenshots

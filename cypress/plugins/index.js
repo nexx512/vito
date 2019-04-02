@@ -20,8 +20,8 @@ module.exports = (on, config) => {
   // `config` is the resolved Cypress config
 
   on('task', {
-    async mockVControlDStartNew () {
-      mockVControlD = new MockVControlD();
+    async mockVControlDStartNew (mockData) {
+      mockVControlD = new MockVControlD(mockData);
       await mockVControlD.start();
       return null;
     },

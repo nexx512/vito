@@ -2,10 +2,11 @@ import VControlClient from "vcontrol"
 import VControlTimesConverter from "./vcontroltimesconverter"
 import CycleTimes from "../../models/cycletimes"
 import WeekCycleTimes from "../../models/weekcycletimes"
+import Temperature from "../../models/temperature"
+import FailureStatus from "../../models/failurestatus"
 
 export default class VControlRepo {
-
-  constructor(public vControlClient: VControlClient) {
+  constructor(private vControlClient: VControlClient) {
   }
 
   async getWarmWaterHeatingTimes() {
@@ -65,6 +66,31 @@ export default class VControlRepo {
       await this.vControlClient.setData(command,
         VControlTimesConverter.fromCycleTimesToVControlSetCommandTimes(cycleTimes))
     }
+  }
+
+  async getSystemTime() {
+    return await this.wrapConnection(async () => {
+      const systemTimeString = await this.vControlClient.getData("getSystemTime")
+      return new Date(systemTimeString.split("\n")[0])
+    })
+  }
+
+  async getOutsideTemp() {
+    return await this.wrapConnection(async () => {
+      const temperatureString = await this.vControlClient.getData("getTempA")
+      return new Temperature(temperatureString)
+    })
+  }
+
+  async getFailureStatus() {
+    return await this.wrapConnection(async () => {
+      const failureStatusString = await this.vControlClient.getData("getStatusStoerung")
+      if (failureStatusString === "OK") {
+        return new FailureStatus(false);
+      } else {
+        return new FailureStatus(true);
+      }
+    })
   }
 
   async wrapConnection(callback: any) {

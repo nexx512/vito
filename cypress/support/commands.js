@@ -24,7 +24,7 @@
 // -- This is will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
-Cypress.Commands.add("mockVcontroldStart", () => cy.task("mockVControlDStartNew"));
+Cypress.Commands.add("mockVcontroldStart", (mockData) => cy.task("mockVControlDStartNew", mockData));
 Cypress.Commands.add("mockVcontroldResetCommandLog", () => cy.task("mockVControlDResetCommandLog"));
 Cypress.Commands.add("mockVcontroldGetCommandLog", () => cy.task("mockVControlDGetCommandLog"));
 Cypress.Commands.add("mockVcontroldStop", () => cy.task("mockVControlDStop"));
