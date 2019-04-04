@@ -1,6 +1,8 @@
 const MockVControlD = require("./mockvcontrold");
 
-const mockData = require("./mockvcontrolddata.json")
+const mockData = require("./mockvcontrolddata.json");
+
+let mockVControlD = new MockVControlD(mockData, console.log);
 
 async function startServer() {
   try {
