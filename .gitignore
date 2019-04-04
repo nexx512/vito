@@ -6,5 +6,6 @@
 /vito.iml
 /.idea/
 /cypress/screenshots
+/cypress/videos
 /cypress/integration/examples
 /cypress/fixtures/example.json

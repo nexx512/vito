@@ -1,5 +1,4 @@
 should = require("should")
-global.Config = require("../../../config/config.json")
 
 describe "when loading the warmwater heating configuration", ->
 
@@ -28,6 +27,7 @@ describe "when loading the warmwater heating configuration", ->
 
   beforeEach ->
     cy.visit("/warmwater/heating")
+    cy.get("label[for='heatingTimes']").click()
 
   it "there are 7 days with 4 timers each", ->
     cy.get(".cycleTimes").should("have.length", 7)
@@ -55,7 +55,7 @@ describe "when loading the warmwater heating configuration", ->
       cy.get("input[name=\"times[monday][3][on]\"]").type("{selectall}00:07")
       cy.get("input[name=\"times[monday][3][off]\"]").type("{selectall}00:08")
       cy.get("form[action=\"/warmwater/heating/times\"] button[type=\"submit\"]").click()
-      cy.mockVcontroldGetCommandLog.should.eql([
+      cy.mockVcontroldGetCommandLog().should("deep.eq", [
         "setTimerWWMo 00:01 00:02 00:03 00:04 00:05 00:06 00:07 00:08",
         "setTimerWWDi 01:00 23:00 00:00 24:00 00:00 24:00",
         "setTimerWWMi 02:00 23:10 00:00 24:00 00:00 24:00",

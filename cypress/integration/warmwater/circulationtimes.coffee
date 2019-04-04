@@ -1,5 +1,4 @@
 should = require("should")
-global.Config = require("../../../config/config.json")
 
 describe "when loading the warmwater circulation configuration", ->
 
