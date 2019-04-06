@@ -1,7 +1,12 @@
+include /icon/icon
+
 header
   .page__title
     h1= t("title")
   .page__header
+    .page__sidebarNavigationTrigger
+      label(for="sidebarNavigationTrigger__selector")
+        +icon("menu", 24)
     .page__breadcrumb
       block breadcrumb
       

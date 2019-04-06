@@ -1,9 +1,7 @@
-include /navigation/navigation
+include /menu/menu
 
 .sidebarNavigation
-  .sidebarNavigation__trigger
-    label(for="sidebarNavigationTrigger__selector") X
-  +navigation([
+  +menu([
     {url: "/", label: t("overview")},
     {label: t("warmwater"), items: [
       {url: "/warmwater/heating", label: t("warmwater.heating.times")},

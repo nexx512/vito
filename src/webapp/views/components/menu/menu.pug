@@ -1,0 +1,22 @@
+include /link/link
+include /icon/icon
+
+mixin menu(tree)
+  nav.menu&attributes(attributes)
+    +__menuItems(tree, 1, "nav")
+
+mixin __menuItems(items, level, prefix)
+  ul(class="menu__level" + level)
+    each item, index in items
+      - const id = prefix + index
+      if item.items
+        input(type="checkbox" id=id name="nav")
+      li.menu__item(class="menu__item--level" + level)
+        if item.url
+          +link(item.url, item.label).menu__label
+        else
+          label(for=id).menu__label
+            span= item.label
+            +icon("angle-down").menu__labelIcon
+        if item.items
+          +__menuItems(item.items, level + 1, id)
