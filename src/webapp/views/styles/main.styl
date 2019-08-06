@@ -40,13 +40,14 @@ header
   top 0
   color $header-text-color
 
-#sidebarNavigationTrigger__selector
-  display none
+#sidebarNavigationTrigger
+  &__selector
+    display none
 
-  @media $mq-up_to_l
-    &:checked
-      & + .sidebarNavigation
-        left 0
+    @media $mq-up_to_l
+      &:checked
+        & + .sidebarNavigation
+          left 0
 
 .sidebarNavigation
   background-color $color-main

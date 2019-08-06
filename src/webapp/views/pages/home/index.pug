@@ -1,6 +1,7 @@
 extend ../layout/index.pug
 
 include /datetime/datetime
+include /heatingmode/heatingmode
 include /temperature/temperature
 include /failurestatus/failurestatus
 
@@ -14,6 +15,8 @@ block main
     +notificationSuccess(t("noerror"))
   //- +heatingMode(model.heatingMode)
   +dateTime(model.systemTime, locale).home__systemTime
+  +heatingMode(model.heatingMode).home_heatingMode
   +temperature(model.outsideTemp.temperature).home__outsideTemperature
+  +temperature(model.roomTemp.temperature).home__roomTemperature
   +failureStatus(model.failureStatus.hasFailure)
   = JSON.stringify(model)
