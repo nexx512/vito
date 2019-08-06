@@ -3,6 +3,7 @@ import VControlTimesConverter from "./vcontroltimesconverter"
 import CycleTimes from "../../models/cycletimes"
 import WeekCycleTimes from "../../models/weekcycletimes"
 import Temperature from "../../models/temperature"
+import HeatingMode from "../../models/heatingmode"
 import FailureStatus from "../../models/failurestatus"
 
 export default class VControlRepo {
@@ -79,6 +80,20 @@ export default class VControlRepo {
     return await this.wrapConnection(async () => {
       const temperatureString = await this.vControlClient.getData("getTempA")
       return new Temperature(temperatureString)
+    })
+  }
+
+  async getRoomTemp() {
+    return await this.wrapConnection(async () => {
+      const temperatureString = await this.vControlClient.getData("getTempRaumNorSollM1");
+      return new Temperature(temperatureString);
+    })
+  }
+
+  async getHeatingMode() {
+    return await this.wrapConnection(async () => {
+      const heatingModeString = await this.vControlClient.getData("getBetriebArt");
+      return new HeatingMode(heatingModeString);
     })
   }
 

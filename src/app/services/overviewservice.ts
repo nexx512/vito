@@ -10,6 +10,8 @@ export default class OverviewService {
     let heatingStatus = new HeatingStatus()
     heatingStatus.systemTime = await this.repo.getSystemTime()
     heatingStatus.outsideTemp = await this.repo.getOutsideTemp()
+    heatingStatus.roomTemp = await this.repo.getRoomTemp()
+    heatingStatus.heatingMode = await this.repo.getHeatingMode()
     heatingStatus.failureStatus = await this.repo.getFailureStatus()
     return heatingStatus
   }
