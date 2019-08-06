@@ -19,8 +19,10 @@
   "setTimerZirkuDo": "^\\d+:\\d+$",
   "setTimerZirkuFr": "^\\d+:\\d+$",
   "setTimerZirkuSa": "^\\d+:\\d+$",
-  "setTimerZirkuSo": "^\\d+:\\d+$",  
+  "setTimerZirkuSo": "^\\d+:\\d+$",
   "getSystemTime": "2019-02-12T23:20:52+0000",
   "getTempA": "-5.10000  Grad Celsius",
-  "getStatusStoerung": "Stoerung"
+  "getStatusStoerung": "Stoerung",
+  "getTempRaumNorSollM1": "21.0000 Grad Celsius",
+  "getBetriebArt": "H+WW"
 }

@@ -44,7 +44,7 @@
     "start": "node dist/app.js",
     "test": "mocha --recursive test/unit && mocha --recursive test/integration && node_modules/.bin/cypress run",
     "build": "./node_modules/.bin/gulp production",
-    "mock": "node ./runmockvcontrold.js",
+    "mock": "node ./mock/runmockvcontrold.js",
     "develop": "./node_modules/.bin/gulp develop"
   },
   "author": "Jürgen Diez",
