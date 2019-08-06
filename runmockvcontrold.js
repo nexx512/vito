@@ -1,6 +1,6 @@
-const MockVControlD = require("./mockvcontrold");
+const MockVControlD = require("./test/support/mockvcontrold");
 
-const mockData = require("./mockvcontrolddata.json");
+const mockData = require("./test/support/mockvcontrolddata.json");
 
 let mockVControlD = new MockVControlD(mockData, console.log);
 
