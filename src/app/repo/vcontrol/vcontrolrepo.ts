@@ -93,7 +93,7 @@ export default class VControlRepo {
     })
   }
 
-  async wrapConnection(callback: any) {
+  private async wrapConnection<T>(callback: () => Promise<T>): Promise<T> {
     await this.vControlClient.connect()
     try {
       let result = await callback()
