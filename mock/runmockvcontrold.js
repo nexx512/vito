@@ -1,21 +1,60 @@
+const fs = require("fs")
+const path = require ("path")
+
 const MockVControlD = require("../test/support/mockvcontrold");
 
-const mockData = require("./mockvcontrolddata.json");
+const mockDataFile = path.join(__dirname, "mockvcontrolddata.json");
 
-let mockVControlD = new MockVControlD(mockData, console.log);
+let lockServerRestart = false;
+let mockVControlD;
 
-async function startServer() {
+const watcher = fs.watch(mockDataFile)
+watcher.on("change", async (a, b) => {
+  await restartServer();
+});
+watcher.on("close", async () => {
+  await stopServer();
+});
+
+function resetWatcherListeners() {
+  watcher.on("change", () => {});
+  watcher.on("close", () => {});
+}
+
+async function restartServer() {
+  if (lockServerRestart) return;
+  lockServerRestart = true;
+
+  if (mockVControlD) {
+    try {
+      await mockVControlD.stop()
+    } catch (e) {}
+  }
+
+  delete require.cache[mockDataFile];
+  const mockData = require(mockDataFile);
+  mockVControlD = new MockVControlD(mockData, console.log);
   try {
     await mockVControlD.start();
   } catch (e) {
     console.error(e);
   }
+
+  lockServerRestart = false;
 }
 
-startServer();
+async function stopServer() {
+  try {
+    await mockVControlD.stop();
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+restartServer();
 
 process.once("SIGTERM", async () => {
   console.log("SIGTERM received...");
-  await mockVControlD.stop();
+  await watcher.close();
   process.exit(2);
 })
