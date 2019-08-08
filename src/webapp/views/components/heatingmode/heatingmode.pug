@@ -2,7 +2,7 @@ include /icon/icon
 
 mixin heatingMode(heatingMode)
   .heatingMode&attributes(attributes)
-    if (heatingMode | 1)
+    if (heatingMode.heating)
       +icon("fire", 32).heatingMode__icon
-    if (heatingMode | 2)
+    if (heatingMode.warmwater)
       +icon("shower", 32).heatingMode__icon
