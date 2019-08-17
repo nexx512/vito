@@ -4,6 +4,7 @@ include /datetime/datetime
 include /heatingmode/heatingmode
 include /temperature/temperature
 include /failurestatus/failurestatus
+include /failuremessage/failuremessage
 
 block breadcrumb
   h2= t("overview")
@@ -19,4 +20,6 @@ block main
   +temperature(model.outsideTemp.temperature).home__outsideTemperature
   +temperature(model.roomTemp.temperature).home__roomTemperature
   +failureStatus(model.failureStatus.hasFailure)
+  each failure in model.failures.items
+    +failureMessage(failure)
   = JSON.stringify(model)

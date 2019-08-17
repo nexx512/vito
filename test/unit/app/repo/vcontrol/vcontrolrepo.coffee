@@ -133,3 +133,52 @@ describe "A VControlRepo object", =>
 
         failureStatus.hasFailure.should.true()
         @vControlClientMock.verify()
+
+  describe "getting the failure", =>
+    describe "with no failure", =>
+      it "should deliver no failures", =>
+        getDataStub = sinon.stub(@vControlClient, "getData")
+        getDataStub.withArgs("getError0").returns("1970-01-01T00:00:00+0000 Regelbetrieb (kein Fehler) (00)")
+        getDataStub.withArgs("getError1").returns("1970-01-01T00:00:00+0000 Regelbetrieb (kein Fehler) (00)")
+        getDataStub.withArgs("getError2").returns("1970-01-01T00:00:00+0000 Regelbetrieb (kein Fehler) (00)")
+        getDataStub.withArgs("getError3").returns("1970-01-01T00:00:00+0000 Regelbetrieb (kein Fehler) (00)")
+        getDataStub.withArgs("getError4").returns("1970-01-01T00:00:00+0000 Regelbetrieb (kein Fehler) (00)")
+        getDataStub.withArgs("getError5").returns("1970-01-01T00:00:00+0000 Regelbetrieb (kein Fehler) (00)")
+        getDataStub.withArgs("getError6").returns("1970-01-01T00:00:00+0000 Regelbetrieb (kein Fehler) (00)")
+        getDataStub.withArgs("getError7").returns("1970-01-01T00:00:00+0000 Regelbetrieb (kein Fehler) (00)")
+        getDataStub.withArgs("getError8").returns("1970-01-01T00:00:00+0000 Regelbetrieb (kein Fehler) (00)")
+        getDataStub.withArgs("getError9").returns("1970-01-01T00:00:00+0000 Regelbetrieb (kein Fehler) (00)")
+
+        failures = await @vControlRepo.getFailures()
+
+        failures.items.length.should.equal 0
+        @vControlClientMock.verify()
+
+    describe "with full failure history", =>
+      it "should deliver all 10 failures", =>
+        getDataStub = sinon.stub(@vControlClient, "getData")
+        getDataStub.withArgs("getError0").returns("2019-08-16T23:03:10+0000 Kurzschluss Aussentemperatursensor (10)")
+        getDataStub.withArgs("getError1").returns("2019-08-16T23:03:10+0000 Kurzschluss Aussentemperatursensor (11)")
+        getDataStub.withArgs("getError2").returns("2019-08-16T23:03:10+0000 Kurzschluss Aussentemperatursensor (12)")
+        getDataStub.withArgs("getError3").returns("2019-08-16T23:03:10+0000 Kurzschluss Aussentemperatursensor (13)")
+        getDataStub.withArgs("getError4").returns("2019-08-16T23:03:10+0000 Kurzschluss Aussentemperatursensor (14)")
+        getDataStub.withArgs("getError5").returns("2019-08-16T23:03:10+0000 Kurzschluss Aussentemperatursensor (15)")
+        getDataStub.withArgs("getError6").returns("2019-08-16T23:03:10+0000 Kurzschluss Aussentemperatursensor (16)")
+        getDataStub.withArgs("getError7").returns("2019-08-16T23:03:10+0000 Kurzschluss Aussentemperatursensor (17)")
+        getDataStub.withArgs("getError8").returns("2019-08-16T23:03:10+0000 Kurzschluss Aussentemperatursensor (18)")
+        getDataStub.withArgs("getError9").returns("2019-08-16T23:03:10+0000 Kurzschluss Aussentemperatursensor (19)")
+
+        failures = await @vControlRepo.getFailures()
+
+        failures.items.length.should.equal 10
+        failures.items[0].code.should.equal 0x10
+        failures.items[1].code.should.equal 0x11
+        failures.items[2].code.should.equal 0x12
+        failures.items[3].code.should.equal 0x13
+        failures.items[4].code.should.equal 0x14
+        failures.items[5].code.should.equal 0x15
+        failures.items[6].code.should.equal 0x16
+        failures.items[7].code.should.equal 0x17
+        failures.items[8].code.should.equal 0x18
+        failures.items[9].code.should.equal 0x19
+        @vControlClientMock.verify()

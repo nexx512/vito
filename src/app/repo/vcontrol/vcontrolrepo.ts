@@ -5,6 +5,8 @@ import WeekCycleTimes from "../../models/weekcycletimes"
 import Temperature from "../../models/temperature"
 import HeatingMode from "../../models/heatingmode"
 import FailureStatus from "../../models/failurestatus"
+import Failures from "../../models/failures"
+import Failure from "../../models/failure"
 
 export default class VControlRepo {
   constructor(private vControlClient: VControlClient) {
@@ -106,6 +108,16 @@ export default class VControlRepo {
         return new FailureStatus(true);
       }
     })
+  }
+
+  async getFailures() {
+    return await this.wrapConnection(async () => {
+      const failures = new Failures();
+      for (let i = 0; i < 10; ++i) {
+        failures.add(new Failure(await this.vControlClient.getData("getError" + i)));
+      }
+      return failures;
+    });
   }
 
   private async wrapConnection<T>(callback: () => Promise<T>): Promise<T> {

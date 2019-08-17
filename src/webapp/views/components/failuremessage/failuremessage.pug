@@ -1,0 +1,3 @@
+mixin failureMessage(failure)
+  .failureMessage&attributes(attributes)
+    = t("heating.failure." + failure.code.toString(16).toUpperCase())

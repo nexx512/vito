@@ -19,7 +19,7 @@ module.exports = class MockVControlD {
           this.logger("Command:", command)
           if (args.length === 0) {
             let response = mockData[command]
-            if (response) {
+            if (response  !== undefined) {
               this.logger("Response:", response)
               c.write(response + "\n")
             } else {

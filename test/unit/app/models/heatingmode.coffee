@@ -6,7 +6,7 @@ ValidationError = require("../../../../dist/app/models/validationerror").default
 describe "A HeatingMode model", =>
 
   describe "with only heating turned on", =>
-    it "should olny set the radiator flag", =>
+    it "should only set the radiator flag", =>
       heatingMode = new HeatingMode("H")
 
       heatingMode.heating.should.true()

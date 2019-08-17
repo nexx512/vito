@@ -3,5 +3,4 @@ include /icon/icon
 mixin failureStatus(failureStatus)
   .failureStatus(title=t("nofailure"))&attributes(attributes)
     if (failureStatus)
-      +icon("bolt", 32)(title=t("failure")).failureStatus__hasFailure
-        = Fehler
+      +icon("bolt", 32)(title=t("failure")).failureStatus--hasFailure

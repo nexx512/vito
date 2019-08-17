@@ -13,6 +13,14 @@ export default class OverviewService {
     heatingStatus.roomTemp = await this.repo.getRoomTemp()
     heatingStatus.heatingMode = await this.repo.getHeatingMode()
     heatingStatus.failureStatus = await this.repo.getFailureStatus()
+    heatingStatus.failures = await this.repo.getFailures()
+    // TODO:
+    // Tag/Nachtbetrieb
+    // Frostschutz
+    // Kesseltemperatur
+    // Brennerbetrieb
+    // Vorlauftemperatur
+    // Warmwassertemperatur
     return heatingStatus
   }
 
