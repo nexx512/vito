@@ -1,6 +1,5 @@
 should = require("should")
 HeatingMode = require("../../../../dist/app/models/heatingmode").default
-HeatingModes = require("../../../../dist/app/models/heatingmode").HeatingModes
 ValidationError = require("../../../../dist/app/models/validationerror").default
 
 describe "A HeatingMode model", =>
