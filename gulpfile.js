@@ -1,24 +1,33 @@
-const gulp = require("gulp")
-const runSequence = require("run-sequence")
-const p = require("gulp-load-plugins")()
-const autoprefixer = require("autoprefixer")
-const mqpacker = require("css-mqpacker")
-const csswring = require("csswring")
+const path = require("path")
+const gulp = require("gulp");
+const runSequence = require("run-sequence");
+const p = require("gulp-load-plugins")();
+const autoprefixer = require("autoprefixer");
+const mqpacker = require("css-mqpacker");
+const csswring = require("csswring");
 const del = require("del");
-const replace = require("gulp-replace")
-const pug = require("gulp-pug")
 const ts = require("gulp-typescript")
+const webpackStream = require("webpack-stream");
+const webpack = require("webpack");
+
+const viewsDir = "src/webapp/views";
+const stylesBaseDir = viewsDir + "/styles";
+const componentsDir = viewsDir + "/components";
+const scriptsBaseDir = viewsDir + "/scripts";
 
 const src = {
-  styles: ["src/webapp/views/styles/*.styl", "src/webapp/views/pages/**/*.styl", "src/webapp/views/components/**/*.styl"],
+  styles: [stylesBaseDir + "/*.styl", viewsDir + "/pages/**/*.styl", componentsDir + "/**/*.styl"],
+  scripts: [scriptsBaseDir + "/*.js"],
+  componentScripts: [componentsDir + "/*/*.js"],
   icons: ["src/webapp/assets/icons/*.svg"],
   pug: ["webapp/views/pages/**/*.pug"],
   json: ["src/webapp/i18n/*.json"]
-}
+};
 
-const dist = "dist"
-const distWebapp = dist + "/webapp"
-const distAssets = distWebapp + "/assets"
+const dist = "dist";
+const distWebapp = dist + "/webapp";
+const distAssets = distWebapp + "/assets";
+
 
 //////////
 // Clean dist folders
@@ -55,12 +64,12 @@ gulp.task("ts", () => {
 gulp.task("views", () =>
   // get all the pug files and compile them for client
   gulp.src(src.pug)
-  .pipe(pug({
+  .pipe(p.pug({
       client: true,
-      basedir: "src/webapp/views/components"
+      basedir: componentsDir
   }))
   // replace the function definition
-  .pipe(replace("function template(locals)", "module.exports = function(locals, pug)"))
+  .pipe(p.replace("function template(locals)", "module.exports = function(locals, pug)"))
   .pipe(gulp.dest(distWebapp + "/views") )
 );
 
@@ -72,7 +81,7 @@ gulp.task("styles", () =>
   gulp.src(src.styles)
     .pipe(p.plumber())
     .pipe(p.stylus({
-      paths: ["src/webapp/views/styles/lib"],
+      paths: [stylesBaseDir + "/lib"],
       import: ["defaults", "mediaqueries"],
       url: { name: "embedurl" }
     }))
@@ -88,11 +97,71 @@ gulp.task("styles:optimize", ["styles"], () =>
     .pipe(gulp.dest(distAssets + "/styles"))
 )
 
+// generates one file that imports all componenet javascript modules.
+// the generated file is imported by main.js
+// for config options see:
+// - https://github.com/lee-chase/gulp-index
+gulp.task('scripts:components', cb =>
+  gulp.src(componentsDir + "/*/*.js", {read: false})
+    .pipe(p.plumber())
+    .pipe(p.index({
+      'prepend-to-output': () => ``,
+      'append-to-output': () => ``,
+      'title-template': () =>``,
+      'pathDepth': 1,
+      'section-template': (sectionContent) => `${sectionContent}`,
+      'section-heading-template': () => ``,
+      'list-template': (listContent) => `${listContent}`,
+      'item-template': (filepath, filename) => `export * from '../../${filepath}/${filename.replace('.js', '')}'
+`,
+      'tab-string': '',
+      'outputFile': './components.js'
+    }))
+    .pipe(gulp.dest(scriptsBaseDir))
+)
+
+createWebPackConfig = (mode) => {
+  return {
+    mode: mode,
+    entry: './src/webapp/views/scripts/main.js',
+    output: {
+      filename: '[name].js',
+      path: path.resolve(__dirname, 'dist/webapp/assets/scripts'),
+      publicPath: "/assets/scripts"
+    },
+    module: {
+      rules: [{
+        test: /\.js$/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env']
+          }
+        }
+      }]
+    }
+  }
+}
+
+gulp.task('scripts', ['scripts:components'], cb =>
+  gulp.src(src.scripts)
+    .pipe(p.plumber())
+    .pipe(webpackStream(createWebPackConfig("development"), webpack))
+    .pipe(gulp.dest(distAssets + '/scripts'))
+)
+
+gulp.task('scripts:optimize', ['scripts:components'], cb =>
+  gulp.src(src.scripts)
+    .pipe(p.plumber())
+    .pipe(webpackStream(createWebPackConfig("production"), webpack))
+    .pipe(gulp.dest(distAssets + '/scripts'))
+)
+
 
 //////////
 // Optimizing previously build styles
 //////////
-gulp.task("optimize", ["styles:optimize"])
+gulp.task("optimize", ["styles:optimize", "scripts:optimize"])
 
 
 //////////
@@ -131,6 +200,7 @@ gulp.task("icons", () => {
 //////////
 gulp.task("watch", cb => {
   gulp.watch(["**/*.ts"], ["ts"])
+  gulp.watch(src.scripts.concat([componentsDir + "/**/*.js"]), ["scripts"])
   gulp.watch(src.styles, ["styles"])
   gulp.watch(src.json, ["json"])
   gulp.watch(src.sprites, ["sprites"])
@@ -140,7 +210,7 @@ gulp.task("watch", cb => {
 //////////
 // Revisioning previously built and optimized assets
 //////////
-gulp.task("rev", ["optimize", "icons"], () =>
+gulp.task("rev", ["optimize", "icons", "scripts"], () =>
   gulp.src([distAssets + "/**/*"])
     .pipe(p.revAll.revision())
     .pipe(p.revDeleteOriginal())
@@ -153,5 +223,5 @@ gulp.task("rev", ["optimize", "icons"], () =>
 //////////
 // Main tasks used to create a full set of assets
 //////////
-gulp.task("develop", () => runSequence(["json", "ts", "styles", "icons"], ["watch"]))
+gulp.task("develop", () => runSequence(["json", "ts", "styles", "scripts", "icons"], ["watch"]))
 gulp.task("production", () => runSequence(["clean"], ["json", "ts", "rev", "views"]))

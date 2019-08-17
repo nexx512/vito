@@ -9,3 +9,4 @@
 /cypress/videos
 /cypress/integration/examples
 /cypress/fixtures/example.json
+/src/webapp/views/scripts/components.js
