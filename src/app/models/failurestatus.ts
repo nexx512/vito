@@ -1,5 +1,9 @@
 export default class FailureStatus {
-  constructor (public hasFailure: boolean) {
+
+  hasFailure: boolean = false;
+
+  constructor (failureString: String) {
+    this.hasFailure = failureString != "OK"
   }
 
 }

@@ -102,11 +102,7 @@ export default class VControlRepo {
   async getFailureStatus() {
     return await this.wrapConnection(async () => {
       const failureStatusString = await this.vControlClient.getData("getStatusStoerung")
-      if (failureStatusString === "OK") {
-        return new FailureStatus(false);
-      } else {
-        return new FailureStatus(true);
-      }
+      return new FailureStatus(failureStatusString);
     })
   }
 
