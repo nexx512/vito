@@ -4,7 +4,7 @@ const runSequence = require("run-sequence");
 const p = require("gulp-load-plugins")();
 const autoprefixer = require("autoprefixer");
 const mqpacker = require("css-mqpacker");
-const csswring = require("csswring");
+const cssnano = require("cssnano");
 const del = require("del");
 const ts = require("gulp-typescript")
 const webpackStream = require("webpack-stream");
@@ -86,14 +86,14 @@ gulp.task("styles", () =>
       url: { name: "embedurl" }
     }))
     .pipe(p.concat("styles.css"))
-    .pipe(p.postcss([autoprefixer({ browsers: ["last 2 versions", "ie >= 10"] })]))
+    .pipe(p.postcss([autoprefixer()]))
     .pipe(gulp.dest(distAssets + "/styles"))
 )
 
 gulp.task("styles:optimize", ["styles"], () =>
   gulp.src(distAssets + "/styles/*.css")
     .pipe(p.plumber())
-    .pipe(p.postcss([mqpacker, csswring]))
+    .pipe(p.postcss([mqpacker, cssnano({ preset: "advanced" })]))
     .pipe(gulp.dest(distAssets + "/styles"))
 )
 
