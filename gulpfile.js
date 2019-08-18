@@ -1,12 +1,11 @@
-const path = require("path")
+const path = require("path");
 const gulp = require("gulp");
-const runSequence = require("run-sequence");
 const p = require("gulp-load-plugins")();
 const autoprefixer = require("autoprefixer");
 const mqpacker = require("css-mqpacker");
 const cssnano = require("cssnano");
 const del = require("del");
-const ts = require("gulp-typescript")
+const typescript = require("gulp-typescript")
 const webpackStream = require("webpack-stream");
 const webpack = require("webpack");
 
@@ -32,53 +31,55 @@ const distAssets = distWebapp + "/assets";
 //////////
 // Clean dist folders
 //////////
-gulp.task('clean', () => del([dist]));
+function clean() {
+  return del([dist]);
+}
 
 
 //////////
 // Copy json files
 //////////
-gulp.task("json", () => {
-  gulp.src(src.json, {
+function json() {
+  return gulp.src(src.json, {
     base: "src"
   })
-  .pipe(gulp.dest(dist))
-})
+  .pipe(gulp.dest(dist));
+}
 
 
 //////////
 // Compile TypeScript files
 //////////
-gulp.task("ts", () => {
-  let tsProject = ts.createProject("tsconfig.json")
-  tsProject.src()
+function ts() {
+  let tsProject = typescript.createProject("tsconfig.json")
+  return tsProject.src()
   .pipe(tsProject())
   .js
-  .pipe(gulp.dest(dist))
-});
+  .pipe(gulp.dest(dist));
+}
 
 
 //////////
 // Precompiling views
 //////////
-gulp.task("views", () =>
+function views() {
   // get all the pug files and compile them for client
-  gulp.src(src.pug)
+  return gulp.src(src.pug)
   .pipe(p.pug({
       client: true,
       basedir: componentsDir
   }))
   // replace the function definition
   .pipe(p.replace("function template(locals)", "module.exports = function(locals, pug)"))
-  .pipe(gulp.dest(distWebapp + "/views") )
-);
+  .pipe(gulp.dest(distWebapp + "/views"));
+}
 
 
 //////////
 // Building assets from sources
 //////////
-gulp.task("styles", () =>
-  gulp.src(src.styles)
+function styles() {
+  return gulp.src(src.styles)
     .pipe(p.plumber())
     .pipe(p.stylus({
       paths: [stylesBaseDir + "/lib"],
@@ -87,22 +88,23 @@ gulp.task("styles", () =>
     }))
     .pipe(p.concat("styles.css"))
     .pipe(p.postcss([autoprefixer()]))
-    .pipe(gulp.dest(distAssets + "/styles"))
-)
+    .pipe(gulp.dest(distAssets + "/styles"));
+}
 
-gulp.task("styles:optimize", ["styles"], () =>
-  gulp.src(distAssets + "/styles/*.css")
-    .pipe(p.plumber())
-    .pipe(p.postcss([mqpacker, cssnano({ preset: "advanced" })]))
-    .pipe(gulp.dest(distAssets + "/styles"))
-)
+styles_optimize = gulp.series(styles, () => {
+    return gulp.src(distAssets + "/styles/*.css")
+      .pipe(p.plumber())
+      .pipe(p.postcss([mqpacker, cssnano({ preset: "advanced" })]))
+      .pipe(gulp.dest(distAssets + "/styles"));
+  });
+
 
 // generates one file that imports all componenet javascript modules.
 // the generated file is imported by main.js
 // for config options see:
 // - https://github.com/lee-chase/gulp-index
-gulp.task('scripts:components', cb =>
-  gulp.src(componentsDir + "/*/*.js", {read: false})
+function scripts_components() {
+  return gulp.src(componentsDir + "/*/*.js", {read: false})
     .pipe(p.plumber())
     .pipe(p.index({
       'prepend-to-output': () => ``,
@@ -117,10 +119,10 @@ gulp.task('scripts:components', cb =>
       'tab-string': '',
       'outputFile': './components.js'
     }))
-    .pipe(gulp.dest(scriptsBaseDir))
-)
+    .pipe(gulp.dest(scriptsBaseDir));
+}
 
-createWebPackConfig = (mode) => {
+function createWebPackConfig(mode) {
   return {
     mode: mode,
     entry: './src/webapp/views/scripts/main.js',
@@ -143,32 +145,32 @@ createWebPackConfig = (mode) => {
   }
 }
 
-gulp.task('scripts', ['scripts:components'], cb =>
-  gulp.src(src.scripts)
-    .pipe(p.plumber())
-    .pipe(webpackStream(createWebPackConfig("development"), webpack))
-    .pipe(gulp.dest(distAssets + '/scripts'))
-)
+scripts = gulp.series(scripts_components, function scripts() {
+    return gulp.src(src.scripts)
+      .pipe(p.plumber())
+      .pipe(webpackStream(createWebPackConfig("development"), webpack))
+      .pipe(gulp.dest(distAssets + '/scripts'))
+  });
 
-gulp.task('scripts:optimize', ['scripts:components'], cb =>
-  gulp.src(src.scripts)
-    .pipe(p.plumber())
-    .pipe(webpackStream(createWebPackConfig("production"), webpack))
-    .pipe(gulp.dest(distAssets + '/scripts'))
-)
+scripts_optimize = gulp.series(scripts_components, function scripts_optimize() {
+    return gulp.src(src.scripts)
+      .pipe(p.plumber())
+      .pipe(webpackStream(createWebPackConfig("production"), webpack))
+      .pipe(gulp.dest(distAssets + '/scripts'))
+  });
 
 
 //////////
 // Optimizing previously build styles
 //////////
-gulp.task("optimize", ["styles:optimize", "scripts:optimize"])
+optimize = gulp.parallel(styles_optimize, scripts_optimize);
 
 
 //////////
-// Copy sprites
+// Copy icons
 //////////
-gulp.task("icons", () => {
-  gulp.src(src.icons)
+function icons() {
+  return gulp.src(src.icons)
   .pipe(p.plumber())
   .pipe(p.svgmin({
     plugins: [{
@@ -191,37 +193,37 @@ gulp.task("icons", () => {
       }
     }
   }))
-  .pipe(gulp.dest(distAssets + "/icons"))
-})
+  .pipe(gulp.dest(distAssets + "/icons"));
+}
 
 
 //////////
 // Watching source changes
 //////////
-gulp.task("watch", cb => {
-  gulp.watch(["**/*.ts"], ["ts"])
-  gulp.watch(src.scripts.concat([componentsDir + "/**/*.js"]), ["scripts"])
-  gulp.watch(src.styles, ["styles"])
-  gulp.watch(src.json, ["json"])
-  gulp.watch(src.sprites, ["sprites"])
-})
+function watch() {
+  gulp.watch(["**/*.ts"], ts)
+  gulp.watch(src.scripts.concat([componentsDir + "/**/*.js"]), scripts)
+  gulp.watch(src.styles, styles)
+  gulp.watch(src.json, json)
+  gulp.watch(src.icons, icons)
+}
 
 
 //////////
 // Revisioning previously built and optimized assets
 //////////
-gulp.task("rev", ["optimize", "icons", "scripts"], () =>
-  gulp.src([distAssets + "/**/*"])
-    .pipe(p.revAll.revision())
-    .pipe(p.revDeleteOriginal())
-    .pipe(gulp.dest(distAssets))
-    .pipe(p.revAll.manifestFile())
-    .pipe(gulp.dest(distAssets))
-)
+rev = gulp.series(gulp.parallel(optimize, icons, scripts), () => {
+    gulp.src([distAssets + "/**/*"])
+      .pipe(p.revAll.revision())
+      .pipe(p.revDeleteOriginal())
+      .pipe(gulp.dest(distAssets))
+      .pipe(p.revAll.manifestFile())
+      .pipe(gulp.dest(distAssets))
+  });
 
 
 //////////
 // Main tasks used to create a full set of assets
 //////////
-gulp.task("develop", () => runSequence(["json", "ts", "styles", "scripts", "icons"], ["watch"]))
-gulp.task("production", () => runSequence(["clean"], ["json", "ts", "rev", "views"]))
+exports.develop = gulp.series(gulp.parallel(json, ts, styles, scripts, icons), watch);
+exports.production = gulp.series(clean, gulp.parallel(json, ts, rev, views));
