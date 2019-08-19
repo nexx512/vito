@@ -28,7 +28,6 @@
     "gulp-concat": "^2.6.1",
     "gulp-index": "^0.2.0",
     "gulp-load-plugins": "^2.0.1",
-    "gulp-plumber": "^1.2.0",
     "gulp-postcss": "^8.0.0",
     "gulp-pug": "^4.0.1",
     "gulp-rename": "^1.4.0",

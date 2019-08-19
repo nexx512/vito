@@ -80,7 +80,6 @@ function views() {
 //////////
 function styles() {
   return gulp.src(src.styles)
-    .pipe(p.plumber())
     .pipe(p.stylus({
       paths: [stylesBaseDir + "/lib"],
       import: ["defaults", "mediaqueries"],
@@ -93,7 +92,6 @@ function styles() {
 
 styles_optimize = gulp.series(styles, () => {
     return gulp.src(distAssets + "/styles/*.css")
-      .pipe(p.plumber())
       .pipe(p.postcss([mqpacker, cssnano({ preset: "advanced" })]))
       .pipe(gulp.dest(distAssets + "/styles"));
   });
@@ -105,7 +103,6 @@ styles_optimize = gulp.series(styles, () => {
 // - https://github.com/lee-chase/gulp-index
 function scripts_components() {
   return gulp.src(componentsDir + "/*/*.js", {read: false})
-    .pipe(p.plumber())
     .pipe(p.index({
       'prepend-to-output': () => ``,
       'append-to-output': () => ``,
@@ -147,14 +144,12 @@ function createWebPackConfig(mode) {
 
 scripts = gulp.series(scripts_components, function scripts() {
     return gulp.src(src.scripts)
-      .pipe(p.plumber())
       .pipe(webpackStream(createWebPackConfig("development"), webpack))
       .pipe(gulp.dest(distAssets + '/scripts'))
   });
 
 scripts_optimize = gulp.series(scripts_components, function scripts_optimize() {
     return gulp.src(src.scripts)
-      .pipe(p.plumber())
       .pipe(webpackStream(createWebPackConfig("production"), webpack))
       .pipe(gulp.dest(distAssets + '/scripts'))
   });
@@ -171,7 +166,6 @@ optimize = gulp.parallel(styles_optimize, scripts_optimize);
 //////////
 function icons() {
   return gulp.src(src.icons)
-  .pipe(p.plumber())
   .pipe(p.svgmin({
     plugins: [{
       removeComments: true
