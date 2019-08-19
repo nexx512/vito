@@ -1,0 +1,42 @@
+body
+  background-color $color-main
+
+main
+  background-color $color-background
+  min-height calc(100vh - 100px)
+  margin-top 100px
+  @media $mq-l_and_up
+    margin-left 250px
+
+.page
+  &__title
+    background-color $color-header
+    color $color-header-inverse
+    padding-left 16px
+    height 50px
+    overflow hidden
+    display flex
+    align-items flex-end
+
+    h1
+      margin-bottom 4px
+
+  &__header
+    background-color $color-header2
+    color $color-header2-inverse
+    border-bottom 1px solid $color-separator
+    height 50px
+    overflow hidden
+    display flex
+    align-items center
+
+  &__sidebarNavigationTrigger
+    padding 8px
+    @media $mq-l_and_up
+      display none
+
+  &__breadcrumb
+    height 25px
+    overflow hidden
+    margin-bottom 8px
+    padding-left 16px

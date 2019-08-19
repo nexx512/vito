@@ -1,0 +1,25 @@
+#sidebarNavigationTrigger
+  &__selector
+    display none
+
+    @media $mq-up_to_l
+      &:checked
+        & + .sidebarNavigation
+          left 0
+
+.sidebarNavigation
+  background-color $color-main
+  width 250px
+  position fixed
+  z-index 999
+  transition left 0.2s
+  @media $mq-up_to_l
+    left -250px
+    height 100vh
+  @media $mq-l_and_up
+    height calc(100vh - 100px)
+
+  &__trigger
+    fill white
+    @media $mq-l_and_up
+      display none
