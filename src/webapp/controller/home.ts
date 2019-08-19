@@ -13,7 +13,7 @@ export default (app: Express) => {
 
     try {
       const generalHeatingStatus = await overviewService.getGeneralHeatingStatus()
-      res.render('home', {model: generalHeatingStatus})
+      res.render('home/home', {model: generalHeatingStatus})
     } catch (e) {
       next(e)
     }

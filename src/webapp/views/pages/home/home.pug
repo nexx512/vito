@@ -1,0 +1,30 @@
+extend ../layout/index.pug
+
+include /livedatetime/livedatetime
+include /heatingmode/heatingmode
+include /failurestatus/failurestatus
+include /failuremessage/failuremessage
+include /dashboard/dashboard
+include /dashboardtile/dashboardtile
+include /hometemperatures/hometemperatures
+
+block breadcrumb
+  h2= t("overview")
+
+block main
+  //- if model && model.errors && model.errors.length > 0
+    +notificationError(model.errors)
+  //- else
+    +notificationSuccess(t("noerror"))
+  //- +heatingMode(model.heatingMode)
+  .home
+    +liveDateTime(model.systemTime, locale).home__systemTime
+    +dashboard().home__dashboard
+      +dashboardTile().home__dashboardTile
+        +homeTemperatures(model.outsideTemp.temperature, model.roomTemp.temperature)
+      +dashboardTile().home__dashboardTile
+        +heatingMode(model.heatingMode).home__heatingMode
+        +failureStatus(model.failureStatus.hasFailure)
+        each failure in model.failures.items
+          +failureMessage(failure)
+  = JSON.stringify(model)

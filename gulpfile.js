@@ -82,7 +82,7 @@ function styles() {
   return gulp.src(src.styles)
     .pipe(p.stylus({
       paths: [stylesBaseDir + "/lib"],
-      import: ["defaults", "mediaqueries"],
+      import: ["defaults", "mediaqueries", "mixins"],
       url: { name: "embedurl" }
     }))
     .pipe(p.concat("styles.css"))
@@ -196,7 +196,7 @@ function icons() {
 function watch() {
   gulp.watch(["**/*.ts"], ts)
   gulp.watch(src.scripts.concat([componentsDir + "/**/*.js"]), scripts)
-  gulp.watch(src.styles, styles)
+  gulp.watch(src.styles.concat([stylesBaseDir + "/lib"]), styles)
   gulp.watch(src.json, json)
   gulp.watch(src.icons, icons)
 }
