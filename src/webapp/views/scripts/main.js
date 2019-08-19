@@ -1,4 +1,4 @@
-import * as components from "./components";
+import * as components from "./generated/components";
 
 function initializeComponents() {
   const nodes = document.querySelectorAll("[data-component]");

@@ -111,12 +111,11 @@ function scripts_components() {
       'section-template': (sectionContent) => `${sectionContent}`,
       'section-heading-template': () => ``,
       'list-template': (listContent) => `${listContent}`,
-      'item-template': (filepath, filename) => `export * from '../../${filepath}/${filename.replace('.js', '')}'
-`,
+      'item-template': (filepath, filename) => `export * from '../../../${filepath}/${filename.replace('.js', '')}'\n`,
       'tab-string': '',
       'outputFile': './components.js'
     }))
-    .pipe(gulp.dest(scriptsBaseDir));
+    .pipe(gulp.dest(scriptsBaseDir + "/generated"));
 }
 
 function createWebPackConfig(mode) {
