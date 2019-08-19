@@ -1,0 +1,13 @@
+include /temperature/temperature
+include /icon/icon
+
+mixin homeTemperatures(outsideTemp, roomTemp)
+  .homeTemperatures&attributes(attributes)
+    .homeTemperatures__outside
+      .homeTemperatures__outsideIcons
+        +icon("sun", 32).homeTemperatures__iconDayNight
+        +icon("snowflake-o", 32).homeTemperatures__iconFreezing
+      +temperature(outsideTemp).homeTemperatures__outsideTemperature
+    .homeTemperatures__inside
+      +temperature(roomTemp).homeTemperatures__roomTemperature
+      +temperature(roomTemp).homeTemperatures__reducedRoomTemperature

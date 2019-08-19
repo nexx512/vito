@@ -1,0 +1,33 @@
+.homeTemperatures
+  display flex
+  flex-shrink 0
+  font-weight bold
+  &__outside
+    display flex
+    flex-direction column
+
+  &__outsideIcons
+    margin-top 28px
+    height 32px
+    display flex
+    justify-content space-between
+
+  &__outsideTemperature
+    margin-top 72px
+    font-size 30px
+
+  &__inside
+    width 192px
+    height 192px
+    background url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><path id='xxx' d='M 500,304 416,208 V 64 h -64 v 80 L 256,48 12,302.466 v 16 L 64,320 V 480 H 448 V 320 h 52 z' stroke='black' stroke-width='8' fill='none'/></svg>")
+    display flex
+    flex-direction column
+    flex-shrink 0
+    text-align center
+
+  &__roomTemperature
+    margin-top 87px
+    font-size 30px
+  &__reducedRoomTemperature
+    margin-top 10px
+    font-size 20px
