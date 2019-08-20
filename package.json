@@ -52,7 +52,10 @@
   ],
   "scripts": {
     "start": "node --icu-data-dir=node_modules/full-icu dist/app.js",
-    "test": "mocha --recursive test/unit && mocha --recursive test/integration && node_modules/.bin/cypress run",
+    "test:unit": "mocha --recursive test/unit",
+    "test:integration": "mocha --recursive test/integration",
+    "test:end2end": "./node_modules/.bin/cypress run",
+    "test": "npm run test:unit && npm run test:integration && npm run test:end2end",
     "build": "./node_modules/.bin/gulp production",
     "mock": "node ./mock/runmockvcontrold.js",
     "develop": "./node_modules/.bin/gulp develop"
