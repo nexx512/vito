@@ -1,3 +1,4 @@
+include /form/form
 include /temperature/temperature
 
 mixin homeTemperatures(outsideTemp, roomTemp)
@@ -9,11 +10,13 @@ mixin homeTemperatures(outsideTemp, roomTemp)
         +temperature(outsideTemp, 1)
     .homeTemperatures__element.homeTemperatures__roomTemperatures.homeTemperatures__roomTemperature
       +icon("sun")
-      svg(viewBox="0 0 80 35")
+      svg(viewBox="0 0 100 50")
         foreignObject(width="100%" height="100%")
-          +temperature(roomTemp)
+          +form("/temperatures/roomtemperature", "PUT", true)
+            +temperatureField(roomTemp, roomTemperature)
     .homeTemperatures__element.homeTemperatures__roomTemperatures.homeTemperatures__reducedRoomTemperature
       +icon("moon-fill")
-      svg(viewBox="0 0 80 35")
+      svg(viewBox="0 0 100 50")
         foreignObject(width="100%" height="100%")
-          +temperature(roomTemp)
+          +form("/temperatures/reducedroomtemperature", "PUT", true)
+            +temperatureField(roomTemp, reducedRoomTemperature)
