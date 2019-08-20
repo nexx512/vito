@@ -10,3 +10,4 @@
 /cypress/integration/examples
 /cypress/fixtures/example.json
 /src/webapp/views/scripts/generated
+/src/webapp/views/styles/generated

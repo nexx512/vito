@@ -14,10 +14,11 @@ const viewsDir = "src/webapp/views";
 const stylesBaseDir = viewsDir + "/styles";
 const componentsDir = viewsDir + "/components";
 const scriptsBaseDir = viewsDir + "/scripts";
-const stylesSvgDir = __dirname + "/" + stylesBaseDir + "/svgs"
+const stylesSvgsDir = __dirname + "/" + stylesBaseDir + "/generated"
 
 const src = {
   styles: [stylesBaseDir + "/*.styl", viewsDir + "/pages/**/*.styl", componentsDir + "/**/*.styl"],
+  stylessvgs: ["src/webapp/assets/**/*.svg"],
   scripts: [scriptsBaseDir + "/*.js"],
   componentScripts: [componentsDir + "/*/*.js"],
   icons: ["src/webapp/assets/icons/*.svg"],
@@ -78,22 +79,42 @@ function views() {
 
 
 //////////
+// minimize svgs for styles
+//////////
+function stylessvgs() {
+  return gulp.src(src.stylessvgs)
+  .pipe(p.svgmin({
+    plugins: [{
+      removeComments: true
+    }, {
+      removeTitle: true
+    }, {
+      cleanupNumericValues: {
+        floatPrecision: 2
+      }
+    }]
+  }))
+  .pipe(gulp.dest(stylesSvgsDir));
+}
+
+
+//////////
 // Building assets from sources
 //////////
-function styles() {
+styles = gulp.series(stylessvgs, function styles() {
   return gulp.src(src.styles)
     .pipe(p.stylus({
       paths: [stylesBaseDir + "/lib"],
       import: ["defaults", "mediaqueries", "mixins"],
       url: {name: "embedurl"},
-      use: [stylusSvg({svgDirs: stylesSvgDir})]
+      use: [stylusSvg({svgDirs: stylesSvgsDir + "/svgs"})]
     }))
     .pipe(p.concat("styles.css"))
     .pipe(p.postcss([autoprefixer()]))
     .pipe(gulp.dest(distAssets + "/styles"));
-}
+});
 
-styles_optimize = gulp.series(styles, () => {
+styles_optimize = gulp.series(styles, function styles_optimize() {
     return gulp.src(distAssets + "/styles/*.css")
       .pipe(p.postcss([mqpacker, cssnano({ preset: "advanced" })]))
       .pipe(gulp.dest(distAssets + "/styles"));
@@ -199,7 +220,7 @@ function icons() {
 function watch() {
   gulp.watch(["**/*.ts"], ts)
   gulp.watch(src.scripts.concat([componentsDir + "/**/*.js"]), scripts)
-  gulp.watch(src.styles.concat([stylesBaseDir + "/lib/*.styl", stylesSvgDir + "/*.svg"]), styles)
+  gulp.watch(src.styles.concat([stylesBaseDir + "/lib/*.styl"]).concat(src.stylessvgs), styles)
   gulp.watch(src.json, json)
   gulp.watch(src.icons, icons)
 }
@@ -208,14 +229,14 @@ function watch() {
 //////////
 // Revisioning previously built and optimized assets
 //////////
-rev = gulp.series(gulp.parallel(optimize, icons, scripts), () => {
-    gulp.src([distAssets + "/**/*"])
-      .pipe(p.revAll.revision())
-      .pipe(p.revDeleteOriginal())
-      .pipe(gulp.dest(distAssets))
-      .pipe(p.revAll.manifestFile())
-      .pipe(gulp.dest(distAssets))
-  });
+rev = gulp.series(gulp.parallel(optimize, icons, scripts), function rev() {
+  return gulp.src([distAssets + "/**/*"])
+    .pipe(p.revAll.revision())
+    .pipe(p.revDeleteOriginal())
+    .pipe(gulp.dest(distAssets))
+    .pipe(p.revAll.manifestFile())
+    .pipe(gulp.dest(distAssets))
+});
 
 
 //////////
