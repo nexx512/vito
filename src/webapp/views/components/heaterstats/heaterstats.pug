@@ -1,0 +1,13 @@
+include /heatingmode/heatingmode
+include /failurestatus/failurestatus
+include /failuremessage/failuremessage
+include /icon/icon
+
+mixin heaterStats(heatingMode, burnetStatus, failureStatus, failures)
+  .heaterStats
+    +heatingMode(heatingMode).heaterStats__element
+    +icon("fire").heaterStats__element.heaterStats__burnerStatus
+    +failureStatus(failureStatus.hasFailure).heaterStats__element
+    .heaterStats__element
+      each failure in model.failures.items
+        +failureMessage(failure)

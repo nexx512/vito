@@ -1,12 +1,10 @@
 extend ../layout/index.pug
 
 include /livedatetime/livedatetime
-include /heatingmode/heatingmode
-include /failurestatus/failurestatus
-include /failuremessage/failuremessage
 include /dashboard/dashboard
 include /dashboardtile/dashboardtile
 include /hometemperatures/hometemperatures
+include /heaterstats/heaterstats
 
 block breadcrumb
   h2= t("overview")
@@ -23,8 +21,5 @@ block main
       +dashboardTile().home__dashboardTile
         +homeTemperatures(model.outsideTemp.temperature, model.roomTemp.temperature)
       +dashboardTile().home__dashboardTile
-        +heatingMode(model.heatingMode).home__heatingMode
-        +failureStatus(model.failureStatus.hasFailure)
-        each failure in model.failures.items
-          +failureMessage(failure)
+        +heaterStats(model.heatingMode, model.burnerStatus, model.failureStatus, model.failures)
   = JSON.stringify(model)
