@@ -23,8 +23,9 @@ describe "when loading the home page", ->
 
   it "should show all the data required for the home page", =>
     cy.get(".home__systemTime").should("text", "13.2.201900:20:52")
-    cy.get(".home__outsideTemperature").should("text", "-5.10 °C")
-    cy.get(".home__roomTemperature").should("text", "20.00 °C")
+    cy.get(".homeTemperatures__outsideTemperature").should("text", "-5.1 °C")
+    cy.get(".homeTemperatures__roomTemperature").should("text", "20 °C")
+    cy.get(".homeTemperatures__reducedRoomTemperature").should("text", "20 °C")
     cy.get(".failureStatus--hasFailure")
     cy.get(".heatingMode .heatingMode__heating")
     cy.get(".heatingMode .heatingMode__warmwater")
