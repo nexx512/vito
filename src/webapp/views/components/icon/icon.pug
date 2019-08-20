@@ -1,5 +1,5 @@
-mixin icon(type, size = 16)
-  - const style = `width:${size}px;height:${size}px`
+mixin icon(type, size)
+  - const style = size ? `width:${size}px;height:${size}px` : null
   .icon(style=style)&attributes(attributes)
-    svg(viewBox=`0 0 16 16`)
+    svg(viewBox="0 0 16 16")
       use(xlink:href=`${assets("icons/icons.svg")}#icon-${type}`)

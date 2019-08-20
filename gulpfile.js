@@ -8,11 +8,13 @@ const del = require("del");
 const typescript = require("gulp-typescript")
 const webpackStream = require("webpack-stream");
 const webpack = require("webpack");
+const stylusSvg = require("stylus-svg")
 
 const viewsDir = "src/webapp/views";
 const stylesBaseDir = viewsDir + "/styles";
 const componentsDir = viewsDir + "/components";
 const scriptsBaseDir = viewsDir + "/scripts";
+const stylesSvgDir = __dirname + "/" + stylesBaseDir + "/svgs"
 
 const src = {
   styles: [stylesBaseDir + "/*.styl", viewsDir + "/pages/**/*.styl", componentsDir + "/**/*.styl"],
@@ -83,7 +85,8 @@ function styles() {
     .pipe(p.stylus({
       paths: [stylesBaseDir + "/lib"],
       import: ["defaults", "mediaqueries", "mixins"],
-      url: { name: "embedurl" }
+      url: {name: "embedurl"},
+      use: [stylusSvg({svgDirs: stylesSvgDir})]
     }))
     .pipe(p.concat("styles.css"))
     .pipe(p.postcss([autoprefixer()]))
@@ -196,7 +199,7 @@ function icons() {
 function watch() {
   gulp.watch(["**/*.ts"], ts)
   gulp.watch(src.scripts.concat([componentsDir + "/**/*.js"]), scripts)
-  gulp.watch(src.styles.concat([stylesBaseDir + "/lib"]), styles)
+  gulp.watch(src.styles.concat([stylesBaseDir + "/lib/*.styl", stylesSvgDir + "/*.svg"]), styles)
   gulp.watch(src.json, json)
   gulp.watch(src.icons, icons)
 }

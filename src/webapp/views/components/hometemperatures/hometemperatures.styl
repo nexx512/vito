@@ -1,33 +1,41 @@
 .homeTemperatures
-  display flex
-  flex-shrink 0
+  width 100%
+  padding-bottom 66.66%
+  background svgImport("home.svg") bottom right no-repeat
+  position relative
   font-weight bold
-  &__outside
-    display flex
-    flex-direction column
 
-  &__outsideIcons
-    margin-top 28px
-    height 32px
-    display flex
-    justify-content space-between
+  &__element
+    position absolute
+
+  &__iconDayNight
+    top 14%
+    left 27%
+    width 13%
+
+  &__iconFreezing
+    top 14%
+    left 5%
+    width 13%
 
   &__outsideTemperature
-    margin-top 72px
     font-size $font-size-medium
+    bottom 13%
+    right 60%
+    width 36%
 
-  &__inside
-    width 192px
-    height 192px
-    background url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><path id='xxx' d='M 500,304 416,208 V 64 h -64 v 80 L 256,48 12,302.466 v 16 L 64,320 V 480 H 448 V 320 h 52 z' stroke='black' stroke-width='8' fill='none'/></svg>")
+  &__roomTemperatures
+    font-size $font-size-medium
     display flex
-    flex-direction column
-    flex-shrink 0
-    text-align center
+    align-items center
+    width 41%
+    right 13%
+    .icon
+      width 25%
+      margin-right 10%
 
   &__roomTemperature
-    margin-top 87px
-    font-size $font-size-medium
+    bottom 35%
+
   &__reducedRoomTemperature
-    margin-top calc(30px - $font-size-normal)
-    font-size $font-size-normal
+    bottom 12%

@@ -1,3 +1,3 @@
-mixin temperature(temperature)
+mixin temperature(temperature, decimals = 0)
   .temperature&attributes(attributes)
-    != temperature.toFixed(2) + "&#x202f;°C"
+    != temperature.toFixed(decimals) + "&#x202f;°C"
