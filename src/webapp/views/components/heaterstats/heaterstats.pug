@@ -1,12 +1,25 @@
 include /heatingmode/heatingmode
+include /temperature/temperature
 include /failurestatus/failurestatus
 include /failuremessage/failuremessage
 include /icon/icon
+include /form/form
 
-mixin heaterStats(heatingMode, burnetStatus, failureStatus, failures)
+mixin heaterStats(heatingMode, burnetStatus, burnerTemp, waterStatus, waterTemp, waterTargetTemp, failureStatus, failures)
   .heaterStats
     +heatingMode(heatingMode).heaterStats__element
-    +icon("fire").heaterStats__element.heaterStats__burnerStatus
+    +icon("fire")(class=burnerStatus ? "heaterStats__burnerStatus--active" : null).heaterStats__element.heaterStats__burnerStatus
+    svg(viewBox="0 0 100 35").heaterStats__element.heaterStats__burnerTemperature
+      foreignObject(width="100%" height="100%")
+        +temperature(burnerTemp, 1)
+    +icon("droplet")(class=waterStatus ? "heaterStats__waterStatus--active" : null).heaterStats__element.heaterStats__waterStatus
+    svg(viewBox="0 0 100 35").heaterStats__element.heaterStats__waterTemperature
+      foreignObject(width="100%" height="100%")
+        +temperature(waterTemp, 1)
+    +form("PUT", "/heaterstats")
+      svg(viewBox="0 0 95 50").heaterStats__element.heaterStats__waterTargetTemperature
+        foreignObject(width="100%" height="100%")
+          +temperatureField(waterTargetTemp, "waterTargetTemperature")
     +failureStatus(failureStatus.hasFailure).heaterStats__element
     .heaterStats__element
       each failure in model.failures.items

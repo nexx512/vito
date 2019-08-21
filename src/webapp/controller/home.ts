@@ -25,4 +25,9 @@ export default (app: Express) => {
     res.redirect("/");
   });
 
+  app.put("/heaterstats", async (req, res, next) => {
+    req.flash("error", "Function not yet implemented");
+    res.redirect("/");
+  });
+
 }

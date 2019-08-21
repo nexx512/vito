@@ -21,6 +21,9 @@ describe "The OverviewService", =>
     .withCommand("getTempA", "-5.10000  Grad Celsius")
     .withCommand("getTempRaumNorSollM1", "20.00000 Grad Celsius")
     .withCommand("getTempRaumRedSollM1", "16.00000 Grad Celsius")
+    .withCommand("getTempWWist", "55.29999 Grad Celsius")
+    .withCommand("getTempWWsoll", "57.00000 Grad Celsius")
+    .withCommand("getTempKist", "65.29999 Grad Celsius")
     .withCommand("getBetriebArt", "H+WW")
     .withCommand("getStatusStoerung", "Stoerung")
     .withCommand("getError0", "2019-08-16T23:03:10+0000 Kurzschluss Aussentemperatursensor (10)")
@@ -51,6 +54,10 @@ describe "The OverviewService", =>
       @generalHeatingStatus.reducedRoomTemp.should.eql new Temperature("16")
     it "should get the heating mode", =>
       @generalHeatingStatus.heatingMode.should.eql new HeatingMode("H+WW")
+    it "should get the burner temperature", =>
+      @generalHeatingStatus.burnerTemp.should.eql new Temperature("65.29999")
+    it "should get the water temperature", =>
+      @generalHeatingStatus.waterTemp.should.eql new Temperature("55.29999")
     it "should get the failure status", =>
       @generalHeatingStatus.failureStatus.should.eql new FailureStatus(true)
     it "should get the error message", =>

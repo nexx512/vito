@@ -13,6 +13,9 @@ export default class OverviewService {
       await this.repo.getRoomTemp(),
       await this.repo.getReducedRoomTemp(),
       await this.repo.getHeatingMode(),
+      await this.repo.getBurnerTemp(),
+      await this.repo.getWaterTemp(),
+      await this.repo.getWaterTargetTemp(),
       await this.repo.getFailureStatus(),
       await this.repo.getFailures()
     );

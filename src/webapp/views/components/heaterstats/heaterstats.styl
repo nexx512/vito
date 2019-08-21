@@ -1,14 +1,57 @@
+@keyframes active-heater-icon
+  0%
+    fill $color-shaded
+  100%
+    fill $color-main
+
 .heaterStats
   width 100%
   padding-bottom 66.66%
   background svgImport("heater.svg") bottom right no-repeat
   position relative
   font-weight bold
+  font-size $font-size-medium
 
   &__element
     position absolute
 
   &__burnerStatus
-    bottom 67%
-    right 10%
-    width 13%
+    bottom 77%
+    right 12%
+    width 10%
+    svg
+      fill $color-shaded
+    &--active
+      svg
+        animation-name active-heater-icon
+        animation-duration 2s
+        animation-iteration-count infinite
+        animation-direction alternate
+
+  &__burnerTemperature
+    bottom 66%
+    right 5%
+    width 23%
+
+  &__waterStatus
+    bottom 32%
+    right 13%
+    width 7%
+    svg
+      fill $color-shaded
+    &--active
+      svg
+        animation-name active-heater-icon
+        animation-duration 2s
+        animation-iteration-count infinite
+        animation-direction alternate
+
+  &__waterTemperature
+    bottom 22%
+    right 5%
+    width 23%
+
+  &__waterTargetTemperature
+    bottom 3%
+    right 5%
+    width 23%

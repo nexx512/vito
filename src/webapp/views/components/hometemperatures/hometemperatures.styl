@@ -4,6 +4,7 @@
   background svgImport("home.svg") bottom right no-repeat
   position relative
   font-weight bold
+  font-size $font-size-medium
 
   &__element
     position absolute
@@ -17,15 +18,18 @@
     top 14%
     left 5%
     width 13%
+    svg
+      fill $color-shaded
+    &--active
+      svg
+        fill $color-main
 
   &__outsideTemperature
-    font-size $font-size-medium
     bottom 13%
     right 61%
     width 38%
 
   &__roomTemperatures
-    font-size $font-size-medium
     display flex
     align-items center
     width 41%

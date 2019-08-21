@@ -11,6 +11,9 @@ export default class HeatingStatus {
     public roomTemp: Temperature,
     public reducedRoomTemp: Temperature,
     public heatingMode: HeatingMode,
+    public burnerTemp: Temperature,
+    public waterTemp: Temperature,
+    public waterTargetTemp: Temperature,
     public failureStatus: FailureStatus,
     public failures: Failures
   ) {

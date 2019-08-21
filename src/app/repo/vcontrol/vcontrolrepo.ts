@@ -99,6 +99,27 @@ export default class VControlRepo {
     })
   }
 
+  async getBurnerTemp() {
+    return await this.wrapConnection(async () => {
+      const temperatureString = await this.vControlClient.getData("getTempKist");
+      return new Temperature(temperatureString);
+    })
+  }
+
+  async getWaterTemp() {
+    return await this.wrapConnection(async () => {
+      const temperatureString = await this.vControlClient.getData("getTempWWist");
+      return new Temperature(temperatureString);
+    })
+  }
+
+  async getWaterTargetTemp() {
+    return await this.wrapConnection(async () => {
+      const temperatureString = await this.vControlClient.getData("getTempWWsoll");
+      return new Temperature(temperatureString);
+    })
+  }
+
   async getHeatingMode() {
     return await this.wrapConnection(async () => {
       const heatingModeString = await this.vControlClient.getData("getBetriebArt");

@@ -133,6 +133,33 @@ describe "A VControlRepo object", =>
       reducedRoomTemp.temperature.should.eql 18
       @vControlClientMock.verify()
 
+  describe "getting the burner temperature", =>
+    it "should deliver the temperature in the Temperature type", =>
+      sinon.stub(@vControlClient, "getData").withArgs("getTempKist").returns("65.2999 Grad Celsius\n")
+
+      burnerTemp = await @vControlRepo.getBurnerTemp()
+
+      burnerTemp.temperature.should.eql 65.2999
+      @vControlClientMock.verify()
+
+  describe "getting the water temperature", =>
+    it "should deliver the water temperature in the Temperature type", =>
+      sinon.stub(@vControlClient, "getData").withArgs("getTempWWist").returns("55.2999 Grad Celsius\n")
+
+      waterTemp = await @vControlRepo.getWaterTemp()
+
+      waterTemp.temperature.should.eql 55.2999
+      @vControlClientMock.verify()
+
+  describe "getting the water target temperature", =>
+    it "should deliver the water target temperature in the Temperature type", =>
+      sinon.stub(@vControlClient, "getData").withArgs("getTempWWsoll").returns("57.00000 Grad Celsius\n")
+
+      waterTargetTemp = await @vControlRepo.getWaterTargetTemp()
+
+      waterTargetTemp.temperature.should.eql 57
+      @vControlClientMock.verify()
+
   describe "getting the failure status", =>
     describe "if eveything is OK", =>
       it "should deliver the 'OK' failure status in FailusrStatus type", =>
