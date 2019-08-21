@@ -15,7 +15,6 @@ block main
       +form("/warmwater/heating/settings", "PUT").warmwaterHeating__settingsForm
       
     +section("heatingTimes", t("warmwater.heating.times"))
-      +notificationError(errors, true).warmwaterHeating__timesError
       +form("/warmwater/heating/times", "PUT").warmwaterHeating__timesForm
         +weekCycleTimes(model)
         +buttonPrimary(t("savechanges"))(type="submit")

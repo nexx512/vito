@@ -1,0 +1,7 @@
+include /notification/notification
+
+.page__notifications
+  if (notifications.errors)
+    +notificationError(notifications.errors, true).page__notificationError
+  if (notifications.sucesses)
+    +notificationSuccess(notifications.successes, true).page__notificationSucess

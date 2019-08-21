@@ -1,6 +1,5 @@
 should = require("should")
 rewire = require("rewire")
-asyncWrapper = require("../../../support/asyncwrapper")
 middlewareFactory = rewire("../../../../dist/webapp/middleware/assets")
 
 describe "The assets middleware", =>
@@ -14,7 +13,7 @@ describe "The assets middleware", =>
     })
     middleware = middlewareFactory.default()
 
-    await asyncWrapper((next) => middleware(null, res, next))
+    middleware(null, res, () => {})
 
     res.locals.assets("styles/styles.css").should.equal("/assets/styles/styles.css")
 
@@ -29,6 +28,6 @@ describe "The assets middleware", =>
     middlewareFactory.__set__("rev", revManifest)
     middleware = middlewareFactory.default()
 
-    await asyncWrapper((next) => middleware(null, res, next))
+    middleware(null, res, () => {})
 
     res.locals.assets("styles/styles.css").should.equal("/assets/styles/styles.a8d4cb14.css")

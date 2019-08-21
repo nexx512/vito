@@ -13,7 +13,6 @@ block main
   .warmwaterCirculation__topSpacer
   +sections().warmwaterCirculation__sections
     +section("circulationTimes", t("warmwater.circulation.times"), true)
-      +notificationError(errors, true).warmwaterCirculation__timesError
       +form("/warmwater/circulation/times", "PUT").warmwaterCirculation__timesForm
         +weekCycleTimes(model)
         +buttonPrimary(t("savechanges"))(type="submit")

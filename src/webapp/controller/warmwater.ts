@@ -1,8 +1,8 @@
-import {Express} from "express"
-import WarmWaterService from "../../app/services/warmwaterservice"
-import VControlRepo from "../../app/repo/vcontrol/vcontrolrepo"
-import VControlClient from "vcontrol"
-import WeekCycleTimesConverter from "../converter/weekcycletimesconverter"
+import {Express} from "express";
+import WarmWaterService from "../../app/services/warmwaterservice";
+import VControlRepo from "../../app/repo/vcontrol/vcontrolrepo";
+import VControlClient from "vcontrol";
+import WeekCycleTimesConverter from "../converter/weekcycletimesconverter";
 
 export default (app: Express) => {
 
@@ -10,14 +10,14 @@ export default (app: Express) => {
     const warmWaterService = new WarmWaterService(new VControlRepo(new VControlClient({
       host: global.Config.vcontrold.host,
       port: global.Config.vcontrold.port
-    })))
+    })));
 
     try {
-      let heatingTimes = await warmWaterService.getHeatingTimes()
-      let times = WeekCycleTimesConverter.toWeekCycleTimesResponseDto(heatingTimes)
-      res.render("warmwater/heating", {model: times})
+      let heatingTimes = await warmWaterService.getHeatingTimes();
+      let times = WeekCycleTimesConverter.toWeekCycleTimesResponseDto(heatingTimes);
+      res.render("warmwater/heating", {model: times});
     } catch (e) {
-      next(e)
+      next(e);
     }
   })
 
@@ -25,30 +25,30 @@ export default (app: Express) => {
     const warmWaterService = new WarmWaterService(new VControlRepo(new VControlClient({
       host: global.Config.vcontrold.host,
       port: global.Config.vcontrold.port
-    })))
+    })));
 
-    let circulationTimes = WeekCycleTimesConverter.toWeekCycleTimesModel(req.body.times)
+    let circulationTimes = WeekCycleTimesConverter.toWeekCycleTimesModel(req.body.times);
     try {
-      await warmWaterService.setHeatingTimes(circulationTimes)
-      res.redirect("/warmwater/heating")
+      await warmWaterService.setHeatingTimes(circulationTimes);
+      res.redirect("/warmwater/heating");
     } catch (e) {
-      res.render("warmwater/heating", {model: WeekCycleTimesConverter.toWeekCycleTimesResponseDto(circulationTimes), errors: [e.message]})
+      res.locals.notifications.addError(e.message);
+      res.render("warmwater/heating", {model: WeekCycleTimesConverter.toWeekCycleTimesResponseDto(circulationTimes)});
     }
-
   })
 
   app.get("/warmwater/circulation", async (_req, res, next) => {
     const warmWaterService = new WarmWaterService(new VControlRepo(new VControlClient({
       host: global.Config.vcontrold.host,
       port: global.Config.vcontrold.port
-    })))
+    })));
 
     try {
-      let circulationTimes = await warmWaterService.getCirculationTimes()
-      let times = WeekCycleTimesConverter.toWeekCycleTimesResponseDto(circulationTimes)
-      res.render("warmwater/circulation", {model: times})
+      let circulationTimes = await warmWaterService.getCirculationTimes();
+      let times = WeekCycleTimesConverter.toWeekCycleTimesResponseDto(circulationTimes);
+      res.render("warmwater/circulation", {model: times});
     } catch (e) {
-      next(e)
+      next(e);
     }
   })
 
@@ -56,16 +56,16 @@ export default (app: Express) => {
     const warmWaterService = new WarmWaterService(new VControlRepo(new VControlClient({
       host: global.Config.vcontrold.host,
       port: global.Config.vcontrold.port
-    })))
+    })));
 
-    let circulationTimes = WeekCycleTimesConverter.toWeekCycleTimesModel(req.body.times)
+    let circulationTimes = WeekCycleTimesConverter.toWeekCycleTimesModel(req.body.times);
     try {
-      await warmWaterService.setCirculationTimes(circulationTimes)
-      res.redirect("/warmwater/circulation")
+      await warmWaterService.setCirculationTimes(circulationTimes);
+      res.redirect("/warmwater/circulation");
     } catch (e) {
-      res.render("warmwater/circulation", {model: WeekCycleTimesConverter.toWeekCycleTimesResponseDto(circulationTimes), errors: [e.message]})
+      res.locals.notifications.addError(e.message);
+      res.render("warmwater/circulation", {model: WeekCycleTimesConverter.toWeekCycleTimesResponseDto(circulationTimes)});
     }
-
   })
 
 }

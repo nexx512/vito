@@ -39,7 +39,7 @@ describe "when loading the warmwater heating configuration", ->
       cy.get("form[action=\"/warmwater/heating/times\"] button[type=\"submit\"]").click()
       cy.get("input[name=\"times[monday][0][off]\"].formField--error")
       cy.get("input[name=\"times[monday][0][off]\"] + .errorText")
-      cy.get(".warmwaterHeating__timesError")
+      cy.get(".page__notificationError")
       cy.get(".cycleTimes").should("have.length", 7)
       cy.get(".cycleTimes .cycleTime").should("have.length", 28)
 

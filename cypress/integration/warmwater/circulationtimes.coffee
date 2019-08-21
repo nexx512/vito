@@ -38,7 +38,7 @@ describe "when loading the warmwater circulation configuration", ->
       cy.get("form[action=\"/warmwater/circulation/times\"] button[type=\"submit\"]").click()
       cy.get("input[name=\"times[monday][0][off]\"].formField--error")
       cy.get("input[name=\"times[monday][0][off]\"] + .errorText")
-      cy.get(".warmwaterCirculation__timesError")
+      cy.get(".page__notificationError")
       cy.get(".cycleTimes").should("have.length", 7)
       cy.get(".cycleTimes .cycleTime").should("have.length", 28)
 
