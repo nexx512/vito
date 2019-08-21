@@ -1,7 +1,7 @@
 include /form/form
 include /temperature/temperature
 
-mixin homeTemperatures(outsideTemp, roomTemp)
+mixin homeTemperatures(outsideTemp, roomTemp, reducedRoomTemp)
   .homeTemperatures&attributes(attributes)
     +icon("sun").homeTemperatures__element.homeTemperatures__iconDayNight
     +icon("snowflake-o").homeTemperatures__element.homeTemperatures__iconFreezing
@@ -18,4 +18,4 @@ mixin homeTemperatures(outsideTemp, roomTemp)
         +icon("moon-fill")
         svg(viewBox="0 0 100 50")
           foreignObject(width="100%" height="100%")
-            +temperatureField(roomTemp, "reducedRoomTemperature")
+            +temperatureField(reducedRoomTemp, "reducedRoomTemperature")

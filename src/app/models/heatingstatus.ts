@@ -5,14 +5,15 @@ import Failures from "./failures"
 
 export default class HeatingStatus {
 
-  systemTime: Date|undefined
-  outsideTemp: Temperature|undefined
-  roomTemp: Temperature|undefined;
-  heatingMode: HeatingMode|undefined;
-  failureStatus: FailureStatus|undefined;
-  failures: Failures|undefined;
-
-  constructor() {
+  constructor(
+    public systemTime: Date,
+    public outsideTemp: Temperature,
+    public roomTemp: Temperature,
+    public reducedRoomTemp: Temperature,
+    public heatingMode: HeatingMode,
+    public failureStatus: FailureStatus,
+    public failures: Failures
+  ) {
   }
 
 }

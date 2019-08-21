@@ -7,13 +7,15 @@ export default class OverviewService {
   }
 
   async getGeneralHeatingStatus() {
-    let heatingStatus = new HeatingStatus()
-    heatingStatus.systemTime = await this.repo.getSystemTime()
-    heatingStatus.outsideTemp = await this.repo.getOutsideTemp()
-    heatingStatus.roomTemp = await this.repo.getRoomTemp()
-    heatingStatus.heatingMode = await this.repo.getHeatingMode()
-    heatingStatus.failureStatus = await this.repo.getFailureStatus()
-    heatingStatus.failures = await this.repo.getFailures()
+    let heatingStatus = new HeatingStatus(
+      await this.repo.getSystemTime(),
+      await this.repo.getOutsideTemp(),
+      await this.repo.getRoomTemp(),
+      await this.repo.getReducedRoomTemp(),
+      await this.repo.getHeatingMode(),
+      await this.repo.getFailureStatus(),
+      await this.repo.getFailures()
+    );
     // TODO:
     // Tag/Nachtbetrieb
     // Frostschutz

@@ -24,6 +24,7 @@
   "getTempA": "-5.10000  Grad Celsius",
   "getStatusStoerung": "Stoerung",
   "getTempRaumNorSollM1": "21.0000 Grad Celsius",
+  "getTempRaumRedSollM1": "15.0000 Grad Celsius",
   "getBetriebArt": "H+WW",
   "getError0": "",
   "getError1": "",

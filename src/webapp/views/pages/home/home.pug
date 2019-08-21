@@ -19,7 +19,7 @@ block main
     +liveDateTime(model.systemTime, locale).home__systemTime
     +dashboard().home__dashboard
       +dashboardTile().home__dashboardTile
-        +homeTemperatures(model.outsideTemp.temperature, model.roomTemp.temperature)
+        +homeTemperatures(model.outsideTemp.temperature, model.roomTemp.temperature, model.reducedRoomTemp.temperature)
       +dashboardTile().home__dashboardTile
         +heaterStats(model.heatingMode, model.burnerStatus, model.failureStatus, model.failures)
   = JSON.stringify(model)

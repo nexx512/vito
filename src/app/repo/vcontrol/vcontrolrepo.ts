@@ -92,6 +92,13 @@ export default class VControlRepo {
     })
   }
 
+  async getReducedRoomTemp() {
+    return await this.wrapConnection(async () => {
+      const temperatureString = await this.vControlClient.getData("getTempRaumRedSollM1");
+      return new Temperature(temperatureString);
+    })
+  }
+
   async getHeatingMode() {
     return await this.wrapConnection(async () => {
       const heatingModeString = await this.vControlClient.getData("getBetriebArt");
