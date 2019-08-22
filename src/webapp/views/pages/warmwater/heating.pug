@@ -12,9 +12,9 @@ block breadcrumb
 block main
   +sections().warmwaterHeating__sections
     +section("settings", t("warmwater.heating.settings"), true)
-      +form("/warmwater/heating/settings", "PUT").warmwaterHeating__settingsForm
+      +form("PUT", "/warmwater/heating/settings").warmwaterHeating__settingsForm
       
     +section("heatingTimes", t("warmwater.heating.times"))
-      +form("/warmwater/heating/times", "PUT").warmwaterHeating__timesForm
+      +form("PUT", "/warmwater/heating/times").warmwaterHeating__timesForm
         +weekCycleTimes(model)
         +buttonPrimary(t("savechanges"))(type="submit")

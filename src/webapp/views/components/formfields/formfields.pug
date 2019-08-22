@@ -1,17 +1,16 @@
 include /errortext/errortext
 
 mixin textField(label, id, name, value, errors)
-  .formField.formField__textField&attributes(attributes)
-    +__inputField(label, "text", id, name, value, errors)
-    +errorText(errors)
+  .formField.formField__textField
+    +__inputField(label, "text", id, name, value, errors)&attributes(attributes)
 
 mixin numberField(label, id, name, value, errors)
-  .formField.formField__numberField&attributes(attributes)
-    +__inputField(label, "tel", id, name, value, errors)
-    +errorText(errors)
+  .formField.formField__numberField
+    +__inputField(label, "tel", id, name, value, errors)&attributes(attributes)
 
 
 mixin __inputField(label, type, id, name, value, errors)
   if label
     label(for=id)= label
-  input(type=type id=id name=name value=value class=(errors && errors.length > 0) ? "formField--error" : false)&attributes(attributes)
+  input(type=type id=id name=name value=value class=(errors && errors.length > 0) ? "formField--error" : null)&attributes(attributes).formField__input
+  +errorText(errors)

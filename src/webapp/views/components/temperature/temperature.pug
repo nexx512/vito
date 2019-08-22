@@ -1,11 +1,4 @@
-include /formfields/formfields
-
 mixin temperature(temperature, decimals = 0)
   .temperature&attributes(attributes)
     = temperature.toFixed(decimals)
     != "&#x202f;°C"
-
-mixin temperatureField(temperature, name, decimals = 0)
-  .temperatureField&attributes(attributes)
-    +numberField(null, name, name, temperature.toFixed(decimals))
-    span!= "&#x202f;°C"

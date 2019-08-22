@@ -1,0 +1,14 @@
+include /scalebox/scalebox
+
+mixin scalableTextField(sizex, sizey, id, name, value)
+  .scalableFormField.scalableFormField__textField
+    +__inputField(sizex, sizey, "text", id, name, value)(attributes)
+
+mixin scalableNumberField(sizex, sizey, id, name, value)
+  .scalableFormField.scalableFormField__numberField
+    +__inputField(sizex, sizey, "tel", id, name, value)(attributes)
+        
+
+mixin __inputField(sizex, sizey, type, id, name, value)
+  +scaleBox(sizex, sizey).scalableFormField__scaleBox
+    input(type=type id=id name=name value=value style=`line-height: ${sizey}px`)&attributes(attributes).scalableFormField__input
