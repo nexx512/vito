@@ -28,6 +28,8 @@
   "error:Time missing": "Zeitangabe fehlt",
   "error:Time format invalid": "Zeitangabe hat ein ungültiges Format",
   "error:Time out of range": "Zeitangabe liegt außerhalb des gültigen Bereichs",
+  "error:Room temperature invalid": "Raum Solltemperatur ungültig.",
+  "error:Reduced room temperature invalid": "Raum Absenktemperatur ungültig.",
 
   "heating.failure.00": "Regelbetrieb (kein Fehler)",
   "heating.failure.0F": "Wartung (fuer Reset Codieradresse 24 auf 0 stellen)",

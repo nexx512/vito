@@ -14,6 +14,9 @@ FailureStatus = require("../../../dist/app/models/failurestatus").default
 Failures = require("../../../dist/app/models/failures").default
 Failure = require("../../../dist/app/models/failure").default
 
+ValidationError = require("../../../dist/app/models/validationerror").default
+ValidationErrors = require("../../../dist/app/models/validationerrors").default
+
 describe "The OverviewService", =>
 
   mockVControldData = new CommandBuilder()
@@ -27,6 +30,8 @@ describe "The OverviewService", =>
     .withCommand("getBetriebArt", "H+WW")
     .withCommand("getStatusStoerung", "Stoerung")
     .withCommand("getError0", "2019-08-16T23:03:10+0000 Kurzschluss Aussentemperatursensor (10)")
+    .withCommand("setTempRaumNorSollM1", "\\d+")
+    .withCommand("setTempRaumRedSollM1", "\\d+")
     .build()
 
   before =>
@@ -64,3 +69,25 @@ describe "The OverviewService", =>
       failures = new Failures()
       failures.add(new Failure("2019-08-16T23:03:10+0000 Kurzschluss Aussentemperatursensor (10)"))
       @generalHeatingStatus.failures.should.eql failures
+
+  describe "setting the room temperatures", =>
+    beforeEach =>
+      @mockVControlD.resetCommandLog()
+
+    describe "with invalid room temperature", =>
+      it "should return error messages", =>
+        await @overviewService.setRoomTemperatures(
+          new Temperature("aa"), new Temperature("13")
+        ).should.rejectedWith(new ValidationError("Room temperatures invalid",
+          new ValidationErrors([new ValidationError("Room temperature invalid")])));
+
+        @mockVControlD.commandLog.should.eql ["setTempRaumRedSollM1 13"]
+
+    describe "with invalid reduced room temperature", =>
+      it "should return error messages", =>
+        await @overviewService.setRoomTemperatures(
+          new Temperature("25"), new Temperature("bb")
+        ).should.rejectedWith(new ValidationError("Room temperatures invalid",
+          new ValidationErrors([new ValidationError("Reduced room temperature invalid")])));
+
+        @mockVControlD.commandLog.should.eql ["setTempRaumNorSollM1 25"]

@@ -7,6 +7,7 @@ CycleTimes = require("../../../../../dist/app/models/cycletimes").default
 CycleTime = require("../../../../../dist/app/models/cycletime").default
 Time = require("../../../../../dist/app/models/time").default
 FailurStatus = require("../../../../../dist/app/models/failurestatus").default
+Temperature = require("../../../../../dist/app/models/temperature").default
 
 describe "A VControlRepo object", =>
 
@@ -34,28 +35,29 @@ describe "A VControlRepo object", =>
       @vControlClientMock.verify()
 
   describe "setting warmwater heating times", =>
-    it "should set the heatind times", =>
-      cycleTimesMonday = new CycleTimes()
-      cycleTimesMonday.add(new CycleTime(new Time("12:23"), new Time("13:24")))
-      cycleTimesMonday.add(new CycleTime(new Time("23:12"), new Time("24:00")))
-      cycleTimesWednesday = new CycleTimes()
-      cycleTimesWednesday.add(new CycleTime(new Time("02:23"), new Time("03:24")))
-      cycleTimesWednesday.add(new CycleTime(new Time("03:12"), new Time("04:00")))
-      weekCycleTimes = new WeekCycleTimes(cycleTimesMonday, null, cycleTimesWednesday)
-      @vControlClientMock.expects("setData").once().withArgs("setTimerWWMo", ["12:23", "13:24", "23:12", "24:00"])
-      @vControlClientMock.expects("setData").once().withArgs("setTimerWWMi", ["02:23", "03:24", "03:12", "04:00"])
+    describe "without errors", =>
+      it "should set the heatind times", =>
+        cycleTimesMonday = new CycleTimes()
+        cycleTimesMonday.add(new CycleTime(new Time("12:23"), new Time("13:24")))
+        cycleTimesMonday.add(new CycleTime(new Time("23:12"), new Time("24:00")))
+        cycleTimesWednesday = new CycleTimes()
+        cycleTimesWednesday.add(new CycleTime(new Time("02:23"), new Time("03:24")))
+        cycleTimesWednesday.add(new CycleTime(new Time("03:12"), new Time("04:00")))
+        weekCycleTimes = new WeekCycleTimes(cycleTimesMonday, null, cycleTimesWednesday)
+        @vControlClientMock.expects("setData").once().withArgs("setTimerWWMo", ["12:23", "13:24", "23:12", "24:00"])
+        @vControlClientMock.expects("setData").once().withArgs("setTimerWWMi", ["02:23", "03:24", "03:12", "04:00"])
 
-      times = await @vControlRepo.setWarmWaterHeatingTimes(weekCycleTimes)
+        times = await @vControlRepo.setWarmWaterHeatingTimes(weekCycleTimes)
 
-      @vControlClientMock.verify()
+        @vControlClientMock.verify()
 
-  describe "requesting warmwater heating times with getData error", =>
-    it "should open and close the connection properly and throw an error", =>
-      sinon.stub(@vControlClient, "getData").throws()
+    describe "with getData error", =>
+      it "should open and close the connection properly and throw an error", =>
+        sinon.stub(@vControlClient, "getData").throws()
 
-      await @vControlRepo.getWarmWaterHeatingTimes().should.rejected()
+        await @vControlRepo.getWarmWaterHeatingTimes().should.rejected()
 
-      @vControlClientMock.verify()
+        @vControlClientMock.verify()
 
   describe "requesting warmwater circulation times", =>
     it "should return times for all weekdays", =>
@@ -74,28 +76,29 @@ describe "A VControlRepo object", =>
       @vControlClientMock.verify()
 
   describe "setting warmwater circulation times", =>
-    it "should set the heatind times", =>
-      cycleTimesMonday = new CycleTimes()
-      cycleTimesMonday.add(new CycleTime(new Time("12:23"), new Time("13:24")))
-      cycleTimesMonday.add(new CycleTime(new Time("23:12"), new Time("24:00")))
-      cycleTimesWednesday = new CycleTimes()
-      cycleTimesWednesday.add(new CycleTime(new Time("02:23"), new Time("03:24")))
-      cycleTimesWednesday.add(new CycleTime(new Time("03:12"), new Time("04:00")))
-      weekCycleTimes = new WeekCycleTimes(cycleTimesMonday, null, cycleTimesWednesday)
-      @vControlClientMock.expects("setData").once().withArgs("setTimerZirkuMo", ["12:23", "13:24", "23:12", "24:00"])
-      @vControlClientMock.expects("setData").once().withArgs("setTimerZirkuMi", ["02:23", "03:24", "03:12", "04:00"])
+    describe "without errors", =>
+      it "should set the heating times", =>
+        cycleTimesMonday = new CycleTimes()
+        cycleTimesMonday.add(new CycleTime(new Time("12:23"), new Time("13:24")))
+        cycleTimesMonday.add(new CycleTime(new Time("23:12"), new Time("24:00")))
+        cycleTimesWednesday = new CycleTimes()
+        cycleTimesWednesday.add(new CycleTime(new Time("02:23"), new Time("03:24")))
+        cycleTimesWednesday.add(new CycleTime(new Time("03:12"), new Time("04:00")))
+        weekCycleTimes = new WeekCycleTimes(cycleTimesMonday, null, cycleTimesWednesday)
+        @vControlClientMock.expects("setData").once().withArgs("setTimerZirkuMo", ["12:23", "13:24", "23:12", "24:00"])
+        @vControlClientMock.expects("setData").once().withArgs("setTimerZirkuMi", ["02:23", "03:24", "03:12", "04:00"])
 
-      times = await @vControlRepo.setWarmWaterCirculationTimes(weekCycleTimes)
+        times = await @vControlRepo.setWarmWaterCirculationTimes(weekCycleTimes)
 
-      @vControlClientMock.verify()
+        @vControlClientMock.verify()
 
-  describe "setting warmwater circulation times with errors", =>
-    it "should open and close the connection properly and throw an error", =>
-      sinon.stub(@vControlClient, "setData").throws()
+    describe "with errors", =>
+      it "should open and close the connection properly and throw an error", =>
+        sinon.stub(@vControlClient, "setData").throws()
 
-      await @vControlRepo.setWarmWaterCirculationTimes(new WeekCycleTimes(new CycleTimes())).should.rejected()
+        await @vControlRepo.setWarmWaterCirculationTimes(new WeekCycleTimes(new CycleTimes())).should.rejected()
 
-      @vControlClientMock.verify()
+        @vControlClientMock.verify()
 
   describe "getting the system time", =>
     it "should deliver the heating time in ISO format", =>
@@ -124,6 +127,23 @@ describe "A VControlRepo object", =>
       roomTemp.temperature.should.eql 21
       @vControlClientMock.verify()
 
+  describe "setting the room temperature", =>
+    describe "without errors", =>
+      it "should set the room temperature times", =>
+        @vControlClientMock.expects("setData").once().withArgs("setTempRaumNorSollM1", "22")
+
+        times = await @vControlRepo.setRoomTemperature(new Temperature(22))
+
+        @vControlClientMock.verify()
+
+    describe "with errors", =>
+      it "should open and close the connection properly and throw an error", =>
+        sinon.stub(@vControlClient, "setData").throws()
+
+        await @vControlRepo.setRoomTemperature(new Temperature()).should.rejected()
+
+        @vControlClientMock.verify()
+
   describe "getting the reduced room temperature", =>
     it "should deliver the temperature in the Temperature type", =>
       sinon.stub(@vControlClient, "getData").withArgs("getTempRaumRedSollM1").returns("18.00000 Grad Celsius\n")
@@ -132,6 +152,23 @@ describe "A VControlRepo object", =>
 
       reducedRoomTemp.temperature.should.eql 18
       @vControlClientMock.verify()
+
+  describe "setting the reduced room temperature", =>
+    describe "without errors", =>
+      it "should set the room temperature times", =>
+        @vControlClientMock.expects("setData").once().withArgs("setTempRaumRedSollM1", "16")
+
+        times = await @vControlRepo.setReducedRoomTemperature(new Temperature(16))
+
+        @vControlClientMock.verify()
+
+    describe "with errors", =>
+      it "should open and close the connection properly and throw an error", =>
+        sinon.stub(@vControlClient, "setData").throws()
+
+        await @vControlRepo.setReducedRoomTemperature(new Temperature()).should.rejected()
+
+        @vControlClientMock.verify()
 
   describe "getting the burner temperature", =>
     it "should deliver the temperature in the Temperature type", =>

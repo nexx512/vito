@@ -92,10 +92,22 @@ export default class VControlRepo {
     })
   }
 
+  async setRoomTemperature(roomTemperature: Temperature) {
+    return await this.wrapConnection(async () => {
+      await this.vControlClient.setData("setTempRaumNorSollM1", roomTemperature.temperature.toString());
+    })
+  }
+
   async getReducedRoomTemp() {
     return await this.wrapConnection(async () => {
       const temperatureString = await this.vControlClient.getData("getTempRaumRedSollM1");
       return new Temperature(temperatureString);
+    })
+  }
+
+  async setReducedRoomTemperature(reducedRoomTemperature: Temperature) {
+    return await this.wrapConnection(async () => {
+      await this.vControlClient.setData("setTempRaumRedSollM1", reducedRoomTemperature.temperature.toString());
     })
   }
 

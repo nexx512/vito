@@ -2,41 +2,45 @@ should = require("should")
 global.Config = require("../../../config/config.json")
 
 MockVControlD = require("../../support/mockvcontrold")
+CommandBuilder = require("../../support/commandbuilder")
 
 VControlClient = require("vcontrol")
 VControlRepo = require("../../../dist/app/repo/vcontrol/vcontrolrepo").default
 WarmWaterService = require("../../../dist/app/services/warmwaterservice").default
+
 WeekCycleTimes = require("../../../dist/app/models/weekcycletimes").default
 CycleTimes = require("../../../dist/app/models/cycletimes").default
 CycleTime = require("../../../dist/app/models/cycletime").default
 Time = require("../../../dist/app/models/time").default
+
 ValidationError = require("../../../dist/app/models/validationerror").default
 
 describe "The WarmWaterService", =>
 
-  mockVControldData = {
-    "getTimerWWMo": "An:00:00  Aus:24:00\nAn:00:00  Aus:24:00\nAn:00:00  Aus:24:00\nAn:--     Aus:--",
-    "getTimerWWDi": "An:01:00  Aus:23:00\nAn:00:00  Aus:24:00\nAn:00:00  Aus:24:00\nAn:--     Aus:--",
-    "getTimerWWMi": "An:02:00  Aus:23:10\nAn:00:00  Aus:24:00\nAn:00:00  Aus:24:00\nAn:--     Aus:--",
-    "getTimerWWDo": "An:03:00  Aus:23:20\nAn:00:00  Aus:24:00\nAn:00:00  Aus:24:00\nAn:--     Aus:--",
-    "getTimerWWFr": "An:04:00  Aus:23:30\nAn:00:00  Aus:24:00\nAn:00:00  Aus:24:00\nAn:--     Aus:--",
-    "getTimerWWSa": "An:05:00  Aus:23:40\nAn:00:00  Aus:24:00\nAn:00:00  Aus:24:00\nAn:--     Aus:--",
-    "getTimerWWSo": "An:06:00  Aus:23:50\nAn:00:00  Aus:24:00\nAn:00:00  Aus:24:00\nAn:--     Aus:--",
-    "getTimerZirkuMo": "An:00:01  Aus:23:01\nAn:00:00  Aus:24:00\nAn:00:00  Aus:24:00\nAn:--     Aus:--",
-    "getTimerZirkuDi": "An:00:02  Aus:23:02\nAn:00:00  Aus:24:00\nAn:00:00  Aus:24:00\nAn:--     Aus:--",
-    "getTimerZirkuMi": "An:00:03  Aus:23:03\nAn:00:00  Aus:24:00\nAn:00:00  Aus:24:00\nAn:--     Aus:--",
-    "getTimerZirkuDo": "An:00:04  Aus:23:04\nAn:00:00  Aus:24:00\nAn:00:00  Aus:24:00\nAn:--     Aus:--",
-    "getTimerZirkuFr": "An:00:05  Aus:23:05\nAn:00:00  Aus:24:00\nAn:00:00  Aus:24:00\nAn:--     Aus:--",
-    "getTimerZirkuSa": "An:00:06  Aus:23:06\nAn:00:00  Aus:24:00\nAn:00:00  Aus:24:00\nAn:--     Aus:--",
-    "getTimerZirkuSo": "An:00:06  Aus:23:07\nAn:00:00  Aus:24:00\nAn:00:00  Aus:24:00\nAn:--     Aus:--",
-    "setTimerZirkuMo": "^\\d+:\\d+$",
-    "setTimerZirkuDi": "^\\d+:\\d+$",
-    "setTimerZirkuMi": "^\\d+:\\d+$",
-    "setTimerZirkuDo": "^\\d+:\\d+$",
-    "setTimerZirkuFr": "^\\d+:\\d+$",
-    "setTimerZirkuSa": "^\\d+:\\d+$",
-    "setTimerZirkuSo": "^\\d+:\\d+$",
-  }
+  mockVControldData = new CommandBuilder()
+    .withCommand("getTimerWWMo", "An:00:00  Aus:24:00\nAn:00:00  Aus:24:00\nAn:00:00  Aus:24:00\nAn:--     Aus:--")
+    .withCommand("getTimerWWDi", "An:01:00  Aus:23:00\nAn:00:00  Aus:24:00\nAn:00:00  Aus:24:00\nAn:--     Aus:--")
+    .withCommand("getTimerWWMi", "An:02:00  Aus:23:10\nAn:00:00  Aus:24:00\nAn:00:00  Aus:24:00\nAn:--     Aus:--")
+    .withCommand("getTimerWWDo", "An:03:00  Aus:23:20\nAn:00:00  Aus:24:00\nAn:00:00  Aus:24:00\nAn:--     Aus:--")
+    .withCommand("getTimerWWFr", "An:04:00  Aus:23:30\nAn:00:00  Aus:24:00\nAn:00:00  Aus:24:00\nAn:--     Aus:--")
+    .withCommand("getTimerWWSa", "An:05:00  Aus:23:40\nAn:00:00  Aus:24:00\nAn:00:00  Aus:24:00\nAn:--     Aus:--")
+    .withCommand("getTimerWWSo", "An:06:00  Aus:23:50\nAn:00:00  Aus:24:00\nAn:00:00  Aus:24:00\nAn:--     Aus:--")
+    .withCommand("getTimerZirkuMo", "An:00:01  Aus:23:01\nAn:00:00  Aus:24:00\nAn:00:00  Aus:24:00\nAn:--     Aus:--")
+    .withCommand("getTimerZirkuDi", "An:00:02  Aus:23:02\nAn:00:00  Aus:24:00\nAn:00:00  Aus:24:00\nAn:--     Aus:--")
+    .withCommand("getTimerZirkuMi", "An:00:03  Aus:23:03\nAn:00:00  Aus:24:00\nAn:00:00  Aus:24:00\nAn:--     Aus:--")
+    .withCommand("getTimerZirkuDo", "An:00:04  Aus:23:04\nAn:00:00  Aus:24:00\nAn:00:00  Aus:24:00\nAn:--     Aus:--")
+    .withCommand("getTimerZirkuFr", "An:00:05  Aus:23:05\nAn:00:00  Aus:24:00\nAn:00:00  Aus:24:00\nAn:--     Aus:--")
+    .withCommand("getTimerZirkuSa", "An:00:06  Aus:23:06\nAn:00:00  Aus:24:00\nAn:00:00  Aus:24:00\nAn:--     Aus:--")
+    .withCommand("getTimerZirkuSo", "An:00:06  Aus:23:07\nAn:00:00  Aus:24:00\nAn:00:00  Aus:24:00\nAn:--     Aus:--")
+    .withCommand("setTimerWWMo", "^\\d+:\\d+$")
+    .withCommand("setTimerZirkuMo", "^\\d+:\\d+$")
+    .withCommand("setTimerZirkuDi", "^\\d+:\\d+$")
+    .withCommand("setTimerZirkuMi", "^\\d+:\\d+$")
+    .withCommand("setTimerZirkuDo", "^\\d+:\\d+$")
+    .withCommand("setTimerZirkuFr", "^\\d+:\\d+$")
+    .withCommand("setTimerZirkuSa", "^\\d+:\\d+$")
+    .withCommand("setTimerZirkuSo", "^\\d+:\\d+$")
+    .build()
 
   before =>
     @warmWaterService = new WarmWaterService(new VControlRepo(new VControlClient({

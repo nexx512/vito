@@ -6,7 +6,9 @@ describe "when loading the home page", ->
     .withCommand("getSystemTime", "2019-02-12T23:20:52+0000")
     .withCommand("getTempA", "-5.10000  Grad Celsius")
     .withCommand("getTempRaumNorSollM1", "20.00000 Grad Celsius")
+    .withCommand("setTempRaumNorSollM1", "25")
     .withCommand("getTempRaumRedSollM1", "16.0000 Grad Celsius")
+    .withCommand("setTempRaumRedSollM1", "18")
     .withCommand("getTempWWist", "55.29999 Grad Celsius")
     .withCommand("getTempWWsoll", "57.00000 Grad Celsius")
     .withCommand("getTempKist", "65.29999 Grad Celsius")
@@ -37,3 +39,22 @@ describe "when loading the home page", ->
     cy.get(".heatingMode .heatingMode__heating")
     cy.get(".heatingMode .heatingMode__warmwater")
     cy.get(".failureMessage").should("text", "Kurzschluss Aussentemperatursensor")
+
+  describe "when I enter invalid room temperatures", =>
+    it "should show an error message", =>
+      cy.get("input[name=\"roomTemperature\"]").type("{selectall}aa")
+      cy.get("input[name=\"reducedRoomTemperature\"]").type("{selectall}bb{enter}")
+      cy.get(".page__notificationError")
+        .should("contain", "Raum Solltemperatur ungültig")
+        .should("contain", "Raum Absenktemperatur ungültig")
+
+  describe "when I enter valid room temperatures", =>
+    it "should set the temperatures", =>
+      cy.mockVcontroldResetCommandLog()
+      cy.get("input[name=\"roomTemperature\"]").type("{selectall}25")
+      cy.get("input[name=\"reducedRoomTemperature\"]").type("{selectall}18{enter}")
+      cy.get(".page__notificationError")
+      cy.mockVcontroldGetCommandLog().then((x) => cy.log(x))
+      cy.mockVcontroldGetCommandLog()
+        .should("contain", "setTempRaumNorSollM1 25")
+        .should("contain", "setTempRaumRedSollM1 18")
