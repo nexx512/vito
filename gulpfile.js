@@ -231,10 +231,10 @@ function watch() {
 //////////
 rev = gulp.series(gulp.parallel(optimize, icons), function rev() {
   return gulp.src([distAssets + "/**/*"])
-    .pipe(p.revAll.revision())
+    .pipe(p.rev())
     .pipe(p.revDeleteOriginal())
     .pipe(gulp.dest(distAssets))
-    .pipe(p.revAll.manifestFile())
+    .pipe(p.rev.manifest())
     .pipe(gulp.dest(distAssets))
 });
 
