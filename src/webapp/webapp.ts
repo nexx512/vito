@@ -53,9 +53,9 @@ app.use(session({
 app.use(flash());
 app.use(notifications());
 
-import home from "./controller/home";
-import heating from "./controller/heating";
-import warmwater from "./controller/warmwater";
+import home from "../app/adapters/active/webapp/controller/home";
+import heating from "../app/adapters/active/webapp/controller/heating";
+import warmwater from "../app/adapters/active/webapp/controller/warmwater";
 
 home(app);
 heating(app);
