@@ -22,7 +22,7 @@ const src = {
   scripts: [scriptsBaseDir + "/*.js"],
   componentScripts: [componentsDir + "/*/*.js"],
   icons: ["src/webapp/assets/icons/*.svg"],
-  pug: ["webapp/views/pages/**/*.pug"],
+  pug: ["src/webapp/views/pages/**/*.pug"],
   json: ["src/webapp/i18n/*.json"]
 };
 
@@ -66,7 +66,7 @@ function ts() {
 // Precompiling views
 //////////
 function views() {
-  // get all the pug files and compile them for client
+  // get all the pug files and compile them
   return gulp.src(src.pug)
   .pipe(p.pug({
       client: true,
@@ -229,7 +229,7 @@ function watch() {
 //////////
 // Revisioning previously built and optimized assets
 //////////
-rev = gulp.series(gulp.parallel(optimize, icons, scripts), function rev() {
+rev = gulp.series(gulp.parallel(optimize, icons), function rev() {
   return gulp.src([distAssets + "/**/*"])
     .pipe(p.revAll.revision())
     .pipe(p.revDeleteOriginal())
