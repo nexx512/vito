@@ -7,7 +7,7 @@ mixin scalableTemperatureField(sizex, sizey, name, temperature, decimals = 0)
   - const sizexTemperature = sizex - sizexDegrees
   .scalableTemperatureField
     .scalableTemperatureField__temperature(style=`flex-basis: ${sizexTemperature * 100 / sizey}%`)
-      +scalableNumberField(sizexTemperature, sizey, name, name, temperature.toFixed(decimals))&attributes(attributes)
+      +scalableNumberField(sizexTemperature, sizey, name, name, temperature.toFixed(decimals))(max-length = 2)&attributes(attributes)
     .scalableTemperatureField__degrees(style=`flex-basis: 75%`)
       +scaleBox(sizexDegrees, sizey)
         .scalableTemperatureField__degreesText(style=`height: ${sizey}px`)
