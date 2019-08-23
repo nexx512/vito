@@ -14,7 +14,8 @@ NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 nvm use
 
-npm start >> $LOG_FILE &
+node --icu-data-dir=node_modules/full-icu dist/app.js >> $LOG_FILE &
+# npm start >> $LOG_FILE &
 echo $! > $PID_FILE
 
 echo "OK"
