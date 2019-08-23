@@ -28,7 +28,7 @@ npm i
 
 Build the assets for production use with
 ```
-npm run production
+npm run build
 ```
 
 ## Starting the server

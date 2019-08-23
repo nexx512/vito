@@ -4,8 +4,8 @@ PID_FILE=/var/run/vito.pid
 LOG_FILE=/var/log/vito.log
 
 if [ ! -f "$PID_FILE" ]; then
-  echo "Can't file pid file $PID_FILE for vito process. Is the server running?"
-  exit 1
+  echo "Can't find pid file $PID_FILE for vito process. Is the server running?"
+  exit 0
 fi
 
 pid=$(cat "$PID_FILE")

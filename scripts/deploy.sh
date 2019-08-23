@@ -19,17 +19,17 @@ echo "OK"
 
 echo -n "Stopping service on target... "
 echo "##### Stopping service on target... " >> $LOG
-ssh $TARGET "sudo $TARGET_DIR/scripts/local/stop.sh" >> $LOG 2>&1
+ssh $TARGET "if [ -s $TARGET_DIR/scripts/local/stop.sh ]; then sudo $TARGET_DIR/scripts/local/stop.sh; fi" >> $LOG 2>&1
 echo "OK"
 
 echo -n "Copying files to target... "
 echo "##### Copying files to target... " >> $LOG
-rsync -av --del dist node_modules --exclude dist/config $TARGET:$TARGET_DIR >> $LOG 2>&1
+rsync -av --del dist scripts config package*.json .nvmrc --exclude config/config.json $TARGET:$TARGET_DIR >> $LOG 2>&1
 echo "OK"
 
-echo -n "Rebuilding native modules... "
-echo "##### Rebuilding native modules... " >> $LOG
-ssh $TARGET "cd $TARGET_DIR; npm rebuild" >> $LOG 2>&1
+echo -n "Installing modules... "
+echo "##### Installing modules... " >> $LOG
+ssh $TARGET "export NVM_DIR=\"\$HOME/.nvm\"; [ -s \"\$NVM_DIR/nvm.sh\" ] && . \"\$NVM_DIR/nvm.sh\"; cd $TARGET_DIR; nvm use; npm ci --only=prod" >> $LOG 2>&1
 echo "OK"
 
 echo -n "Starting service on target... "
