@@ -18,4 +18,5 @@ while [ $? -eq 0 ]; do
   [ -e /proc/$pid ]
 done
 
+rm $PID_FILE
 echo "OK" | tee -a $LOG_FILE
