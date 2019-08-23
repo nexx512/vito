@@ -32,14 +32,6 @@ describe "The WarmWaterService", =>
     .withCommand("getTimerZirkuFr", "An:00:05  Aus:23:05\nAn:00:00  Aus:24:00\nAn:00:00  Aus:24:00\nAn:--     Aus:--")
     .withCommand("getTimerZirkuSa", "An:00:06  Aus:23:06\nAn:00:00  Aus:24:00\nAn:00:00  Aus:24:00\nAn:--     Aus:--")
     .withCommand("getTimerZirkuSo", "An:00:06  Aus:23:07\nAn:00:00  Aus:24:00\nAn:00:00  Aus:24:00\nAn:--     Aus:--")
-    .withCommand("setTimerWWMo", "^\\d+:\\d+$")
-    .withCommand("setTimerZirkuMo", "^\\d+:\\d+$")
-    .withCommand("setTimerZirkuDi", "^\\d+:\\d+$")
-    .withCommand("setTimerZirkuMi", "^\\d+:\\d+$")
-    .withCommand("setTimerZirkuDo", "^\\d+:\\d+$")
-    .withCommand("setTimerZirkuFr", "^\\d+:\\d+$")
-    .withCommand("setTimerZirkuSa", "^\\d+:\\d+$")
-    .withCommand("setTimerZirkuSo", "^\\d+:\\d+$")
     .build()
 
   before =>

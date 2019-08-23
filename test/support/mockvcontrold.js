@@ -9,31 +9,40 @@ module.exports = class MockVControlD {
       this.logger("Client connected.")
       c.write("vctrld>")
       c.on("data", (data) => {
-        let rawCommand = data.toString().replace(/\r?\n$/, "")
+        const rawCommand = data.toString().replace(/\r?\n$/, "")
         this.commandLog.push(rawCommand)
-        let args = rawCommand.split(" ")
-        let command = args.shift()
+        const [command, args] = this._extractCommandAndArgs(rawCommand);
         if (command === "quit") {
           c.end()
         } else {
           this.logger("Command:", command)
-          if (args.length === 0) {
-            let response = mockData[command]
-            if (response  !== undefined) {
-              this.logger("Response:", response)
-              c.write(response + "\n")
+          if (args) {
+            let argsPatternToMatch = mockData[command];
+            if (argsPatternToMatch !== undefined) {
+              const [commandArgsRegexp, commandToUpdate, argsUpdate] = this._resolveArgsPatternsAndCommandUpdates(argsPatternToMatch);
+              this.logger("Arguments: ", args)
+              if (commandArgsRegexp.test(args)) {
+                if (commandToUpdate) {
+                  mockData[commandToUpdate] = args.replace(commandArgsRegexp, argsUpdate);
+                  this.logger("Updated command '" + commandToUpdate + "' with value '" + mockData[commandToUpdate] + "'");
+                }
+                c.write("OK\n")
+              } else {
+                this.logger("Arguments don't match " + commandArgsRegexp.toString())
+                c.write("ERR: invalid arguments. Arguments don't match " + commandArgsRegexp.toString() + "\n")
+              }
             } else {
               this.logger("Unknown command.")
               c.write("ERR: unknown command\n")
             }
           } else {
-            let commandArgsRegexp = new RegExp(mockData[command])
-            this.logger("Arguments:", args)
-            if (args.every((a) => commandArgsRegexp.test(a))) {
-              c.write("OK\n")
+            let response = mockData[command]
+            if (response !== undefined) {
+              this.logger("Response:", response)
+              c.write(response + "\n")
             } else {
-              this.logger("Arguments don't match " + commandArgsRegexp.toString())
-              c.write("ERR: invalid arguments. Arguments don't match " + commandArgsRegexp.toString+ "\n")
+              this.logger("Unknown command.")
+              c.write("ERR: unknown command\n")
             }
           }
           c.write("vctrld>")
@@ -42,6 +51,27 @@ module.exports = class MockVControlD {
     })
     this.server.on("error", (e) => {throw e})
     this.resetCommandLog()
+  }
+
+  _extractCommandAndArgs(rawCommand) {
+    const commandSeparator = rawCommand.indexOf(" ");
+    if (commandSeparator > 0) {
+      return [rawCommand.substring(0, commandSeparator), rawCommand.substring(commandSeparator + 1)];
+    } else {
+      return [rawCommand];
+    }
+  }
+
+  _resolveArgsPatternsAndCommandUpdates(argsPatternToMatch) {
+    if (typeof argsPatternToMatch === "string") {
+      return [new RegExp(argsPatternToMatch, "g")];
+    } else {
+      for (let argsPattern in argsPatternToMatch) {
+        for (let updatedCommand in argsPatternToMatch[argsPattern]) {
+          return [new RegExp(argsPattern, "g"), updatedCommand, argsPatternToMatch[argsPattern][updatedCommand]];
+        }
+      }
+    }
   }
 
   resetCommandLog() {

@@ -30,8 +30,6 @@ describe "The OverviewService", =>
     .withCommand("getBetriebArt", "H+WW")
     .withCommand("getStatusStoerung", "Stoerung")
     .withCommand("getError0", "2019-08-16T23:03:10+0000 Kurzschluss Aussentemperatursensor (10)")
-    .withCommand("setTempRaumNorSollM1", "\\d+")
-    .withCommand("setTempRaumRedSollM1", "\\d+")
     .build()
 
   before =>

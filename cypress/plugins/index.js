@@ -25,13 +25,6 @@ module.exports = (on, config) => {
       await mockVControlD.start();
       return null;
     },
-    mockVControlDResetCommandLog () {
-      mockVControlD.resetCommandLog();
-      return null;
-    },
-    mockVControlDGetCommandLog () {
-      return mockVControlD.commandLog;
-    },
     async mockVControlDStop () {
       await mockVControlD.stop();
       mockVControlD = null;
