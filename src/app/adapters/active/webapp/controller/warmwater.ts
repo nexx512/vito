@@ -1,13 +1,13 @@
 import {Express} from "express";
 import WarmWaterService from "../../../../domain/services/warmwaterservice";
-import VControlRepo from "../../../../adapters/passive/vcontrol/vcontrolrepo";
+import WarmWaterRepo from "../../../../adapters/passive/vcontrol/warmwaterrepo";
 import VControlClient from "vcontrol";
 import WeekCycleTimesConverter from "../converter/weekcycletimesconverter";
 
 export default (app: Express) => {
 
   app.get("/warmwater/heating", async (_req, res, next) => {
-    const warmWaterService = new WarmWaterService(new VControlRepo(new VControlClient({
+    const warmWaterService = new WarmWaterService(new WarmWaterRepo(new VControlClient({
       host: global.Config.vcontrold.host,
       port: global.Config.vcontrold.port
     })));
@@ -22,7 +22,7 @@ export default (app: Express) => {
   })
 
   app.put("/warmwater/heating/times", async (req, res) => {
-    const warmWaterService = new WarmWaterService(new VControlRepo(new VControlClient({
+    const warmWaterService = new WarmWaterService(new WarmWaterRepo(new VControlClient({
       host: global.Config.vcontrold.host,
       port: global.Config.vcontrold.port
     })));
@@ -38,7 +38,7 @@ export default (app: Express) => {
   })
 
   app.get("/warmwater/circulation", async (_req, res, next) => {
-    const warmWaterService = new WarmWaterService(new VControlRepo(new VControlClient({
+    const warmWaterService = new WarmWaterService(new WarmWaterRepo(new VControlClient({
       host: global.Config.vcontrold.host,
       port: global.Config.vcontrold.port
     })));
@@ -53,7 +53,7 @@ export default (app: Express) => {
   })
 
   app.put("/warmwater/circulation/times", async (req, res) => {
-    const warmWaterService = new WarmWaterService(new VControlRepo(new VControlClient({
+    const warmWaterService = new WarmWaterService(new WarmWaterRepo(new VControlClient({
       host: global.Config.vcontrold.host,
       port: global.Config.vcontrold.port
     })));

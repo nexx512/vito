@@ -9,7 +9,7 @@ mixin homeTemperatures(outsideTemp, roomTemp, reducedRoomTemp)
     +icon("snowflake-o").homeTemperatures__element.homeTemperatures__iconFreezing
     +scaleBox(110, 35).homeTemperatures__element.homeTemperatures__outsideTemperature
       +temperature(outsideTemp, 1)
-    +form("PUT", "/roomtemperatures", true)
+    +form("PUT", "/overview/roomtemperatures", true)
       .homeTemperatures__element.homeTemperatures__roomTemperatures.homeTemperatures__roomTemperature
         +icon("sun")
         +scalableTemperatureField(75, 37, "roomTemperature", roomTemp)

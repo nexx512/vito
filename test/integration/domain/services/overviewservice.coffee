@@ -5,7 +5,7 @@ MockVControlD = require("../../../support/mockvcontrold")
 CommandBuilder = require("../../../support/commandbuilder")
 
 VControlClient = require("vcontrol")
-VControlRepo = require("../../../../dist/app/adapters/passive/vcontrol/vcontrolrepo").default
+DashboardsRepo = require("../../../../dist/app/adapters/passive/vcontrol/dashboardsrepo").default
 OverviewService = require("../../../../dist/app/domain/services/overviewservice").default
 
 Temperature = require("../../../../dist/app/domain/models/temperature").default
@@ -29,11 +29,11 @@ describe "The OverviewService", =>
     .withCommand("getTempKist", "65.29999 Grad Celsius")
     .withCommand("getBetriebArt", "H+WW")
     .withCommand("getStatusStoerung", "Stoerung")
-    .withCommand("getError0", "2019-08-16T23:03:10+0000 Kurzschluss Aussentemperatursensor (10)")
+    #.withCommand("getError0", "2019-08-16T23:03:10+0000 Kurzschluss Aussentemperatursensor (10)")
     .build()
 
   before =>
-    @overviewService = new OverviewService(new VControlRepo(new VControlClient({
+    @overviewService = new OverviewService(new DashboardsRepo(new VControlClient({
       host: "localhost"
       port: 3002
     })))
@@ -45,7 +45,7 @@ describe "The OverviewService", =>
 
   describe "getting the general heating status", =>
     before =>
-      @generalHeatingStatus = await @overviewService.getGeneralHeatingStatus()
+      @generalHeatingStatus = await @overviewService.getDashboardInfos()
 
     it "should deliver the system time", =>
       @generalHeatingStatus.systemTime.should.eql new Date("2019-02-12T23:20:52+0000")
@@ -62,8 +62,8 @@ describe "The OverviewService", =>
     it "should get the water temperature", =>
       @generalHeatingStatus.waterTemp.should.eql new Temperature("55.29999")
     it "should get the failure status", =>
-      @generalHeatingStatus.failureStatus.should.eql new FailureStatus(true)
-    it "should get the error message", =>
+      @generalHeatingStatus.failureStatus.should.eql new FailureStatus("Stoerung")
+    it.skip "should get the error message", =>
       failures = new Failures()
       failures.add(new Failure("2019-08-16T23:03:10+0000 Kurzschluss Aussentemperatursensor (10)"))
       @generalHeatingStatus.failures.should.eql failures

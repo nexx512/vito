@@ -1,7 +1,6 @@
 import Temperature from "./temperature"
 import HeatingMode from "./heatingmode"
 import FailureStatus from "./failurestatus"
-import Failures from "./failures"
 
 export default class HeatingStatus {
 
@@ -14,8 +13,7 @@ export default class HeatingStatus {
     public burnerTemp: Temperature,
     public waterTemp: Temperature,
     public waterTargetTemp: Temperature,
-    public failureStatus: FailureStatus,
-    public failures: Failures
+    public failureStatus: FailureStatus
   ) {
   }
 

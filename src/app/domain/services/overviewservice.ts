@@ -1,26 +1,14 @@
-import VControlRepo from "../../adapters/passive/vcontrol/vcontrolrepo"
-import HeatingStatus from "../models/heatingstatus"
+import DashboardsRepo from "../../adapters/passive/vcontrol/dashboardsrepo"
 import Temperature from "../models/temperature"
 import ValidationError from "../models/validationerror"
 import ValidationErrors from "../models/validationerrors"
 
 export default class OverviewService {
-  constructor(private repo: VControlRepo) {
+  constructor(private repo: DashboardsRepo) {
   }
 
-  async getGeneralHeatingStatus() {
-    let heatingStatus = new HeatingStatus(
-      await this.repo.getSystemTime(),
-      await this.repo.getOutsideTemp(),
-      await this.repo.getRoomTemp(),
-      await this.repo.getReducedRoomTemp(),
-      await this.repo.getHeatingMode(),
-      await this.repo.getBurnerTemp(),
-      await this.repo.getWaterTemp(),
-      await this.repo.getWaterTargetTemp(),
-      await this.repo.getFailureStatus(),
-      await this.repo.getFailures()
-    );
+  async getDashboardInfos() {
+    return await this.repo.getDashboardInfos();
     // TODO:
     // Tag/Nachtbetrieb
     // Frostschutz
@@ -28,7 +16,6 @@ export default class OverviewService {
     // Brennerbetrieb
     // Vorlauftemperatur
     // Warmwassertemperatur
-    return heatingStatus
   }
 
   async setRoomTemperatures(roomTemperature: Temperature, reducedRoomTemperature: Temperature) {

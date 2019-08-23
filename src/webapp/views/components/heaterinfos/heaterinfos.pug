@@ -1,0 +1,25 @@
+include /heatingmode/heatingmode
+include /temperature/temperature
+include /failurestatus/failurestatus
+include /failuremessage/failuremessage
+include /icon/icon
+include /form/form
+include /scalabletemperaturefield/scalabletemperaturefield
+include /scalebox/scalebox
+
+mixin heaterInfos(heatingMode, burnetStatus, burnerTemp, waterStatus, waterTemp, waterTargetTemp, failureStatus)
+  .heaterInfos
+    +heatingMode(heatingMode).heaterInfos__element
+    +icon("fire")(class=burnerStatus ? "heaterInfos__burnerStatus--active" : null).heaterInfos__element.heaterInfos__burnerStatus
+    +scaleBox(100, 35).heaterInfos__element.heaterInfos__burnerTemperature
+      +temperature(burnerTemp, 1)
+    +icon("droplet")(class=waterStatus ? "heaterInfos__waterStatus--active" : null).heaterInfos__element.heaterInfos__waterStatus
+    +scaleBox(100, 35).heaterInfos__element.heaterInfos__waterTemperature
+      +temperature(waterTemp, 1)
+    +form("PUT", "/overview/heaterinfos")
+      .heaterInfos__element.heaterInfos__waterTargetTemperature
+        +scalableTemperatureField(75, 37, "waterTargetTemperature", waterTargetTemp)
+    +failureStatus(failureStatus.hasFailure).heaterInfos__element
+    //- .heaterInfos__element
+      each failure in model.failures.items
+        +failureMessage(failure)

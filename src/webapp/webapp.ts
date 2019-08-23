@@ -54,10 +54,12 @@ app.use(flash());
 app.use(notifications());
 
 import home from "../app/adapters/active/webapp/controller/home";
+import overview from "../app/adapters/active/webapp/controller/overview";
 import heating from "../app/adapters/active/webapp/controller/heating";
 import warmwater from "../app/adapters/active/webapp/controller/warmwater";
 
 home(app);
+overview(app);
 heating(app);
 warmwater(app);
 

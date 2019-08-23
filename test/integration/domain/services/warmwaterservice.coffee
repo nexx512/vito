@@ -5,7 +5,7 @@ MockVControlD = require("../../../support/mockvcontrold")
 CommandBuilder = require("../../../support/commandbuilder")
 
 VControlClient = require("vcontrol")
-VControlRepo = require("../../../../dist/app/adapters/passive/vcontrol/vcontrolrepo").default
+WarmWaterRepo = require("../../../../dist/app/adapters/passive/vcontrol/warmwaterrepo").default
 WarmWaterService = require("../../../../dist/app/domain/services/warmwaterservice").default
 
 WeekCycleTimes = require("../../../../dist/app/domain/models/weekcycletimes").default
@@ -35,7 +35,7 @@ describe "The WarmWaterService", =>
     .build()
 
   before =>
-    @warmWaterService = new WarmWaterService(new VControlRepo(new VControlClient({
+    @warmWaterService = new WarmWaterService(new WarmWaterRepo(new VControlClient({
       host: "localhost"
       port: 3002
     })))
