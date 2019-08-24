@@ -1,7 +1,6 @@
 import DashboardsRepo from "../../adapters/passive/vcontrol/dashboardsrepo"
 import Temperature from "../models/temperature"
 import ValidationError from "../models/validationerror"
-import ValidationErrors from "../models/validationerrors"
 
 export default class OverviewService {
   constructor(private repo: DashboardsRepo) {
@@ -18,22 +17,19 @@ export default class OverviewService {
     // Warmwassertemperatur
   }
 
-  async setRoomTemperatures(roomTemperature: Temperature, reducedRoomTemperature: Temperature) {
-    let errors = [];
+  async setRoomTemperature(roomTemperature: Temperature) {
     if (roomTemperature.validate()) {
       await this.repo.setRoomTemperature(roomTemperature);
     } else {
-      errors.push(new ValidationError("Room temperature invalid"));
+      throw new ValidationError("Room temperature invalid");
     }
+  }
 
+  async setReducedRoomTemperature(reducedRoomTemperature: Temperature) {
     if (reducedRoomTemperature.validate()) {
       await this.repo.setReducedRoomTemperature(reducedRoomTemperature);
     } else {
-      errors.push(new ValidationError("Reduced room temperature invalid"));
-    }
-
-    if (errors.length > 0) {
-      throw new ValidationError("Room temperatures invalid",  new ValidationErrors(errors));
+      throw new ValidationError("Reduced room temperature invalid");
     }
   }
 

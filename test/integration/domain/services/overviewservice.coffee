@@ -89,20 +89,26 @@ describe "The OverviewService", =>
     beforeEach =>
       @mockVControlD.resetCommandLog()
 
-    describe "with invalid room temperature", =>
-      it "should return error messages", =>
-        await @overviewService.setRoomTemperatures(
-          new Temperature("aa"), new Temperature("13")
-        ).should.rejectedWith(new ValidationError("Room temperatures invalid",
-          new ValidationErrors([new ValidationError("Room temperature invalid")])));
+    describe "with invalid temperature", =>
+      it "should return an error message", =>
+        await @overviewService.setRoomTemperature(new Temperature("aa")).should.rejectedWith(new ValidationError("Room temperature invalid"));
 
-        @mockVControlD.commandLog.should.eql ["setTempRaumRedSollM1 13"]
-
-    describe "with invalid reduced room temperature", =>
-      it "should return error messages", =>
-        await @overviewService.setRoomTemperatures(
-          new Temperature("25"), new Temperature("bb")
-        ).should.rejectedWith(new ValidationError("Room temperatures invalid",
-          new ValidationErrors([new ValidationError("Reduced room temperature invalid")])));
+    describe "with valid temperature", =>
+      it "should set the new temperature", =>
+        await @overviewService.setRoomTemperature(new Temperature("25"));
 
         @mockVControlD.commandLog.should.eql ["setTempRaumNorSollM1 25"]
+
+  describe "setting the reduced room temperatures", =>
+    beforeEach =>
+      @mockVControlD.resetCommandLog()
+
+    describe "with invalid temperature", =>
+      it "should return an error message", =>
+        await @overviewService.setReducedRoomTemperature(new Temperature("aa")).should.rejectedWith(new ValidationError("Reduced room temperature invalid"));
+
+    describe "with valid temperature", =>
+      it "should set the new temperature", =>
+        await @overviewService.setReducedRoomTemperature(new Temperature("25"));
+
+        @mockVControlD.commandLog.should.eql ["setTempRaumRedSollM1 25"]

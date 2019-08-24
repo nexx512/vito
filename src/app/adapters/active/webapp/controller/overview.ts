@@ -41,17 +41,32 @@ export default (app: Express) => {
 
   });
 
-  app.put("/overview/roomtemperatures", async (req, res) => {
+  app.put("/overview/roomtemperature", async (req, res) => {
     const overviewService = new OverviewService(new DashboardsRepo(new VControlClient({
       host: global.Config.vcontrold.host,
       port: global.Config.vcontrold.port
     })));
 
-    const roomTemperature = new Temperature(req.body.roomTemperature);
-    const reducedRoomTemperature = new Temperature(req.body.reducedRoomTemperature);
+    try {
+      await overviewService.setRoomTemperature(new Temperature(req.body.roomTemperature));
+    } catch (e) {
+      if (e.inner && e.inner.items.length > 0) {
+        req.flash("error", e.inner.items.map((ve: ValidationError) => ve.message));
+      } else {
+        req.flash("error", e.message);
+      }
+    }
+    res.redirect("/overview");
+  });
+
+  app.put("/overview/reducedroomtemperature", async (req, res) => {
+    const overviewService = new OverviewService(new DashboardsRepo(new VControlClient({
+      host: global.Config.vcontrold.host,
+      port: global.Config.vcontrold.port
+    })));
 
     try {
-      await overviewService.setRoomTemperatures(roomTemperature, reducedRoomTemperature);
+      await overviewService.setReducedRoomTemperature(new Temperature(req.body.reducedRoomTemperature));
     } catch (e) {
       if (e.inner && e.inner.items.length > 0) {
         req.flash("error", e.inner.items.map((ve: ValidationError) => ve.message));
