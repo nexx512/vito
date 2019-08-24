@@ -36,9 +36,11 @@ describe "when loading the home page", =>
       cy.get(".heaterInfos input[name='heatingOn']").should("not.checked")
       cy.get(".heaterInfos input[name='warmwaterOn']").should("not.checked")
       cy.get(".heaterInfos__burnerStatus--active").should("not.exist")
-      cy.get(".heaterInfos__heatingCirculation--active").should("not.exist")
+      cy.get(".heaterInfos__heatingCirculation.heaterInfos__circulationIndicator--enabled").should("not.exist")
+      cy.get(".heaterInfos__heatingCirculation.heaterInfos__circulationIndicator--active").should("not.exist")
       cy.get(".heaterInfos__waterStatus--active").should("not.exist")
-      cy.get(".heaterInfos__waterCirculation--active").should("not.exist")
+      cy.get(".heaterInfos__waterCirculation.heaterInfos__circulationIndicatos--enabled").should("not.exist")
+      cy.get(".heaterInfos__waterCirculation.heaterInfos__circulationIndicatos--active").should("not.exist")
       #cy.get(".failureMessage").should("text", "Kurzschluss Aussentemperatursensor")
 
     describe "when I enter invalid room temperatures", =>
@@ -57,14 +59,11 @@ describe "when loading the home page", =>
         cy.get(".page__notificationError").should("not.have.descendants")
         cy.get(".homeTemperatures input[name='reducedRoomTemperature']").should("value", "18")
 
-  describe "with all states positive", =>
+  describe "with all states positive except the circulation indicators", =>
     mockVControldData = new CommandBuilder()
       .withCommand("getStatusFrostM1", "1.000000")
       .withCommand("getBrennerStatus", "25.00000 %")
-      .withCommand("getPumpeStatusZirku", "1")
       .withCommand("getPumpeStatusSp", "1")
-      .withCommand("getUmschaltventil", "Heizen")
-      .withCommand("getPumpeStatusIntern", "1")
       .withCommand("getBetriebArt", "H+WW")
       .withCommand("getStatusStoerung", "1")
       .withCommand("getError0", "2019-08-16T23:03:10+0000 Fehler mit Code 16 (10)")
@@ -85,7 +84,34 @@ describe "when loading the home page", =>
       cy.get(".heaterInfos input[name='heatingOn']").should("checked")
       cy.get(".heaterInfos input[name='warmWaterOn']").should("checked")
       cy.get(".heaterInfos__burnerStatus--active").should("exist")
-      cy.get(".heaterInfos__heatingCirculation--active").should("exist")
+      cy.get(".heaterInfos__heatingCirculation.heaterInfos__circulationIndicator--enabled").should("exist")
+      cy.get(".heaterInfos__heatingCirculation.heaterInfos__circulationIndicator--active").should("not.exist")
       cy.get(".heaterInfos__waterStatus--active").should("exist")
-      cy.get(".heaterInfos__waterCirculation--active").should("exist")
+      cy.get(".heaterInfos__waterCirculation.heaterInfos__circulationIndicatos--enabled").should("exist")
+      cy.get(".heaterInfos__waterCirculation.heaterInfos__circulationIndicatos--active").should("not.exist")
+
+      #cy.get(".failureMessage").should("text", "Kurzschluss Aussentemperatursensor")
+
+  describe "with the circulation indicators turned on", =>
+    mockVControldData = new CommandBuilder()
+      .withCommand("getPumpeStatusZirku", "1")
+      .withCommand("getUmschaltventil", "Heizen")
+      .withCommand("getPumpeStatusIntern", "1")
+      .build()
+
+    before ->
+      cy.mockVcontroldStart(mockVControldData)
+
+    after ->
+      cy.mockVcontroldStop()
+
+    beforeEach ->
+      cy.visit("/")
+
+    it "should show all status indicators turned on", =>
+      cy.get(".heaterInfos__heatingCirculation.heaterInfos__circulationIndicator--enabled").should("not.exist")
+      cy.get(".heaterInfos__heatingCirculation.heaterInfos__circulationIndicator--active").should("exist")
+      cy.get(".heaterInfos__waterCirculation.heaterInfos__circulationIndicatos--enabled").should("not.exist")
+      cy.get(".heaterInfos__waterCirculation.heaterInfos__circulationIndicatos--active").should("exist")
+
       #cy.get(".failureMessage").should("text", "Kurzschluss Aussentemperatursensor")

@@ -4,12 +4,12 @@ import ValidationErrors from "./validationerrors"
 export default class HeatingMode implements Validatable {
 
   heating: boolean;
-  warmwater: boolean;
+  warmWater: boolean;
   errors: ValidationErrors
 
   constructor(mode: string) {
     this.heating = mode.includes("H")
-    this.warmwater = mode.includes("WW")
+    this.warmWater = mode.includes("WW")
 
     this.errors = new ValidationErrors()
   }
