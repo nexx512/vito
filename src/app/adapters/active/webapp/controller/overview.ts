@@ -28,7 +28,8 @@ export default (app: Express) => {
           burnerTemp: dashboardInfos.burnerTemp,
           waterTemp: dashboardInfos.waterTemp,
           waterTargetTemp: dashboardInfos.waterTargetTemp,
-          failureStatus: dashboardInfos.failureStatus
+          failureStatus: dashboardInfos.failureStatus,
+          burnerStatus: dashboardInfos.burnerStatus
         }
       }
       res.render('overview/overview', {model: model});

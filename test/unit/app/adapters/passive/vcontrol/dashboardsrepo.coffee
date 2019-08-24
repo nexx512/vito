@@ -6,6 +6,7 @@ FailureStatus = require("../../../../../../dist/app/domain/models/failurestatus"
 Temperature = require("../../../../../../dist/app/domain/models/temperature").default
 HeatingMode = require("../../../../../../dist/app/domain/models/heatingmode").default
 FrostIndicator = require("../../../../../../dist/app/domain/models/frostindicator").default
+BurnerStatus = require("../../../../../../dist/app/domain/models/burnerstatus").default
 
 describe "A DashboardsRepo object", =>
 
@@ -34,6 +35,7 @@ describe "A DashboardsRepo object", =>
       getDataStub.withArgs("getTempWWsoll").returns("57.00000 Grad Celsius\n")
       getDataStub.withArgs("getStatusStoerung").returns("0\n")
       getDataStub.withArgs("getStatusFrostM1").returns("0\n")
+      getDataStub.withArgs("getBrennerStatus").returns("27.000000 %\n")
 
       dashboardInfos = await @dashboardsRepo.getDashboardInfos()
 
@@ -60,6 +62,8 @@ describe "A DashboardsRepo object", =>
         dashboardInfos.failureStatus.should.eql new FailureStatus("0")
       it "should deliver the frost indication", =>
         dashboardInfos.frostIndicator.should.eql new FrostIndicator("0")
+      it "should deliver the burner status", =>
+        dashboardInfos.burnerStatus.should.eql new BurnerStatus("27.000000 %")
 
   describe "setting the room temperature", =>
     describe "without errors", =>

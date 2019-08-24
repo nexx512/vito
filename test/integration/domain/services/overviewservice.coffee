@@ -31,6 +31,7 @@ describe "The OverviewService", =>
     .withCommand("getTempKist", "65.29999 Grad Celsius")
     .withCommand("getBetriebArt", "H+WW")
     .withCommand("getStatusStoerung", "1")
+    .withCommand("getBrennerStatus", "0.00000 %")
     #.withCommand("getError0", "2019-08-16T23:03:10+0000 Kurzschluss Aussentemperatursensor (10)")
     .build()
 
@@ -67,6 +68,8 @@ describe "The OverviewService", =>
       @dashboardInfos.waterTemp.should.eql new Temperature("55.29999")
     it "should get the failure status", =>
       @dashboardInfos.failureStatus.should.eql new FailureStatus("1")
+    it "should get the burner status", =>
+      @dashboardInfos.burnerStatus.should.eql new BurnerStatus("0.000000 %")
     it.skip "should get the error message", =>
       failures = new Failures()
       failures.add(new Failure("2019-08-16T23:03:10+0000 Kurzschluss Aussentemperatursensor (10)"))
