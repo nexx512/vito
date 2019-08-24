@@ -1,3 +1,10 @@
-footer
-  position fixed
-  bottom 4px
+#footer
+  padding-bottom 4px
+  background-color white
+  color $color-main
+  @media $mq-l_and_up
+    z-index 999
+    background-color initial
+    position fixed
+    bottom 4px
+    color white
