@@ -25,7 +25,7 @@
   "getTempKist": "67.29999  Grad Celsius",
   "getTempWWist": "49.9999  Grad Celsius",
   "getTempWWsoll": "57.00000 Grad Celsius",
-  "getStatusStoerung": "Stoerung",
+  "getStatusStoerung": "0",
   "getTempRaumNorSollM1": "21.0000 Grad Celsius",
   "setTempRaumNorSollM1": {"^(\\d+)$": {"getTempRaumNorSollM1": "$1"}},
   "getTempRaumRedSollM1": "15.0000 Grad Celsius",

@@ -28,7 +28,7 @@ describe "The OverviewService", =>
     .withCommand("getTempWWsoll", "57.00000 Grad Celsius")
     .withCommand("getTempKist", "65.29999 Grad Celsius")
     .withCommand("getBetriebArt", "H+WW")
-    .withCommand("getStatusStoerung", "Stoerung")
+    .withCommand("getStatusStoerung", "1")
     #.withCommand("getError0", "2019-08-16T23:03:10+0000 Kurzschluss Aussentemperatursensor (10)")
     .build()
 
@@ -43,30 +43,30 @@ describe "The OverviewService", =>
   after =>
     await @mockVControlD.stop()
 
-  describe "getting the general heating status", =>
+  describe "getting the overview information", =>
     before =>
-      @generalHeatingStatus = await @overviewService.getDashboardInfos()
+      @dashboardInfos = await @overviewService.getDashboardInfos()
 
     it "should deliver the system time", =>
-      @generalHeatingStatus.systemTime.should.eql new Date("2019-02-12T23:20:52+0000")
+      @dashboardInfos.systemTime.should.eql new Date("2019-02-12T23:20:52+0000")
     it "should get the outside temperature", =>
-      @generalHeatingStatus.outsideTemp.should.eql new Temperature("-5.1")
+      @dashboardInfos.outsideTemp.should.eql new Temperature("-5.1")
     it "should get the room temperature", =>
-      @generalHeatingStatus.roomTemp.should.eql new Temperature("20")
+      @dashboardInfos.roomTemp.should.eql new Temperature("20")
     it "should get the reduced room temperature", =>
-      @generalHeatingStatus.reducedRoomTemp.should.eql new Temperature("16")
+      @dashboardInfos.reducedRoomTemp.should.eql new Temperature("16")
     it "should get the heating mode", =>
-      @generalHeatingStatus.heatingMode.should.eql new HeatingMode("H+WW")
+      @dashboardInfos.heatingMode.should.eql new HeatingMode("H+WW")
     it "should get the burner temperature", =>
-      @generalHeatingStatus.burnerTemp.should.eql new Temperature("65.29999")
+      @dashboardInfos.burnerTemp.should.eql new Temperature("65.29999")
     it "should get the water temperature", =>
-      @generalHeatingStatus.waterTemp.should.eql new Temperature("55.29999")
+      @dashboardInfos.waterTemp.should.eql new Temperature("55.29999")
     it "should get the failure status", =>
-      @generalHeatingStatus.failureStatus.should.eql new FailureStatus("Stoerung")
+      @dashboardInfos.failureStatus.should.eql new FailureStatus("1")
     it.skip "should get the error message", =>
       failures = new Failures()
       failures.add(new Failure("2019-08-16T23:03:10+0000 Kurzschluss Aussentemperatursensor (10)"))
-      @generalHeatingStatus.failures.should.eql failures
+      @dashboardInfos.failures.should.eql failures
 
   describe "setting the room temperatures", =>
     beforeEach =>

@@ -7,22 +7,20 @@ include /lockingbutton/lockingbutton
 include /button/button
 include /livedatetime/livedatetime
 
-mixin heaterInfos(systemTome, heatingMode, burnetStatus, burnerTemp, waterStatus, waterTemp, waterTargetTemp, failureStatus)
+mixin heaterInfos(systemTime, heatingMode, burnetStatus, burnerTemp, waterStatus, waterTemp, waterTargetTemp, failureStatus)
   .heaterInfos
-    a(href="#").heaterInfos__element.heaterInfos__failureStatus(class=!!failureStatus.hasFailure ? "heaterInfos__failureStatus--hasFailure": null)
+    a(href="#" class=failureStatus.hasFailure ? "heaterInfos__failureStatus--hasFailure" : null).heaterInfos__element.heaterInfos__failureStatus
       +buttonIcon("bolt")
     +scaleBox(150, 70).heaterInfos__element.heaterInfos__systemTime
-      +liveDateTime(model.systemTime, locale)
+      +liveDateTime(systemTime, locale)
     +form("GET", "#").heaterInfos__element.heaterInfos__heating
       +lockingButtonIcon("heatingOn", "radiator", heatingMode.heating)
     +form("GET", "#").heaterInfos__element.heaterInfos__water
       +lockingButtonIcon("warmWaterOn", "water-tap", heatingMode.warmwater)
-    - burnerStatus = true
-    +icon("fire")(class=!!burnerStatus ? "heaterInfos__burnerStatus--active" : null).heaterInfos__element.heaterInfos__burnerStatus
+    +icon("fire")(class=burnerStatus ? "heaterInfos__burnerStatus--active" : null).heaterInfos__element.heaterInfos__burnerStatus
     +scaleBox(100, 35).heaterInfos__element.heaterInfos__burnerTemperature
       +temperature(burnerTemp, 1)
-    - waterStatus = true
-    +icon("droplet")(class=!!waterStatus ? "heaterInfos__waterStatus--active" : null).heaterInfos__element.heaterInfos__waterStatus
+    +icon("droplet")(class=waterStatus ? "heaterInfos__waterStatus--active" : null).heaterInfos__element.heaterInfos__waterStatus
     +scaleBox(100, 35).heaterInfos__element.heaterInfos__waterTemperature
       +temperature(waterTemp, 1)
     +form("PUT", "/overview/heaterinfos")

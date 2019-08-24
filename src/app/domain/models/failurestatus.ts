@@ -2,8 +2,8 @@ export default class FailureStatus {
 
   hasFailure: boolean = false;
 
-  constructor (failureString: String) {
-    this.hasFailure = failureString != "OK"
+  constructor (failureString: string) {
+    this.hasFailure = !!parseInt(failureString)
   }
 
 }

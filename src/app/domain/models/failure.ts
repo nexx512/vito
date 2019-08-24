@@ -3,9 +3,9 @@ export default class Failure {
   isFailure:boolean = false;
   time: Date|null|undefined;
   code: number|undefined;
-  message: String|undefined;
+  message: string|undefined;
 
-  constructor (failureString:String) {
+  constructor (failureString: string) {
     const failureElements = failureString.match(/^(\d{2,4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2})\+\d{4} (.*) \(([0-9a-fA-F]*)\)/);
     if (failureElements) {
       this.code = parseInt(failureElements[3], 16);

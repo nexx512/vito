@@ -31,7 +31,7 @@ describe "A DashboardsRepo object", =>
       getDataStub.withArgs("getTempKist").returns("65.2999 Grad Celsius\n")
       getDataStub.withArgs("getTempWWist").returns("55.2999 Grad Celsius\n")
       getDataStub.withArgs("getTempWWsoll").returns("57.00000 Grad Celsius\n")
-      getDataStub.withArgs("getStatusStoerung").returns("OK")
+      getDataStub.withArgs("getStatusStoerung").returns("0")
 
       dashboardInfos = await @dashboardsRepo.getDashboardInfos()
 
@@ -55,15 +55,15 @@ describe "A DashboardsRepo object", =>
       it "should deliver the heating mode", =>
         dashboardInfos.heatingMode.should.eql new HeatingMode("H+WW")
       it "should deliver the 'OK' failure status in FailusrStatus type", =>
-        dashboardInfos.failureStatus.should.eql new FailureStatus("OK")
+        dashboardInfos.failureStatus.should.eql new FailureStatus("0")
 
   describe "requesting the failure status if a failure happened", =>
     it "should deliver the failure status in FailusrStatus type", =>
-      getDataStub.withArgs("getStatusStoerung").returns("Failure")
+      getDataStub.withArgs("getStatusStoerung").returns("1")
 
       dashboardInfos = await @dashboardsRepo.getDashboardInfos()
 
-      dashboardInfos.failureStatus.should.eql new FailureStatus("Fehler")
+      dashboardInfos.failureStatus.should.eql new FailureStatus("1")
       @vControlClientMock.verify()
 
   describe "setting the room temperature", =>
