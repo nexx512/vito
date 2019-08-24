@@ -25,10 +25,10 @@ mixin heaterInfos(heaterInfos)
     .heaterInfos__element.heaterInfos__waterCirculation.heaterInfos__circulationIndicator(class=waterCirculationClasses)
     +form("GET", "#").heaterInfos__element.heaterInfos__water
       +lockingButtonIcon("warmWaterOn", "water-tap", heaterInfos.heatingMode.warmWater)
-    +icon("fire")(class=heaterInfos.burnerStatus.isActive ? "heaterInfos__burnerStatus--active" : null).heaterInfos__element.heaterInfos__burnerStatus
+    +icon("fire")(class=heaterInfos.burnerStatus.isBurning ? "heaterInfos__burnerStatus--active" : null).heaterInfos__element.heaterInfos__burnerStatus
     +scaleBox(100, 35).heaterInfos__element.heaterInfos__burnerTemperature
       +temperature(heaterInfos.burnerTemp.temperature, 1)
-    +icon("droplet")(class=heaterInfos.waterStatus ? "heaterInfos__waterStatus--active" : null).heaterInfos__element.heaterInfos__waterStatus
+    +icon("droplet")(class=heaterInfos.warmWaterStatus.isHeating ? "heaterInfos__waterStatus--active" : null).heaterInfos__element.heaterInfos__waterStatus
     +scaleBox(100, 35).heaterInfos__element.heaterInfos__waterTemperature
       +temperature(heaterInfos.waterTemp.temperature, 1)
     +form("PUT", "/overview/heaterinfos")

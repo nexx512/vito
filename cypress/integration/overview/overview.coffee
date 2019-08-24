@@ -39,8 +39,8 @@ describe "when loading the home page", =>
       cy.get(".heaterInfos__heatingCirculation.heaterInfos__circulationIndicator--enabled").should("not.exist")
       cy.get(".heaterInfos__heatingCirculation.heaterInfos__circulationIndicator--active").should("not.exist")
       cy.get(".heaterInfos__waterStatus--active").should("not.exist")
-      cy.get(".heaterInfos__waterCirculation.heaterInfos__circulationIndicatos--enabled").should("not.exist")
-      cy.get(".heaterInfos__waterCirculation.heaterInfos__circulationIndicatos--active").should("not.exist")
+      cy.get(".heaterInfos__waterCirculation.heaterInfos__circulationIndicator--enabled").should("not.exist")
+      cy.get(".heaterInfos__waterCirculation.heaterInfos__circulationIndicator--active").should("not.exist")
       #cy.get(".failureMessage").should("text", "Kurzschluss Aussentemperatursensor")
 
     describe "when I enter invalid room temperatures", =>
@@ -87,8 +87,8 @@ describe "when loading the home page", =>
       cy.get(".heaterInfos__heatingCirculation.heaterInfos__circulationIndicator--enabled").should("exist")
       cy.get(".heaterInfos__heatingCirculation.heaterInfos__circulationIndicator--active").should("not.exist")
       cy.get(".heaterInfos__waterStatus--active").should("exist")
-      cy.get(".heaterInfos__waterCirculation.heaterInfos__circulationIndicatos--enabled").should("exist")
-      cy.get(".heaterInfos__waterCirculation.heaterInfos__circulationIndicatos--active").should("not.exist")
+      cy.get(".heaterInfos__waterCirculation.heaterInfos__circulationIndicator--enabled").should("exist")
+      cy.get(".heaterInfos__waterCirculation.heaterInfos__circulationIndicator--active").should("not.exist")
 
       #cy.get(".failureMessage").should("text", "Kurzschluss Aussentemperatursensor")
 
@@ -111,7 +111,7 @@ describe "when loading the home page", =>
     it "should show all status indicators turned on", =>
       cy.get(".heaterInfos__heatingCirculation.heaterInfos__circulationIndicator--enabled").should("not.exist")
       cy.get(".heaterInfos__heatingCirculation.heaterInfos__circulationIndicator--active").should("exist")
-      cy.get(".heaterInfos__waterCirculation.heaterInfos__circulationIndicatos--enabled").should("not.exist")
-      cy.get(".heaterInfos__waterCirculation.heaterInfos__circulationIndicatos--active").should("exist")
+      cy.get(".heaterInfos__waterCirculation.heaterInfos__circulationIndicator--enabled").should("not.exist")
+      cy.get(".heaterInfos__waterCirculation.heaterInfos__circulationIndicator--active").should("exist")
 
       #cy.get(".failureMessage").should("text", "Kurzschluss Aussentemperatursensor")

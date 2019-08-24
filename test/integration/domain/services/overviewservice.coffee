@@ -14,6 +14,8 @@ FailureStatus = require("../../../../dist/app/domain/models/failurestatus").defa
 Failures = require("../../../../dist/app/domain/models/failures").default
 Failure = require("../../../../dist/app/domain/models/failure").default
 FrostIndicator = require("../../../../dist/app/domain/models/frostindicator").default
+BurnerStatus = require("../../../../dist/app/domain/models/burnerstatus").default
+WarmWaterStatus = require("../../../../dist/app/domain/models/warmwaterstatus").default
 
 ValidationError = require("../../../../dist/app/domain/models/validationerror").default
 ValidationErrors = require("../../../../dist/app/domain/models/validationerrors").default
@@ -32,6 +34,7 @@ describe "The OverviewService", =>
     .withCommand("getBetriebArt", "H+WW")
     .withCommand("getStatusStoerung", "1")
     .withCommand("getBrennerStatus", "0.00000 %")
+    .withCommand("getPumpeStatusSp", "1")
     #.withCommand("getError0", "2019-08-16T23:03:10+0000 Kurzschluss Aussentemperatursensor (10)")
     .build()
 
@@ -70,6 +73,8 @@ describe "The OverviewService", =>
       @dashboardInfos.failureStatus.should.eql new FailureStatus("1")
     it "should get the burner status", =>
       @dashboardInfos.burnerStatus.should.eql new BurnerStatus("0.000000 %")
+    it "should get the warm water heating status", =>
+      @dashboardInfos.warmWaterStatus.should.eql new WarmWaterStatus("1")
     it.skip "should get the error message", =>
       failures = new Failures()
       failures.add(new Failure("2019-08-16T23:03:10+0000 Kurzschluss Aussentemperatursensor (10)"))

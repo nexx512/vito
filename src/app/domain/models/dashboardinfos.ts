@@ -3,6 +3,7 @@ import HeatingMode from "./heatingmode"
 import FailureStatus from "./failurestatus"
 import FrostIndicator from "./frostindicator"
 import BurnerStatus from "./burnerstatus"
+import WarmWaterStatus from "./warmwaterstatus"
 
 export default class HeatingStatus {
 
@@ -17,7 +18,8 @@ export default class HeatingStatus {
     public waterTemp: Temperature,
     public waterTargetTemp: Temperature,
     public failureStatus: FailureStatus,
-    public burnerStatus: BurnerStatus
+    public burnerStatus: BurnerStatus,
+    public warmWaterStatus: WarmWaterStatus
   ) {
   }
 

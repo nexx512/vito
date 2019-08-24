@@ -8,11 +8,11 @@ describe "A BurnerStatus model", =>
       burnerStatus = new BurnerStatus("0.000000 %")
 
       burnerStatus.power.should.equal 0.0
-      burnerStatus.isActive.should.false()
+      burnerStatus.isBurning.should.false()
 
   describe "with an active burner value", =>
     it "should set the power value", =>
       burnerStatus = new BurnerStatus("12.000000 %")
 
       burnerStatus.power.should.equal 12.0
-      burnerStatus.isActive.should.true()
+      burnerStatus.isBurning.should.true()

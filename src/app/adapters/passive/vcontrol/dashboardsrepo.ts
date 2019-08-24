@@ -7,6 +7,7 @@ import Failure from "../../../domain/models/failure"
 import FrostIndicator from "../../../domain/models/frostindicator"
 import DashboardInfos from "../../../domain/models/dashboardinfos"
 import BurnerStatus from "../../../domain/models/burnerstatus"
+import WarmWaterStatus from "../../../domain/models/warmwaterstatus"
 
 export default class DashboardsRepo extends VControlRepo {
 
@@ -24,7 +25,8 @@ export default class DashboardsRepo extends VControlRepo {
         new Temperature(await client.getData("getTempWWist")),
         new Temperature(await client.getData("getTempWWsoll")),
         new FailureStatus(await client.getData("getStatusStoerung")),
-        new BurnerStatus(await client.getData("getBrennerStatus"))
+        new BurnerStatus(await client.getData("getBrennerStatus")),
+        new WarmWaterStatus(await client.getData("getPumpeStatusSp"))
       );
     })
   }

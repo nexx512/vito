@@ -1,10 +1,10 @@
 export default class BurnerStatus {
 
   public power: number;
-  public isActive: boolean;
+  public isBurning: boolean;
 
   constructor(powerString: string) {
     this.power = parseFloat(powerString);
-    this.isActive = !!this.power;
+    this.isBurning = !!this.power;
   }
 }
