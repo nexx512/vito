@@ -15,7 +15,7 @@ mixin heaterInfos(heaterInfos)
       +liveDateTime(heaterInfos.systemTime, locale)
     - let heatingCirculationClasses = ""
     - if (heaterInfos.heatingMode.heating) heatingCirculationClasses += " heaterInfos__circulationIndicator--enabled"
-    - if (heaterInfos.heatingCirculation) heatingCirculationClasses += " heaterInfos__circulationIndicator--active"
+    - if (heaterInfos.heatingCirculation.isActive) heatingCirculationClasses += " heaterInfos__circulationIndicator--active"
     .heaterInfos__element.heaterInfos__heatingCirculation.heaterInfos__circulationIndicator(class=heatingCirculationClasses)
     +form("GET", "#").heaterInfos__element.heaterInfos__heating
       +lockingButtonIcon("heatingOn", "radiator", heaterInfos.heatingMode.heating)

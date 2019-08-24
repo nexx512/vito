@@ -29,6 +29,8 @@
   "getStatusFrostM1": "1.00000",
   "getBrennerStatus": "14.00000 %",
   "getPumpeStatusSp": "1",
+  "getPumpeStatusIntern": "1",
+  "getUmschaltventil": "Heizen",
   "getTempRaumNorSollM1": "21.0000 Grad Celsius",
   "setTempRaumNorSollM1": {"^(\\d+)$": {"getTempRaumNorSollM1": "$1"}},
   "getTempRaumRedSollM1": "15.0000 Grad Celsius",
