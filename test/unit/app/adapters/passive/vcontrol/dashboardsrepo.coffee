@@ -5,6 +5,7 @@ DashboardsRepo = require("../../../../../../dist/app/adapters/passive/vcontrol/d
 FailureStatus = require("../../../../../../dist/app/domain/models/failurestatus").default
 Temperature = require("../../../../../../dist/app/domain/models/temperature").default
 HeatingMode = require("../../../../../../dist/app/domain/models/heatingmode").default
+FrostIndicator = require("../../../../../../dist/app/domain/models/frostindicator").default
 
 describe "A DashboardsRepo object", =>
 
@@ -31,7 +32,8 @@ describe "A DashboardsRepo object", =>
       getDataStub.withArgs("getTempKist").returns("65.2999 Grad Celsius\n")
       getDataStub.withArgs("getTempWWist").returns("55.2999 Grad Celsius\n")
       getDataStub.withArgs("getTempWWsoll").returns("57.00000 Grad Celsius\n")
-      getDataStub.withArgs("getStatusStoerung").returns("0")
+      getDataStub.withArgs("getStatusStoerung").returns("0\n")
+      getDataStub.withArgs("getStatusFrostM1").returns("0\n")
 
       dashboardInfos = await @dashboardsRepo.getDashboardInfos()
 
@@ -56,15 +58,8 @@ describe "A DashboardsRepo object", =>
         dashboardInfos.heatingMode.should.eql new HeatingMode("H+WW")
       it "should deliver the 'OK' failure status in FailusrStatus type", =>
         dashboardInfos.failureStatus.should.eql new FailureStatus("0")
-
-  describe "requesting the failure status if a failure happened", =>
-    it "should deliver the failure status in FailusrStatus type", =>
-      getDataStub.withArgs("getStatusStoerung").returns("1")
-
-      dashboardInfos = await @dashboardsRepo.getDashboardInfos()
-
-      dashboardInfos.failureStatus.should.eql new FailureStatus("1")
-      @vControlClientMock.verify()
+      it "should deliver the frost indication", =>
+        dashboardInfos.frostIndicator.should.eql new FrostIndicator("0")
 
   describe "setting the room temperature", =>
     describe "without errors", =>
@@ -100,7 +95,7 @@ describe "A DashboardsRepo object", =>
 
         @vControlClientMock.verify()
 
-  describe.skip "requesting the failure", =>
+  describe.skip "requesting the failure messages", =>
     describe "with no failure", =>
       it "should deliver no failures", =>
         getDataStub.withArgs("getError0").returns("1970-01-01T00:00:00+0000 Regelbetrieb (kein Fehler) (00)")

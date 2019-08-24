@@ -3,16 +3,16 @@ include /temperature/temperature
 include /scalabletemperaturefield/scalabletemperaturefield
 include /scalebox/scalebox
 
-mixin homeTemperatures(outsideTemp, roomTemp, reducedRoomTemp)
+mixin homeTemperatures(homeTemperatures)
   .homeTemperatures&attributes(attributes)
-    +icon("sun").homeTemperatures__element.homeTemperatures__iconDayNight
-    +icon("snowflake-o").homeTemperatures__element.homeTemperatures__iconFreezing
+    +icon(homeTemperatures.dayNightMode ? "sun" : "moon-fill").homeTemperatures__element.homeTemperatures__iconDayNight
+    +icon("snowflake-o").homeTemperatures__element.homeTemperatures__iconFrost(class=homeTemperatures.frostIndicator.hasWarning ? "homeTemperatures__iconFrost--active" : null)
     +scaleBox(110, 35).homeTemperatures__element.homeTemperatures__outsideTemperature
-      +temperature(outsideTemp, 1)
+      +temperature(homeTemperatures.outsideTemp.temperature, 1)
     +form("PUT", "/overview/roomtemperatures", true)
       .homeTemperatures__element.homeTemperatures__roomTemperatures.homeTemperatures__roomTemperature
         +icon("sun")
-        +scalableTemperatureField(75, 37, "roomTemperature", roomTemp)
+        +scalableTemperatureField(75, 37, "roomTemperature", homeTemperatures.roomTemp.temperature)
       .homeTemperatures__element.homeTemperatures__roomTemperatures.homeTemperatures__reducedRoomTemperature
         +icon("moon-fill")
-        +scalableTemperatureField(75, 37, "reducedRoomTemperature", reducedRoomTemp)
+        +scalableTemperatureField(75, 37, "reducedRoomTemperature", homeTemperatures.reducedRoomTemp.temperature)

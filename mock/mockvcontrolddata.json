@@ -26,6 +26,7 @@
   "getTempWWist": "49.9999  Grad Celsius",
   "getTempWWsoll": "57.00000 Grad Celsius",
   "getStatusStoerung": "0",
+  "getStatusFrostM1": "1.00000",
   "getTempRaumNorSollM1": "21.0000 Grad Celsius",
   "setTempRaumNorSollM1": {"^(\\d+)$": {"getTempRaumNorSollM1": "$1"}},
   "getTempRaumRedSollM1": "15.0000 Grad Celsius",

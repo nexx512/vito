@@ -24,7 +24,7 @@ describe "when loading the home page", =>
       cy.visit("/")
 
     it "should show all the measurement data and all status indicators turned off", =>
-      cy.get(".homeTemperatures__freezing--active").should("not.exist")
+      cy.get(".homeTemperatures__iconFrost--active").should("not.exist")
       cy.get(".homeTemperatures__outsideTemperature").should("text", "-5.1 °C")
       cy.get(".homeTemperatures input[name='roomTemperature']").should("value", "20")
       cy.get(".homeTemperatures input[name='reducedRoomTemperature']").should("value", "16")
@@ -57,9 +57,9 @@ describe "when loading the home page", =>
         cy.get(".page__notificationError").should("not.have.descendants")
         cy.get(".homeTemperatures input[name='reducedRoomTemperature']").should("value", "18")
 
-  describe.skip "with all states positive", =>
+  describe "with all states positive", =>
     mockVControldData = new CommandBuilder()
-      .withCommand("getStatusFrostM1", "2.000000")
+      .withCommand("getStatusFrostM1", "1.000000")
       .withCommand("getBrennerStatus", "25.00000 %")
       .withCommand("getPumpeStatusZirku", "1")
       .withCommand("getPumpeStatusSp", "1")
@@ -68,6 +68,7 @@ describe "when loading the home page", =>
       .withCommand("getBetriebArt", "H+WW")
       .withCommand("getStatusStoerung", "1")
       .withCommand("getError0", "2019-08-16T23:03:10+0000 Fehler mit Code 16 (10)")
+      .build()
 
     before ->
       cy.mockVcontroldStart(mockVControldData)
@@ -79,10 +80,10 @@ describe "when loading the home page", =>
       cy.visit("/")
 
     it "should show all status indicators turned on", =>
-      cy.get(".homeTemperatures__freezing--active").should("exist")
+      cy.get(".homeTemperatures__iconFrost--active").should("exist")
       cy.get(".heaterInfos__failureStatus--hasFailure").should("exist")
       cy.get(".heaterInfos input[name='heatingOn']").should("checked")
-      cy.get(".heaterInfos input[name='warmwaterOn']").should("checked")
+      cy.get(".heaterInfos input[name='warmWaterOn']").should("checked")
       cy.get(".heaterInfos__burnerStatus--active").should("exist")
       cy.get(".heaterInfos__heatingCirculation--active").should("exist")
       cy.get(".heaterInfos__waterStatus--active").should("exist")

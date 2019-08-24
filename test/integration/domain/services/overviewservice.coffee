@@ -13,6 +13,7 @@ HeatingMode = require("../../../../dist/app/domain/models/heatingmode").default
 FailureStatus = require("../../../../dist/app/domain/models/failurestatus").default
 Failures = require("../../../../dist/app/domain/models/failures").default
 Failure = require("../../../../dist/app/domain/models/failure").default
+FrostIndicator = require("../../../../dist/app/domain/models/frostindicator").default
 
 ValidationError = require("../../../../dist/app/domain/models/validationerror").default
 ValidationErrors = require("../../../../dist/app/domain/models/validationerrors").default
@@ -20,6 +21,7 @@ ValidationErrors = require("../../../../dist/app/domain/models/validationerrors"
 describe "The OverviewService", =>
 
   mockVControldData = new CommandBuilder()
+    .withCommand("getStatusFrostM1", "1.000000")
     .withCommand("getSystemTime", "2019-02-12T23:20:52+0000")
     .withCommand("getTempA", "-5.10000  Grad Celsius")
     .withCommand("getTempRaumNorSollM1", "20.00000 Grad Celsius")
@@ -49,6 +51,8 @@ describe "The OverviewService", =>
 
     it "should deliver the system time", =>
       @dashboardInfos.systemTime.should.eql new Date("2019-02-12T23:20:52+0000")
+    it "should deliver the frost warning", =>
+      @dashboardInfos.frostIndicator.should.eql new FrostIndicator("1")
     it "should get the outside temperature", =>
       @dashboardInfos.outsideTemp.should.eql new Temperature("-5.1")
     it "should get the room temperature", =>

@@ -15,7 +15,23 @@ export default (app: Express) => {
 
     try {
       const dashboardInfos = await overviewService.getDashboardInfos();
-      res.render('overview/overview', {model: dashboardInfos});
+      let model = {
+        homeTemperatures: {
+          frostIndicator: dashboardInfos.frostIndicator,
+          outsideTemp: dashboardInfos.outsideTemp,
+          roomTemp: dashboardInfos.roomTemp,
+          reducedRoomTemp: dashboardInfos.reducedRoomTemp
+        },
+        heaterInfos: {
+          systemTime: dashboardInfos.systemTime,
+          heatingMode: dashboardInfos.heatingMode,
+          burnerTemp: dashboardInfos.burnerTemp,
+          waterTemp: dashboardInfos.waterTemp,
+          waterTargetTemp: dashboardInfos.waterTargetTemp,
+          failureStatus: dashboardInfos.failureStatus
+        }
+      }
+      res.render('overview/overview', {model: model});
     } catch (e) {
       next(e);
     }

@@ -4,6 +4,7 @@ import HeatingMode from "../../../domain/models/heatingmode"
 import FailureStatus from "../../../domain/models/failurestatus"
 import Failures from "../../../domain/models/failures"
 import Failure from "../../../domain/models/failure"
+import FrostIndicator from "../../../domain/models/frostindicator"
 import DashboardInfos from "../../../domain/models/dashboardinfos"
 
 export default class DashboardsRepo extends VControlRepo {
@@ -12,6 +13,7 @@ export default class DashboardsRepo extends VControlRepo {
     return await this.wrapConnection(async (client) => {
       const systemTimeString = await client.getData("getSystemTime");
       return new DashboardInfos(
+        new FrostIndicator(await client.getData("getStatusFrostM1")),
         new Date(systemTimeString.split("\n")[0]),
         new Temperature(await client.getData("getTempA")),
         new Temperature(await client.getData("getTempRaumNorSollM1")),
