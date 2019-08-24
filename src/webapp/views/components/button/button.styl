@@ -1,6 +1,5 @@
 .button
   padding 8px 16px 8px 16px
-  margin 8px
   box-shadow 3px 3px 6px rgba(0, 0, 0, 0.5)
   position relative
   font-weight 600
@@ -22,3 +21,15 @@
   &--secondary
     color $color-secondary-inverse
     background-color $color-secondary
+
+.buttonIcon
+  width 100%
+  padding 0
+
+  &__content
+    width 100%
+    padding-bottom 100%
+    display flex
+    background-color white
+    > *
+      position absolute

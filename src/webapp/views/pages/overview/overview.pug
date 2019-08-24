@@ -11,10 +11,9 @@ block breadcrumb
 
 block main
   .overview
-    +liveDateTime(model.systemTime, locale).overview__systemTime
     +dashboard().overview__dashboard
       +dashboardTile().overview__dashboardTile
         +homeTemperatures(model.outsideTemp.temperature, model.roomTemp.temperature, model.reducedRoomTemp.temperature)
       +dashboardTile().overview__dashboardTile
-        +heaterInfos(model.heatingMode, model.burnerStatus, model.burnerTemp.temperature, model.waterStatus, model.waterTemp.temperature, model.waterTargetTemp.temperature, model.failureStatus)
+        +heaterInfos(model.systemTime, model.heatingMode, model.burnerStatus, model.burnerTemp.temperature, model.waterStatus, model.waterTemp.temperature, model.waterTargetTemp.temperature, model.failureStatus)
   = JSON.stringify(model)

@@ -1,4 +1,4 @@
 mixin liveDateTime(date, locale)
   .liveDateTime(data-component="liveDateTime" data-date=date data-locale=locale)&attributes(attributes)
-    span.liveDateTime__date= date.toLocaleDateString(locale)
-    span.liveDateTime__time= date.toLocaleTimeString(locale)
+    p.liveDateTime__date= date.toLocaleDateString(locale)
+    p.liveDateTime__time= date.toLocaleTimeString(locale)

@@ -1,5 +1,14 @@
+mixin button(label)
+  button.button&attributes(attributes)= label
+    block
+
 mixin buttonPrimary(label)
-  button.button.button--primary&attributes(attributes)= label
+  +button(label).button--primary&attributes(attributes)
 
 mixin buttonSecondary(label)
-  button.button.button--primary&attributes(attributes)= label
+  +button(label).button--primary&attributes(attributes)
+
+mixin buttonIcon(icon)
+  +button()&attributes(attributes).buttonIcon
+    .buttonIcon__content
+      +icon(icon).buttonIcon__icon

@@ -1,0 +1,13 @@
+include /button/button
+
+mixin lockingButton(id, initiallyPressed)
+  .lockingButton
+    input(type="checkbox" id=id checked=!!initiallyPressed).lockingButton__switch
+    +button().lockingButton__button&attributes(attributes).lockingButton__content
+      label(for=id)
+        block
+
+mixin lockingButtonIcon(id, icon, initiallyPressed)
+  +lockingButton(id, initiallyPressed)&attributes(attributes)
+    .lockingButton__buttonIcon
+      +icon(icon).lockingButton__icon

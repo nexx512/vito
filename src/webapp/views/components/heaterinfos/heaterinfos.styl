@@ -1,8 +1,14 @@
-@keyframes active-heater-icon
+@keyframes heaterInfos__activeHeaterIconAnimation
   0%
     fill $color-shaded
   100%
     fill $color-main
+
+@keyframes heaterInfos__failureIconAnimation
+  0%
+    fill $color-main
+  100%
+    fill $color-error
 
 .heaterInfos
   width 100%
@@ -15,6 +21,54 @@
   &__element
     position absolute
 
+  &__systemTime
+    text-align center
+    top 15%
+    width 30%
+    left -2%
+
+  &__failureStatus
+    width 20%
+    left 3%
+    bottom 8%
+    svg
+      fill $color-shaded
+    &--hasFailure
+      svg
+        animation-name heaterInfos__failureIconAnimation
+        animation-duration 0.8s
+        animation-iteration-count infinite
+        animation-direction alternate
+    .buttonIcon__icon
+      width 60%
+      top 20%
+      left 20%
+
+  .lockingButton
+    svg
+      fill $color-shaded
+    &__switch:checked ~ *
+      svg
+        fill $color-main
+
+  &__heating
+    width 20%
+    left 36%
+    bottom 60%
+    .lockingButton__icon
+      width 75%
+      top 12%
+      left 10%
+
+  &__water
+    width 20%
+    left 36%
+    bottom 8%
+    .lockingButton__icon
+      width 55%
+      top 24%
+      left 21%
+
   &__burnerStatus
     bottom 77%
     right 12%
@@ -23,15 +77,15 @@
       fill $color-shaded
     &--active
       svg
-        animation-name active-heater-icon
-        animation-duration 2s
+        animation-name heaterInfos__activeHeaterIconAnimation
+        animation-duration 1.5s
         animation-iteration-count infinite
         animation-direction alternate
 
   &__burnerTemperature
-    bottom 66%
-    right 5%
-    width 23%
+    bottom 65%
+    right 4%
+    width 25%
 
   &__waterStatus
     bottom 32%
@@ -41,15 +95,15 @@
       fill $color-shaded
     &--active
       svg
-        animation-name active-heater-icon
-        animation-duration 2s
+        animation-name heaterInfos__activeHeaterIconAnimation
+        animation-duration 1.5s
         animation-iteration-count infinite
         animation-direction alternate
 
   &__waterTemperature
     bottom 20%
-    right 5%
-    width 23%
+    right 4%
+    width 25%
 
   &__waterTargetTemperature
     bottom 0
