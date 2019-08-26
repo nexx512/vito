@@ -3,9 +3,13 @@ Graphical user Interface for the Viessmann Heating System
 
 ## Prerequisites
 
-You need to have node installed in the version defined in `.nvmrc`. Using
-[nvm](https://github.com/nvm-sh/nvm) is an easy way to ensure that the suitable
-node version is installed.
+You need a running vcontrold server. Details on how to
+set up the hard- and software to get a vcontrold server running can be found in
+the [OpenV-Wiki](https://github.com/openv/openv/wiki).
+
+In order to use this Project, you also need to have node installed in the version
+defined in `.nvmrc`. Using [nvm](https://github.com/nvm-sh/nvm) is an easy way
+to ensure that the suitable node version is installed.
 
 ## Installation
 
