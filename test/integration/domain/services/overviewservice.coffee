@@ -1,5 +1,5 @@
 should = require("should")
-global.Config = require("../../../../config/config.json")
+global.Config = require("../../config.json")
 
 MockVControlD = require("../../../support/mockvcontrold")
 CommandBuilder = require("../../../support/commandbuilder")
@@ -17,6 +17,7 @@ FrostIndicator = require("../../../../dist/app/domain/models/frostindicator").de
 BurnerStatus = require("../../../../dist/app/domain/models/burnerstatus").default
 WarmWaterStatus = require("../../../../dist/app/domain/models/warmwaterstatus").default
 HeatingCirculation = require("../../../../dist/app/domain/models/heatingcirculation").default
+WarmWaterCirculation = require("../../../../dist/app/domain/models/warmwatercirculation").default
 
 ValidationError = require("../../../../dist/app/domain/models/validationerror").default
 ValidationErrors = require("../../../../dist/app/domain/models/validationerrors").default
@@ -38,16 +39,14 @@ describe "The OverviewService", =>
     .withCommand("getPumpeStatusSp", "1")
     .withCommand("getUmschaltventil", "Heizen")
     .withCommand("getPumpeStatusIntern", "1")
+    .withCommand("getPumpeStatusZirku", "1")
     #.withCommand("getError0", "2019-08-16T23:03:10+0000 Kurzschluss Aussentemperatursensor (10)")
     .build()
 
   before =>
-    @overviewService = new OverviewService(new DashboardsRepo(new VControlClient({
-      host: "localhost"
-      port: 3002
-    })))
+    @overviewService = new OverviewService(new DashboardsRepo(new VControlClient(Config.vcontrold)))
     @mockVControlD = new MockVControlD(mockVControldData)
-    await @mockVControlD.start()
+    await @mockVControlD.start(Config.vcontrold)
 
   after =>
     await @mockVControlD.stop()
@@ -80,6 +79,8 @@ describe "The OverviewService", =>
       @dashboardInfos.warmWaterStatus.should.eql new WarmWaterStatus("1")
     it "should get the heating circulation status", =>
       @dashboardInfos.heatingCirculation.should.eql new HeatingCirculation("1", "Heizen")
+    it "should get the heating circulation status", =>
+      @dashboardInfos.warmWaterCirculation.should.eql new WarmWaterCirculation("1")
     it.skip "should get the error message", =>
       failures = new Failures()
       failures.add(new Failure("2019-08-16T23:03:10+0000 Kurzschluss Aussentemperatursensor (10)"))

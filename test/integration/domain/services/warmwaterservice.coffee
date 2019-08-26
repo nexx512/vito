@@ -1,5 +1,5 @@
 should = require("should")
-global.Config = require("../../../../config/config.json")
+global.Config = require("../../config.json")
 
 MockVControlD = require("../../../support/mockvcontrold")
 CommandBuilder = require("../../../support/commandbuilder")
@@ -35,12 +35,9 @@ describe "The WarmWaterService", =>
     .build()
 
   before =>
-    @warmWaterService = new WarmWaterService(new WarmWaterRepo(new VControlClient({
-      host: "localhost"
-      port: 3002
-    })))
+    @warmWaterService = new WarmWaterService(new WarmWaterRepo(new VControlClient(Config.vcontrold)))
     @mockVControlD = new MockVControlD(mockVControldData)
-    await @mockVControlD.start()
+    await @mockVControlD.start(Config.vcontrold)
 
   after =>
     await @mockVControlD.stop()

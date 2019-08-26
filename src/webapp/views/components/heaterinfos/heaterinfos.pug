@@ -21,7 +21,7 @@ mixin heaterInfos(heaterInfos)
       +lockingButtonIcon("heatingOn", "radiator", heaterInfos.heatingMode.heating)
     - let waterCirculationClasses = ""
     - if (heaterInfos.heatingMode.warmWater) waterCirculationClasses += " heaterInfos__circulationIndicator--enabled"
-    - if (heaterInfos.warmWaterCirculation) waterCirculationClasses += " heaterInfos__circulationIndicator--active"
+    - if (heaterInfos.warmWaterCirculation.isActive) waterCirculationClasses += " heaterInfos__circulationIndicator--active"
     .heaterInfos__element.heaterInfos__waterCirculation.heaterInfos__circulationIndicator(class=waterCirculationClasses)
     +form("GET", "#").heaterInfos__element.heaterInfos__water
       +lockingButtonIcon("warmWaterOn", "water-tap", heaterInfos.heatingMode.warmWater)

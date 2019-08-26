@@ -9,6 +9,7 @@
 // ***********************************************************
 
 const MockVControlD = require("../../test/support/mockvcontrold")
+const Config = require("../../config/config.json")
 
 // This function is called when a project is opened or re-opened (e.g. due to
 // the project's config changing)
@@ -22,7 +23,7 @@ module.exports = (on, config) => {
   on('task', {
     async mockVControlDStartNew (mockData) {
       mockVControlD = new MockVControlD(mockData);
-      await mockVControlD.start();
+      await mockVControlD.start(Config.vcontrold);
       return null;
     },
     async mockVControlDStop () {

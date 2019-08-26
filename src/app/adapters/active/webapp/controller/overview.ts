@@ -31,7 +31,8 @@ export default (app: Express) => {
           failureStatus: dashboardInfos.failureStatus,
           burnerStatus: dashboardInfos.burnerStatus,
           warmWaterStatus: dashboardInfos.warmWaterStatus,
-          heatingCirculation: dashboardInfos.heatingCirculation
+          heatingCirculation: dashboardInfos.heatingCirculation,
+          warmWaterCirculation: dashboardInfos.warmWaterCirculation
         }
       }
       res.render('overview/overview', {model: model});

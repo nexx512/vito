@@ -78,10 +78,9 @@ module.exports = class MockVControlD {
     this.commandLog = []
   }
 
-  async start() {
+  async start({host, port}) {
     return new Promise((resolve, reject) => {
-      const port = 3002;
-      this.server.listen(port, "localhost", (e) => {
+      this.server.listen(port, host, (e) => {
         if (e) {
           reject(e);
         } else {

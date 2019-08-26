@@ -2,6 +2,7 @@ const fs = require("fs")
 const path = require ("path")
 
 const MockVControlD = require("../test/support/mockvcontrold");
+const config = require("../config/config.json");
 
 const mockDataFile = path.join(__dirname, "mockvcontrolddata.json");
 
@@ -35,7 +36,7 @@ async function restartServer() {
   const mockData = require(mockDataFile);
   mockVControlD = new MockVControlD(mockData, console.log);
   try {
-    await mockVControlD.start();
+    await mockVControlD.start(config.vcontrold);
   } catch (e) {
     console.error(e);
   }

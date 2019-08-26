@@ -9,6 +9,7 @@ import DashboardInfos from "../../../domain/models/dashboardinfos"
 import BurnerStatus from "../../../domain/models/burnerstatus"
 import WarmWaterStatus from "../../../domain/models/warmwaterstatus"
 import HeatingCirculation from "../../../domain/models/heatingcirculation"
+import WarmWaterCirculation from "../../../domain/models/warmwatercirculation"
 
 export default class DashboardsRepo extends VControlRepo {
 
@@ -28,7 +29,8 @@ export default class DashboardsRepo extends VControlRepo {
         new FailureStatus(await client.getData("getStatusStoerung")),
         new BurnerStatus(await client.getData("getBrennerStatus")),
         new WarmWaterStatus(await client.getData("getPumpeStatusSp")),
-        new HeatingCirculation(await client.getData("getPumpeStatusIntern"), await client.getData("getUmschaltventil"))
+        new HeatingCirculation(await client.getData("getPumpeStatusIntern"), await client.getData("getUmschaltventil")),
+        new WarmWaterCirculation(await client.getData("getPumpeStatusZirku"))
       );
     })
   }

@@ -90,8 +90,6 @@ describe "when loading the home page", =>
       cy.get(".heaterInfos__waterCirculation.heaterInfos__circulationIndicator--enabled").should("exist")
       cy.get(".heaterInfos__waterCirculation.heaterInfos__circulationIndicator--active").should("not.exist")
 
-      #cy.get(".failureMessage").should("text", "Kurzschluss Aussentemperatursensor")
-
   describe "with the circulation indicators turned on", =>
     mockVControldData = new CommandBuilder()
       .withCommand("getPumpeStatusZirku", "1")
@@ -113,5 +111,3 @@ describe "when loading the home page", =>
       cy.get(".heaterInfos__heatingCirculation.heaterInfos__circulationIndicator--active").should("exist")
       cy.get(".heaterInfos__waterCirculation.heaterInfos__circulationIndicator--enabled").should("not.exist")
       cy.get(".heaterInfos__waterCirculation.heaterInfos__circulationIndicator--active").should("exist")
-
-      #cy.get(".failureMessage").should("text", "Kurzschluss Aussentemperatursensor")

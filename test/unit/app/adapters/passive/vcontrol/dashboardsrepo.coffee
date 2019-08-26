@@ -9,6 +9,7 @@ FrostIndicator = require("../../../../../../dist/app/domain/models/frostindicato
 BurnerStatus = require("../../../../../../dist/app/domain/models/burnerstatus").default
 WarmWaterStatus = require("../../../../../../dist/app/domain/models/warmwaterstatus").default
 HeatingCirculation = require("../../../../../../dist/app/domain/models/heatingcirculation").default
+WarmWaterCirculation = require("../../../../../../dist/app/domain/models/warmwatercirculation").default
 
 describe "A DashboardsRepo object", =>
 
@@ -41,6 +42,7 @@ describe "A DashboardsRepo object", =>
       getDataStub.withArgs("getPumpeStatusSp").returns("1\n")
       getDataStub.withArgs("getUmschaltventil").returns("Heizen\n")
       getDataStub.withArgs("getPumpeStatusIntern").returns("1\n")
+      getDataStub.withArgs("getPumpeStatusZirku").returns("1\n")
 
       dashboardInfos = await @dashboardsRepo.getDashboardInfos()
 
@@ -73,6 +75,8 @@ describe "A DashboardsRepo object", =>
         dashboardInfos.warmWaterStatus.should.eql new WarmWaterStatus("1")
       it "should get the heating circulation status", =>
         dashboardInfos.heatingCirculation.should.eql new HeatingCirculation("1", "Heizen")
+      it "should get the heating circulation status", =>
+        dashboardInfos.warmWaterCirculation.should.eql new WarmWaterCirculation("1")
 
   describe "setting the room temperature", =>
     describe "without errors", =>

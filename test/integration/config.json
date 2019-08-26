@@ -1,0 +1,7 @@
+{
+  "port": 3003,
+  "vcontrold": {
+    "host": "localhost",
+    "port": 3004
+  }
+}

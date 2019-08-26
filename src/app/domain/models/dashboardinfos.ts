@@ -5,6 +5,7 @@ import FrostIndicator from "./frostindicator"
 import BurnerStatus from "./burnerstatus"
 import WarmWaterStatus from "./warmwaterstatus"
 import HeatingCirculation from "./heatingcirculation"
+import WarmWaterCirculation from "./warmwatercirculation"
 
 export default class HeatingStatus {
 
@@ -21,7 +22,8 @@ export default class HeatingStatus {
     public failureStatus: FailureStatus,
     public burnerStatus: BurnerStatus,
     public warmWaterStatus: WarmWaterStatus,
-    public heatingCirculation: HeatingCirculation
+    public heatingCirculation: HeatingCirculation,
+    public warmWaterCirculation: WarmWaterCirculation
   ) {
   }
 
