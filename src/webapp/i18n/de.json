@@ -84,6 +84,7 @@
   "heating.failure.E4": "Fehler Versorgungsspannung",
   "heating.failure.E5": "Interner Fehler (Ionisationselektrode)",
   "heating.failure.E6": "Abgas- / Zuluftsystem verstopft",
+  "heating.failure.EE": "Feuerungsautomat",
   "heating.failure.F0": "Interner Fehler (Regelung tauschen)",
   "heating.failure.F1": "Abgastemperaturbegrenzer ausgeloest",
   "heating.failure.F2": "Temperaturbegrenzer ausgeloest",
