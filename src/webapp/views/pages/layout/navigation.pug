@@ -3,11 +3,6 @@ include /menu/menu
 .sidebarNavigation
   +menu([
     {url: "/", label: t("overview")},
-    {label: t("warmwater"), items: [
-      {url: "/warmwater/heating", label: t("warmwater.heating.times")},
-      {url: "/warmwater/circulation", label: t("warmwater.circulation.times")}
-    ]},
-    {label: t("heating"), items: [
-      {url: "/heating/times", label: t("heating.times")},
-    ]}
+    {url: "/warmwater/heating/times", label: t("warmwater")},
+    {url: "/heater/heating/times", label: t("heating")},
   ])

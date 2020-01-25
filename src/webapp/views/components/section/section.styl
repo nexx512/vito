@@ -1,8 +1,12 @@
+$section-tab-height = 32px
+
 .sections
-  display flex
-  position relative
-  overflow hidden
-  background-color $color-background2
+
+  &__wrapper
+    display flex
+    position relative
+    overflow hidden
+    height 100%
 
   .section
 
@@ -14,20 +18,23 @@
           opacity 1
           visibility visible
         & + .section__label
-          border-bottom 2px solid $color-primary
+          border-bottom 2px solid $color-secondary
 
     &__label
-      margin 4px 8px 4px 8px
-      padding 4px
+      display flex
+      align-items center
+      margin-left $space-normal
+      margin-right $space-normal
+      height $section-tab-height
 
     &__content
+      border-top 2px solid $color-secondary
       background-color $color-background
       transition visibility 0.2s, opacity 0.2s
       opacity 0
       visibility hidden
       position absolute
       left 0
-      top 32px
+      top $section-tab-height
       height calc(100% - 32px)
-      width 100%
       overflow-y auto

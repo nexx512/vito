@@ -1,0 +1,16 @@
+extend ../layout/index.pug
+
+include /section/section
+include /form/form
+include /weekcycletimes/weekcycletimes
+include /button/button
+
+block breadcrumb
+  h2= t("heating.times")
+
+block main
+  //+sections().heating__sections
+    +section("heatingTimes", t("heating.heating.times"), model.activeSection === "heatingTimes")
+  +form("PUT", "/heater/heating/times").heater__heatingTimesForm
+    +weekCycleTimes(model.heatingTimes)
+    +buttonPrimary(t("savechanges"))(type="submit").heater__submitButton

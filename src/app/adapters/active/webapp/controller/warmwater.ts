@@ -6,7 +6,7 @@ import WeekCycleTimesConverter from "../converter/weekcycletimesconverter";
 
 export default (app: Express) => {
 
-  app.get("/warmwater/heating", async (_req, res, next) => {
+  app.get("/warmwater/heating/times", async (_req, res, next) => {
     const warmWaterService = new WarmWaterService(new WarmWaterRepo(new VControlClient({
       host: global.Config.vcontrold.host,
       port: global.Config.vcontrold.port
@@ -14,8 +14,15 @@ export default (app: Express) => {
 
     try {
       let heatingTimes = await warmWaterService.getHeatingTimes();
-      let times = WeekCycleTimesConverter.toWeekCycleTimesResponseDto(heatingTimes);
-      res.render("warmwater/heating", {model: times});
+      let circulationTimes = await warmWaterService.getCirculationTimes();
+
+      let model = {
+        heatingTimes: WeekCycleTimesConverter.toWeekCycleTimesResponseDto(heatingTimes),
+        circulationTimes: WeekCycleTimesConverter.toWeekCycleTimesResponseDto(circulationTimes),
+        activeSection: "heatingTimes"
+      }
+
+      res.render("warmwater/warmwater", {model});
     } catch (e) {
       next(e);
     }
@@ -27,26 +34,41 @@ export default (app: Express) => {
       port: global.Config.vcontrold.port
     })));
 
-    let circulationTimes = WeekCycleTimesConverter.toWeekCycleTimesModel(req.body.times);
+    let heatingTimes = WeekCycleTimesConverter.toWeekCycleTimesModel(req.body.times);
     try {
-      await warmWaterService.setHeatingTimes(circulationTimes);
-      res.redirect("/warmwater/heating");
+      await warmWaterService.setHeatingTimes(heatingTimes);
+      res.redirect("/warmwater/heating/times");
     } catch (e) {
       res.locals.notifications.addError(e.message);
-      res.render("warmwater/heating", {model: WeekCycleTimesConverter.toWeekCycleTimesResponseDto(circulationTimes)});
+      let circulationTimes = await warmWaterService.getCirculationTimes();
+
+      let model = {
+        heatingTimes: WeekCycleTimesConverter.toWeekCycleTimesResponseDto(heatingTimes),
+        circulationTimes: WeekCycleTimesConverter.toWeekCycleTimesResponseDto(circulationTimes),
+        activeSction: "heatingTimes"
+      }
+
+      res.render("warmwater/warmwater", {model});
     }
   })
 
-  app.get("/warmwater/circulation", async (_req, res, next) => {
+  app.get("/warmwater/circulation/times", async (_req, res, next) => {
     const warmWaterService = new WarmWaterService(new WarmWaterRepo(new VControlClient({
       host: global.Config.vcontrold.host,
       port: global.Config.vcontrold.port
     })));
 
     try {
+      let heatingTimes = await warmWaterService.getHeatingTimes();
       let circulationTimes = await warmWaterService.getCirculationTimes();
-      let times = WeekCycleTimesConverter.toWeekCycleTimesResponseDto(circulationTimes);
-      res.render("warmwater/circulation", {model: times});
+
+      let model = {
+        heatingTimes: WeekCycleTimesConverter.toWeekCycleTimesResponseDto(heatingTimes),
+        circulationTimes: WeekCycleTimesConverter.toWeekCycleTimesResponseDto(circulationTimes),
+        activeSection: "circulationTimes"
+      }
+
+      res.render("warmwater/warmwater", {model});
     } catch (e) {
       next(e);
     }
@@ -61,10 +83,18 @@ export default (app: Express) => {
     let circulationTimes = WeekCycleTimesConverter.toWeekCycleTimesModel(req.body.times);
     try {
       await warmWaterService.setCirculationTimes(circulationTimes);
-      res.redirect("/warmwater/circulation");
+      res.redirect("/warmwater/circulation/times");
     } catch (e) {
       res.locals.notifications.addError(e.message);
-      res.render("warmwater/circulation", {model: WeekCycleTimesConverter.toWeekCycleTimesResponseDto(circulationTimes)});
+      let heatingTimes = await warmWaterService.getHeatingTimes();
+
+      let model = {
+        heatingTimes: WeekCycleTimesConverter.toWeekCycleTimesResponseDto(heatingTimes),
+        circulationTimes: WeekCycleTimesConverter.toWeekCycleTimesResponseDto(circulationTimes),
+        activeSection: "circulationTimes"
+      }
+
+      res.render("warmwater/warmwater", {model});
     }
   })
 

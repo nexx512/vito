@@ -1,10 +1,12 @@
 mixin sections()
   .sections&attributes(attributes)
-    block
+    .sections__wrapper
+      block
       
 mixin section(id, title, selected)
   .section&attributes(attributes)
     input(type="radio" name="name" id=id checked=selected).section__selector
-    label(for=id).section__label= title
+    label(for=id).section__label
+      span.section__labelText= title
     .section__content
       block

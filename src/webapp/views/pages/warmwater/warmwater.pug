@@ -1,0 +1,22 @@
+extend ../layout/index.pug
+
+include /notification/notification
+include /form/form
+include /weekcycletimes/weekcycletimes
+include /section/section
+include /button/button
+
+block breadcrumb
+  h2= t("warmwater.heating")
+
+block main
+  +sections().warmwater__sections
+    +section("heatingTimes", t("warmwater.heating.times"), model.activeSection === "heatingTimes")
+      +form("PUT", "/warmwater/heating/times").warmwater__heatingTimesForm
+        +weekCycleTimes(model.heatingTimes)
+        +buttonPrimary(t("savechanges"))(type="submit").warmwater__submitButton
+
+    +section("circulationTimes", t("warmwater.circulation.times"), model.activeSection === "circulationTimes")
+      +form("PUT", "/warmwater/circulation/times").warmwater__circulationTimesForm
+        +weekCycleTimes(model.circulationTimes)
+        +buttonPrimary(t("savechanges"))(type="submit").warmwater__submitButton

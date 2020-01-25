@@ -55,7 +55,7 @@ app.use(notifications());
 
 import home from "../app/adapters/active/webapp/controller/home";
 import overview from "../app/adapters/active/webapp/controller/overview";
-import heating from "../app/adapters/active/webapp/controller/heating";
+import heating from "../app/adapters/active/webapp/controller/heater";
 import warmwater from "../app/adapters/active/webapp/controller/warmwater";
 
 home(app);

@@ -97,6 +97,13 @@ module.exports = class CommandBuilder {
       "getTimerM2Fr": null,
       "getTimerM2Sa": null,
       "getTimerM2So": null,
+      "getTimerMo": null,
+      "getTimerDi": null,
+      "getTimerMi": null,
+      "getTimerDo": null,
+      "getTimerFr": null,
+      "getTimerSa": null,
+      "getTimerSo": null,
       "getTimerWWMo": null,
       "getTimerWWDi": null,
       "getTimerWWMi": null,
@@ -175,6 +182,13 @@ module.exports = class CommandBuilder {
       "setTimerM2Fr": null,
       "setTimerM2Sa": null,
       "setTimerM2So": null,
+      "setTimerMo": {"(\\d+:\\d+) +(\\d+:\\d+)": {"getTimerMo": "An:$1  Aus:$2\n"}},
+      "setTimerDi": {"(\\d+:\\d+) +(\\d+:\\d+)": {"getTimerDi": "An:$1  Aus:$2\n"}},
+      "setTimerMi": {"(\\d+:\\d+) +(\\d+:\\d+)": {"getTimerMi": "An:$1  Aus:$2\n"}},
+      "setTimerDo": {"(\\d+:\\d+) +(\\d+:\\d+)": {"getTimerDo": "An:$1  Aus:$2\n"}},
+      "setTimerFr": {"(\\d+:\\d+) +(\\d+:\\d+)": {"getTimerFr": "An:$1  Aus:$2\n"}},
+      "setTimerSa": {"(\\d+:\\d+) +(\\d+:\\d+)": {"getTimerSa": "An:$1  Aus:$2\n"}},
+      "setTimerSo": {"(\\d+:\\d+) +(\\d+:\\d+)": {"getTimerSo": "An:$1  Aus:$2\n"}},
       "setTimerWWMo": {"(\\d+:\\d+) +(\\d+:\\d+)": {"getTimerWWMo": "An:$1  Aus:$2\n"}},
       "setTimerWWDi": {"(\\d+:\\d+) +(\\d+:\\d+)": {"getTimerWWDi": "An:$1  Aus:$2\n"}},
       "setTimerWWMi": {"(\\d+:\\d+) +(\\d+:\\d+)": {"getTimerWWMi": "An:$1  Aus:$2\n"}},
@@ -207,7 +221,7 @@ module.exports = class CommandBuilder {
 
   withCommand(command, value) {
     if (!this.commands.hasOwnProperty(command)) {
-      throw new Error("Unknown command " + command)
+      throw new Error("Unknown command for command builder: " + command)
     }
 
     this.commands[command] = value;

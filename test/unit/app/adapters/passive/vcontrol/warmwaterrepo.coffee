@@ -34,7 +34,7 @@ describe "A WarmWaterRepo object", =>
 
   describe "setting warmwater heating times", =>
     describe "without errors", =>
-      it "should set the heatind times", =>
+      it "should set the heating times", =>
         cycleTimesMonday = new CycleTimes()
         cycleTimesMonday.add(new CycleTime(new Time("12:23"), new Time("13:24")))
         cycleTimesMonday.add(new CycleTime(new Time("23:12"), new Time("24:00")))
