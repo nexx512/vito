@@ -6,11 +6,11 @@ include /weekcycletimes/weekcycletimes
 include /button/button
 
 block breadcrumb
-  h2= t("heating.times")
+  h2= t("heater")
 
 block main
-  //+sections().heating__sections
-    +section("heatingTimes", t("heating.heating.times"), model.activeSection === "heatingTimes")
-  +form("PUT", "/heater/heating/times").heater__heatingTimesForm
-    +weekCycleTimes(model.heatingTimes)
-    +buttonPrimary(t("savechanges"))(type="submit").heater__submitButton
+  +sections().heater__sections
+    +section("heatingTimes", t("heater.heating.times"), true)
+      +form("PUT", "/heater/heating/times").heater__heatingTimesForm
+        +weekCycleTimes(model.heatingTimes)
+        +buttonPrimary(t("savechanges"))(type="submit").heater__submitButton
