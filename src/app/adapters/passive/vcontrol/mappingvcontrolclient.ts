@@ -11,11 +11,11 @@ export default class MappingVControlClient  {
     this.vControlClient = vControlClient;
   }
 
-  getData(command: string): string {
+  getData(command: string): Promise<string> {
     return this.vControlClient.getData(this.commandMapper.commandFor(command))
   }
 
-  setData(command: string, data: string|string[]): void {
+  setData(command: string, data: string|string[]): Promise<void> {
     return this.vControlClient.setData(this.commandMapper.commandFor(command), data);
   }
 

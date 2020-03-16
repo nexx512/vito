@@ -11,10 +11,6 @@ export default class OverviewService {
     // TODO:
     // Tag/Nachtbetrieb
     // Frostschutz
-    // Kesseltemperatur
-    // Brennerbetrieb
-    // Vorlauftemperatur
-    // Warmwassertemperatur
   }
 
   async setRoomTemperature(roomTemperature: Temperature) {

@@ -17,11 +17,11 @@ export default class DashboardsRepo extends VControlRepo {
     return await this.wrapConnection(async (client) => {
       const systemTimeString = await client.getData("getSystemTime");
       return new DashboardInfos(
-        new FrostIndicator(await client.getData("getStatusFrostM1")),
+        new FrostIndicator(await client.getData("getStatusFrost")),
         new Date(systemTimeString.split("\n")[0]),
         new Temperature(await client.getData("getTempA")),
-        new Temperature(await client.getData("getTempRaumNorSollM1")),
-        new Temperature(await client.getData("getTempRaumRedSollM1")),
+        new Temperature(await client.getData("getTempRaumNorSoll")),
+        new Temperature(await client.getData("getTempRaumRedSoll")),
         new HeatingMode(await client.getData("getBetriebArt")),
         new Temperature(await client.getData("getTempKist")),
         new Temperature(await client.getData("getTempWWist")),
@@ -37,13 +37,13 @@ export default class DashboardsRepo extends VControlRepo {
 
   async setRoomTemperature(roomTemperature: Temperature) {
     return await this.wrapConnection(async (client) => {
-      await client.setData("setTempRaumNorSollM1", roomTemperature.temperature.toString());
+      await client.setData("setTempRaumNorSoll", roomTemperature.temperature.toString());
     })
   }
 
   async setReducedRoomTemperature(reducedRoomTemperature: Temperature) {
     return await this.wrapConnection(async (client) => {
-      await client.setData("setTempRaumRedSollM1", reducedRoomTemperature.temperature.toString());
+      await client.setData("setTempRaumRedSoll", reducedRoomTemperature.temperature.toString());
     })
   }
 

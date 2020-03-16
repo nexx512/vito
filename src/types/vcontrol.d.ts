@@ -5,9 +5,9 @@ declare module "vcontrol" {
       port:number,
       debug?:boolean
     })
-    connect(): void
-    close(): void
-    getData(command:string): string
-    setData(command: string, data: string|string[]): void
+    connect(): Promise<void>
+    close(): Promise<void>
+    getData(command:string): Promise<string>
+    setData(command: string, data: string|string[]): Promise<void>
   }
 }
